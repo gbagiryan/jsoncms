@@ -51,8 +51,19 @@ const signUp = async (req, res) => {
     }
 }
 
+const signOut = (req, res) => {
+    try {
+        res.clearCookie('jwt');
+        res.status(200).json();
+    }catch (err){
+        console.log(err);
+        return res.status(500).json('server error');
+    }
+}
+
 
 module.exports = {
     signIn,
-    signUp
+    signUp,
+    signOut
 }
