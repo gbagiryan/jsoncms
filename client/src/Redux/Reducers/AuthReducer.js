@@ -1,18 +1,24 @@
 import {AuthApi} from "../../API/api";
 
 const AUTH_SET_USER_DATA = 'AUTH_SET_USER_DATA';
+const AUTH_SET_IS_AUTHED = 'AUTH_SET_IS_AUTHED';
 
 const initialState = {
     authedUserData: null,
-    posts: null
+    isAuthed: false
 };
 
 const AuthReducer = (state = initialState, action) => {
-    switch (action) {
+    switch (action.type) {
         case AUTH_SET_USER_DATA:
             return {
                 ...state,
                 authedUserData: action.userData
+            }
+        case AUTH_SET_IS_AUTHED:
+            return {
+                ...state,
+                isAuthed: action.isAuthed
             }
         default:
             return state;
@@ -20,21 +26,24 @@ const AuthReducer = (state = initialState, action) => {
 };
 
 //action creators
-const setUserData = (userData) => ({type: AUTH_SET_USER_DATA, userData})
+const setUserData = (userData) => ({type: AUTH_SET_USER_DATA, userData});
+const setIsAuthed = (isAuthed) => ({type: AUTH_SET_IS_AUTHED, isAuthed});
 
 //thunks
 export const signIn = (username, password) => async (dispatch) => {
     try {
         const res = await AuthApi.signIn(username, password);
         dispatch(setUserData(res.data));
+        dispatch(setIsAuthed(true));
     } catch (err) {
         console.log(err);
     }
 };
 export const signOut = () => async (dispatch) => {
     try {
-        const res = await AuthApi.signOut();
+        await AuthApi.signOut();
         dispatch(setUserData(null));
+        dispatch(setIsAuthed(false));
     } catch (err) {
         console.log(err);
     }
@@ -47,5 +56,16 @@ export const signUp = (username, password) => async (dispatch) => {
         console.log(err);
     }
 };
-
+export const verifyAuth = () => async (dispatch) => {
+    try {
+        const res = await AuthApi.verifyAuth();
+        if (res.data) {
+            dispatch(setIsAuthed(true));
+        } else {
+            dispatch(setIsAuthed(false));
+        }
+    } catch (err) {
+        console.log(err);
+    }
+}
 export default AuthReducer;

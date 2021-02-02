@@ -55,15 +55,39 @@ const signOut = (req, res) => {
     try {
         res.clearCookie('jwt');
         res.status(200).json();
-    }catch (err){
+    } catch (err) {
         console.log(err);
         return res.status(500).json('server error');
     }
 }
 
+const verifyAuth = (req, res) => {
+    const token = req.cookies.jwt;
+    if (!token) {
+        return res.status(200).json(false);
+    }
+    try {
+        jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
+            if (err) {
+                return res.status(400).json('unauthorized');
+            } else {
+                const user = await User.findOne({_id: decodedToken.userId})
+                res.status(200).json({
+                    username: user.username,
+                    userId: user._id
+                });
+            }
+        });
 
-module.exports = {
-    signIn,
-    signUp,
-    signOut
+    } catch (err) {
+        console.log(err);
+        return res.status(500).json('server error');
+    }
 }
+
+    module.exports = {
+        signIn,
+        signUp,
+        signOut,
+        verifyAuth
+    }

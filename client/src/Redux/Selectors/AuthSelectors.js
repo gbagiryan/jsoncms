@@ -1,6 +1,9 @@
 export const authedUserData = (state)=>{
-    return state.authedUserData;
+    return state.auth.authedUserData;
 };
 export const posts = (state)=>{
-    return state.posts;
+    return state.auth.posts;
+};
+export const isAuthed = (state)=>{
+    return state.auth.isAuthed;
 };

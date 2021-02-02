@@ -9,5 +9,17 @@ export const AuthApi = {
     },
     async signOut() {
         return await Axios.get('/api/auth/signOut');
+    },
+    async verifyAuth() {
+        return await Axios.get('/api/auth/verifyAuth');
+    }
+}
+
+export const PostApi = {
+    async fetchPosts() {
+        return await Axios.get('/api/posts/getObjects');
+    },
+    async addNewPost(newPost) {
+        return await Axios.post('/api/posts/createAnObject', newPost);
     }
 }
