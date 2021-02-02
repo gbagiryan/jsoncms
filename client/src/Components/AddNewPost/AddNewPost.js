@@ -2,6 +2,7 @@ import {Button, Grid, IconButton, makeStyles, Paper, Typography} from "@material
 import {Field, reduxForm} from "redux-form";
 import {renderTextField} from "../../Common/RenderTextFields";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import React from "react";
 
 const useStyles = makeStyles(theme => ({
     form: {

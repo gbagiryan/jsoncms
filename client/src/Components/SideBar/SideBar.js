@@ -9,9 +9,10 @@ import {
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import {Link} from "react-router-dom";
+import React from "react";
 
 
-const useStyles = makeStyles((theme) => ({
+const useStyles = makeStyles({
     paper: {
         minHeight: '100vh',
     },
@@ -19,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: "#3f51b5",
         color: "white"
     }
-}));
+});
 
 const SideBar = (props) => {
     const classes = useStyles();

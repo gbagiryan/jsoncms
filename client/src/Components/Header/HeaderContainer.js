@@ -2,6 +2,7 @@ import {connect} from "react-redux";
 import Header from "./Header";
 import {isAuthed} from "../../Redux/Selectors/AuthSelectors";
 import {signOut} from "../../Redux/Reducers/AuthReducer";
+import React from "react";
 
 const HeaderContainer = (props) => {
 

@@ -1,6 +1,7 @@
 import SideBar from "./SideBar";
 import {connect} from "react-redux";
 import {postData} from "../../Redux/Selectors/PostSelectors";
+import React from "react";
 
 const SideBarContainer = (props) => {
 
