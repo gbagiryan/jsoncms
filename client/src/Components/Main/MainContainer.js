@@ -1,8 +1,9 @@
 import {compose} from "redux";
 import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
 import Main from "./Main";
+import React from "react";
 
-const MainContainer = (props) => {
+const MainContainer = () => {
     return(
         <Main/>
     )

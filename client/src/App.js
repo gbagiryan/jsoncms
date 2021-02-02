@@ -4,7 +4,7 @@ import {Grid, makeStyles, Paper} from "@material-ui/core";
 import LoginContainer from "./Components/Login/LoginContainer";
 import RegisterContainer from "./Components/Register/RegisterContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
-import {useEffect} from "react";
+import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {verifyAuth} from "./Redux/Reducers/AuthReducer";
 import {isAuthed} from "./Redux/Selectors/AuthSelectors";
@@ -12,11 +12,11 @@ import {fetchPosts} from "./Redux/Reducers/PostReducer";
 import SideBarContainer from "./Components/SideBar/SideBarContainer";
 import AddNewPostContainer from "./Components/AddNewPost/AddNewPostContainer";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles({
     paper: {
         minHeight: '100vh'
     }
-}));
+});
 
 const App = (props) => {
     const classes = useStyles();
@@ -34,25 +34,21 @@ const App = (props) => {
                 <Grid item>
                     <HeaderContainer/>
                 </Grid>
-                {props.isAuthed
-                    ? <Grid item container spacing={2} xs={12}>
-                        <Grid item xs={2}>
-                            <SideBarContainer/>
-                        </Grid>
-                        <Grid item xs={10}>
-                            <Paper elevation={4} className={classes.paper}>
-                                <Switch>
-                                    <Route exact path='/' component={Main}/>
-                                    <Route exact path='/add_post' component={AddNewPostContainer}/>
-                                </Switch>
-                            </Paper>
-                        </Grid>
+                <Grid item container spacing={2} xs={12}>
+                    <Grid item xs={2}>
+                        <SideBarContainer/>
                     </Grid>
-                    : <Grid item container spacing={2} xs={12}>
-                        <Route exact path='/login' component={LoginContainer}/>
-                        <Route exact path='/register' component={RegisterContainer}/>
+                    <Grid item xs={10}>
+                        <Paper elevation={4} className={classes.paper}>
+                            <Switch>
+                                <Route exact path='/' component={Main}/>
+                                <Route exact path='/add_post' component={AddNewPostContainer}/>
+                                <Route exact path='/login' component={LoginContainer}/>
+                                <Route exact path='/register' component={RegisterContainer}/>
+                            </Switch>
+                        </Paper>
                     </Grid>
-                }
+                </Grid>
             </Grid>
         </BrowserRouter>
     );

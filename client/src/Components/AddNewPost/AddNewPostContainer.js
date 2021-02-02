@@ -1,7 +1,7 @@
 import {connect} from "react-redux";
 import {AddPostReduxForm} from "./AddNewPost";
 import {addNewPost} from "../../Redux/Reducers/PostReducer";
-import {useState} from "react";
+import React, {useState} from "react";
 import {compose} from "redux";
 import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
 
