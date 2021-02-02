@@ -25,7 +25,7 @@ const App = (props) => {
         props.verifyAuth();
     }, [])
     useEffect(() => {
-        props.fetchPosts();
+        props.fetchPosts(props.isAuthed);
     }, [props.isAuthed])
 
     return (

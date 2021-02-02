@@ -21,10 +21,14 @@ const PostReducer = (state = initialState, action) => {
 const setPostData = (postData) => ({type: POST_SET_POST_DATA, postData});
 
 //thunks
-export const fetchPosts = () => async (dispatch) => {
+export const fetchPosts = (isAuthed) => async (dispatch) => {
     try {
-        const res = await PostApi.fetchPosts();
-        dispatch(setPostData(res.data));
+        if (!isAuthed) {
+            dispatch(setPostData(null));
+        } else {
+            const res = await PostApi.fetchPosts();
+            dispatch(setPostData(res.data));
+        }
     } catch (err) {
         console.log(err);
         dispatch(setPostData(null));

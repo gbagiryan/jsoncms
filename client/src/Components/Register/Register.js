@@ -2,6 +2,7 @@ import {Button, Grid, makeStyles, Paper, Typography} from "@material-ui/core";
 import {Field, reduxForm} from "redux-form";
 import {renderTextField} from "../../Common/RenderTextFields";
 import React from "react";
+import {minLength, passwordsMatch, required} from "../../Common/Validators";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -19,6 +20,8 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const minLength6 = minLength(6);
+
 const Register = (props) => {
     const classes = useStyles();
 
@@ -30,12 +33,17 @@ const Register = (props) => {
                     <Grid item xs={12}>
                         <Field fullWidth placeholder={'Username'} name={'username'} component={renderTextField}
                                label={'Username'}
-                               type="username"/>
+                               type="username" validate={[required]}/>
                     </Grid>
                     <Grid item xs={12}>
                         <Field fullWidth placeholder={'Password'} name={'password'} component={renderTextField}
                                label={'Password'}
-                               type="password"/>
+                               type="password" validate={[required, minLength6]}/>
+                    </Grid>
+                    <Grid item xs={12}>
+                        <Field fullWidth placeholder={'Confirm Password'} name={'password2'} component={renderTextField}
+                               label={'Confirm Password'}
+                               type="password" validate={[required, passwordsMatch]}/>
                     </Grid>
                     <Button fullWidth type={"submit"} variant="contained" color="primary"
                             className={classes.button}>Register</Button>

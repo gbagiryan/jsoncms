@@ -3,6 +3,7 @@ import {Field, reduxForm} from "redux-form";
 import {renderTextField} from "../../Common/RenderTextFields";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import React from "react";
+import {maxLength, required} from "../../Common/Validators";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -20,6 +21,8 @@ const useStyles = makeStyles(theme => ({
     }
 }));
 
+const maxLength20 = maxLength(20);
+
 const AddNewPost = (props) => {
     const classes = useStyles();
 
@@ -30,7 +33,7 @@ const AddNewPost = (props) => {
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Field fullWidth placeholder={'Name'} name={'name'} component={renderTextField}
-                               label={'Name'}/>
+                               label={'Name'} validate={[required, maxLength20]}/>
                     </Grid>
                     <Grid item xs={12}>
                         {props.FieldsArr.map((field) =>
@@ -39,11 +42,11 @@ const AddNewPost = (props) => {
                     </Grid>
                     <Grid item xs={5}>
                         <Field fullWidth placeholder={'Key'} name={'key'} component={renderTextField}
-                               label={'Key'} onChange={props.handleFieldChange}/>
+                               label={'Key'} onChange={props.handleFieldChange} validate={[required]}/>
                     </Grid>
                     <Grid item xs={5}>
                         <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
-                               label={'Value'} onChange={props.handleFieldChange}/>
+                               label={'Value'} onChange={props.handleFieldChange} validate={[required]}/>
                     </Grid>
                     <Grid item xs={2}>
                         <IconButton onClick={props.handleAddField} color="primary">
@@ -57,7 +60,7 @@ const AddNewPost = (props) => {
                     </Grid>
                     <Grid item xs={10}>
                         <Field fullWidth placeholder={'Tag'} name={'tag'} component={renderTextField}
-                               label={'Tag'} onChange={props.handleTagChange}/>
+                               label={'Tag'} onChange={props.handleTagChange} validate={[required]}/>
                     </Grid>
                     <Grid item xs={2}>
                         <IconButton onClick={props.handleAddTag} color="primary">

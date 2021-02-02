@@ -2,6 +2,7 @@ import {Button, Grid, makeStyles, Paper, Typography} from "@material-ui/core";
 import {Field, reduxForm} from "redux-form";
 import {renderTextField} from "../../Common/RenderTextFields";
 import React from "react";
+import {required} from "../../Common/Validators";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -29,12 +30,12 @@ const Login = (props) => {
                     <Grid item xs={12}>
                         <Field fullWidth placeholder={'Username'} name={'username'} component={renderTextField}
                                label={'Username'}
-                               type="username"/>
+                               type="username" validate={[required]}/>
                     </Grid>
                     <Grid item xs={12}>
                         <Field fullWidth placeholder={'Password'} name={'password'} component={renderTextField}
                                label={'Password'}
-                               type="password"/>
+                               type="password" validate={[required]}/>
                     </Grid>
                     <Button fullWidth type={"submit"} variant="contained" color="primary"
                             className={classes.button}>Login</Button>

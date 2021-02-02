@@ -4,7 +4,8 @@ const postSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true,
-        unique: true
+        unique: true,
+        maxLength: 20
     },
     post: [{
         key: {
