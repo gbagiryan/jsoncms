@@ -4,6 +4,7 @@ import {addNewObject} from "../../Redux/Reducers/ObjectReducer";
 import React, {useState} from "react";
 import {compose} from "redux";
 import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
+import {EditObjectReduxForm} from "../EditObject/EditObject";
 
 const AddNewObjectContainer = (props) => {
 
@@ -23,10 +24,16 @@ const AddNewObjectContainer = (props) => {
     const handleAddTag = () => {
         Tag && SetTagsArr([...TagsArr, Tag]);
     }
+    const handleDeleteTag = (index) => {
+        SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index));
+    }
     const handleAddField = () => {
         if (Field.key && Field.value) {
             SetFieldsArr([...FieldsArr, Field]);
         }
+    }
+    const handleDeleteField = (index) => {
+        SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index));
     }
 
     const handleSubmit = (formData) => {
@@ -41,7 +48,8 @@ const AddNewObjectContainer = (props) => {
     return (
         <AddObjectReduxForm onSubmit={handleSubmit} handleAddTag={handleAddTag} TagsArr={TagsArr}
                             handleTagChange={handleTagChange} handleFieldChange={handleFieldChange}
-                            handleAddField={handleAddField} FieldsArr={FieldsArr}/>
+                            handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
+                            handleDeleteField={handleDeleteField}/>
     )
 }
 

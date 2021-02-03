@@ -1,10 +1,10 @@
 import {Button, Grid, IconButton, makeStyles, Paper, Typography} from "@material-ui/core";
+import {maxLength, required} from "../../Common/Validators";
 import {Field, reduxForm} from "redux-form";
 import {renderTextField} from "../../Common/RenderTextFields";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React from "react";
-import {maxLength, required} from "../../Common/Validators";
-import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -24,12 +24,11 @@ const useStyles = makeStyles(theme => ({
 
 const maxLength20 = maxLength(20);
 
-const AddNewObject = (props) => {
+const EditObject = (props) => {
     const classes = useStyles();
-
     return (
         <Paper className={classes.paperStyle} elevation={8}>
-            <Typography>Add New Object</Typography>
+            <Typography>Edit Object</Typography>
             <form className={classes.form} onSubmit={props.handleSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -40,8 +39,7 @@ const AddNewObject = (props) => {
                         {props.FieldsArr.map((field) =>
                             <div>
                                 {field.key + ':' + field.value}
-                                <IconButton onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
-                                            color="primary">
+                                <IconButton onClick={()=>props.handleDeleteField(props.FieldsArr.indexOf(field))} color="primary">
                                     <HighlightOffIcon/>
                                 </IconButton>
                             </div>
@@ -64,8 +62,7 @@ const AddNewObject = (props) => {
                         {props.TagsArr.map((tag) =>
                             <div>
                                 {tag}
-                                <IconButton onClick={() => props.handleDeleteTag(props.TagsArr.indexOf(tag))}
-                                            color="primary">
+                                <IconButton onClick={()=>props.handleDeleteTag(props.TagsArr.indexOf(tag))} color="primary">
                                     <HighlightOffIcon/>
                                 </IconButton>
                                 {', '}
@@ -82,11 +79,11 @@ const AddNewObject = (props) => {
                         </IconButton>
                     </Grid>
                     <Button fullWidth type={"submit"} variant="contained" color="primary"
-                            className={classes.button}>Add</Button>
+                            className={classes.button}>Save changes</Button>
                 </Grid>
             </form>
         </Paper>
     )
 }
 
-export const AddObjectReduxForm = reduxForm({form: 'addObject'})(AddNewObject);
+export const EditObjectReduxForm = reduxForm({form: 'editObject'})(EditObject);

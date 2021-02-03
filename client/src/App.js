@@ -1,4 +1,4 @@
-import {BrowserRouter, Switch, Route} from "react-router-dom";
+import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import Main from "./Components/Main/MainContainer";
 import {Grid, makeStyles, Paper} from "@material-ui/core";
 import LoginContainer from "./Components/Login/LoginContainer";
@@ -6,11 +6,13 @@ import RegisterContainer from "./Components/Register/RegisterContainer";
 import HeaderContainer from "./Components/Header/HeaderContainer";
 import React, {useEffect} from "react";
 import {connect} from "react-redux";
-import {verifyAuth} from "./Redux/Reducers/AuthReducer";
 import {isAuthed} from "./Redux/Selectors/AuthSelectors";
 import {fetchObjects} from "./Redux/Reducers/ObjectReducer";
 import SideBarContainer from "./Components/SideBar/SideBarContainer";
 import AddNewPostContainer from "./Components/AddNewObject/AddNewObjectContainer";
+import EditObjectContainer from "./Components/EditObject/EditObjectContainer";
+import {initializeApp} from "./Redux/Reducers/AppReducer";
+import {isInitialized} from "./Redux/Selectors/AppSelectors";
 
 const useStyles = makeStyles({
     paper: {
@@ -22,7 +24,7 @@ const App = (props) => {
     const classes = useStyles();
 
     useEffect(() => {
-        props.verifyAuth();
+        props.initializeApp();
     }, [])
     useEffect(() => {
         props.fetchObjects(props.isAuthed);
@@ -30,6 +32,8 @@ const App = (props) => {
 
     return (
         <BrowserRouter>
+
+            {props.isInitialized &&
             <Grid container direction={'column'} spacing={1}>
                 <Grid item>
                     <HeaderContainer/>
@@ -48,19 +52,25 @@ const App = (props) => {
                                 <Route exact path='/add_object' component={AddNewPostContainer}/>
                                 <Route exact path='/login' component={LoginContainer}/>
                                 <Route exact path='/register' component={RegisterContainer}/>
+                                <Route exact path='/edit_object'>
+                                    <Redirect to="/"/>
+                                </Route>
+                                <Route path='/edit_object/:objectId' component={EditObjectContainer}/>
                             </Switch>
                         </Paper>
                     </Grid>
                 </Grid>
             </Grid>
+            }
         </BrowserRouter>
     );
 }
 const mapStateToProps = (state) => ({
-    isAuthed: isAuthed(state)
+    isAuthed: isAuthed(state),
+    isInitialized: isInitialized(state)
 });
 const actionCreators = {
-    verifyAuth,
+    initializeApp,
     fetchObjects
 };
 export default connect(mapStateToProps, actionCreators)(App);

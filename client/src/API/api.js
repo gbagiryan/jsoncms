@@ -19,7 +19,19 @@ export const ObjectApi = {
     async fetchObjects() {
         return await Axios.get('/api/posts/getObjects');
     },
+    async fetchAnObject(objectId) {
+        return await Axios.get(`/api/posts/getAnObject/${objectId}`);
+    },
     async addNewObject(newObject) {
         return await Axios.post('/api/posts/createAnObject', newObject);
+    },
+    async updateObject(objectId, updatedObject) {
+        return await Axios.patch(`/api/posts/updateObject/${objectId}`, updatedObject);
+    },
+    async deleteObject(objectId) {
+        return await Axios.delete(`/api/posts/deleteObject/${objectId}`);
+    },
+    async getObjectsByTag(tags) {
+        return await Axios.post(`/api/posts/getObjectsByTag`, tags);
     }
 }

@@ -2,11 +2,28 @@ import {compose} from "redux";
 import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
 import Main from "./Main";
 import React from "react";
+import {connect} from "react-redux";
+import {singleObjectData} from "../../Redux/Selectors/ObjectSelectors";
+import {deleteObject} from "../../Redux/Reducers/ObjectReducer";
 
-const MainContainer = () => {
-    return(
-        <Main/>
+const MainContainer = (props) => {
+
+    const handleDeleteObject = () => {
+        props.deleteObject(props.object._id);
+    }
+    return (
+        <Main object={props.object} handleDeleteObject={handleDeleteObject}/>
     )
 };
 
-export default compose(WithAuthRedirect)(MainContainer);
+const mapStateToProps = (state) => ({
+    object: singleObjectData(state)
+});
+const actionCreators = {
+    deleteObject
+};
+
+export default compose(
+    connect(mapStateToProps, actionCreators),
+    WithAuthRedirect
+)(MainContainer);
