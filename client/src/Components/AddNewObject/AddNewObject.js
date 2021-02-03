@@ -23,12 +23,12 @@ const useStyles = makeStyles(theme => ({
 
 const maxLength20 = maxLength(20);
 
-const AddNewPost = (props) => {
+const AddNewObject = (props) => {
     const classes = useStyles();
 
     return (
         <Paper className={classes.paperStyle} elevation={8}>
-            <Typography>Add New Post</Typography>
+            <Typography>Add New Object</Typography>
             <form className={classes.form} onSubmit={props.handleSubmit}>
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
@@ -75,4 +75,4 @@ const AddNewPost = (props) => {
     )
 }
 
-export const AddPostReduxForm = reduxForm({form: 'login'})(AddNewPost);
+export const AddObjectReduxForm = reduxForm({form: 'addObject'})(AddNewObject);

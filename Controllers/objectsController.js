@@ -1,12 +1,12 @@
-const Post = require('../Models/Post');
+const Object = require('../Models/Object');
 
 
 const createAnObject = async (req, res) => {
     try {
-        const {name, post, tags} = req.body;
-        const object = new Post({
+        const {name, fields, tags} = req.body;
+        const object = new Object({
             name,
-            post,
+            fields,
             tags,
             createdBy: req.user._id
         });
@@ -21,14 +21,14 @@ const createAnObject = async (req, res) => {
 const updateObject = async (req, res) => {
     try {
         const objectId = req.params.objectId;
-        const {name, post, tags} = req.body;
-        const object = await Post.findOne({createdBy: req.user._id, _id: objectId});
+        const {name, fields, tags} = req.body;
+        const object = await Object.findOne({createdBy: req.user._id, _id: objectId});
         if (!object) {
             return res.status(400).json('object with given id not found');
         }
-        await Post.findOneAndUpdate({_id: objectId}, {
+        await Object.findOneAndUpdate({_id: objectId}, {
             name,
-            post,
+            fields,
             tags,
             createdBy: req.user._id
         });
@@ -42,7 +42,7 @@ const updateObject = async (req, res) => {
 const deleteObject = async (req, res) => {
     try {
         const objectId = req.params.objectId;
-        const object = await Post.findOne({createdBy: req.user._id, _id: objectId});
+        const object = await Object.findOne({createdBy: req.user._id, _id: objectId});
         if (!object) {
             return res.status(400).json('object with given id not found');
         }
@@ -58,7 +58,7 @@ const deleteObject = async (req, res) => {
 
 const getObjects = async (req, res) => {
     try {
-        const objects = await Post.find({createdBy: req.user._id});
+        const objects = await Object.find({createdBy: req.user._id});
         if (!objects) {
             return res.status(400).json('objects don\'t exist');
         }
@@ -72,7 +72,7 @@ const getObjects = async (req, res) => {
 const getObjectsByTag = async (req, res) => {
     const {tags} = req.body;
     try {
-        const objects = await Post.find({createdBy: req.user._id, tags});
+        const objects = await Object.find({createdBy: req.user._id, tags});
         if (!objects) {
             return res.status(400).json('objects don\'t exist');
         }
@@ -85,7 +85,7 @@ const getObjectsByTag = async (req, res) => {
 const getAnObject = async (req, res) => {
     try {
         const objectId = req.params.objectId;
-        const object = await Post.findOne({createdBy: req.user._id, _id: objectId});
+        const object = await Object.findOne({createdBy: req.user._id, _id: objectId});
         if (!object) {
             return res.status(400).json('object with given id not found');
         }

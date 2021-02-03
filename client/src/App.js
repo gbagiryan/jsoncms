@@ -8,9 +8,9 @@ import React, {useEffect} from "react";
 import {connect} from "react-redux";
 import {verifyAuth} from "./Redux/Reducers/AuthReducer";
 import {isAuthed} from "./Redux/Selectors/AuthSelectors";
-import {fetchPosts} from "./Redux/Reducers/PostReducer";
+import {fetchObjects} from "./Redux/Reducers/ObjectReducer";
 import SideBarContainer from "./Components/SideBar/SideBarContainer";
-import AddNewPostContainer from "./Components/AddNewPost/AddNewPostContainer";
+import AddNewPostContainer from "./Components/AddNewObject/AddNewObjectContainer";
 
 const useStyles = makeStyles({
     paper: {
@@ -25,7 +25,7 @@ const App = (props) => {
         props.verifyAuth();
     }, [])
     useEffect(() => {
-        props.fetchPosts(props.isAuthed);
+        props.fetchObjects(props.isAuthed);
     }, [props.isAuthed])
 
     return (
@@ -35,14 +35,17 @@ const App = (props) => {
                     <HeaderContainer/>
                 </Grid>
                 <Grid item container spacing={2} xs={12}>
-                    <Grid item xs={2}>
-                        <SideBarContainer/>
-                    </Grid>
-                    <Grid item xs={10}>
+                    {props.isAuthed
+                        ?
+                        <Grid item xs={2}>
+                            <SideBarContainer/>
+                        </Grid>
+                        : null}
+                    <Grid item xs={props.isAuthed ? 10 : 12}>
                         <Paper elevation={4} className={classes.paper}>
                             <Switch>
                                 <Route exact path='/' component={Main}/>
-                                <Route exact path='/add_post' component={AddNewPostContainer}/>
+                                <Route exact path='/add_object' component={AddNewPostContainer}/>
                                 <Route exact path='/login' component={LoginContainer}/>
                                 <Route exact path='/register' component={RegisterContainer}/>
                             </Switch>
@@ -58,6 +61,6 @@ const mapStateToProps = (state) => ({
 });
 const actionCreators = {
     verifyAuth,
-    fetchPosts
+    fetchObjects
 };
 export default connect(mapStateToProps, actionCreators)(App);

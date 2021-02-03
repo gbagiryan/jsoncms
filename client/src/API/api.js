@@ -15,11 +15,11 @@ export const AuthApi = {
     }
 }
 
-export const PostApi = {
-    async fetchPosts() {
+export const ObjectApi = {
+    async fetchObjects() {
         return await Axios.get('/api/posts/getObjects');
     },
-    async addNewPost(newPost) {
-        return await Axios.post('/api/posts/createAnObject', newPost);
+    async addNewObject(newObject) {
+        return await Axios.post('/api/posts/createAnObject', newObject);
     }
 }

@@ -1,11 +1,11 @@
 import {connect} from "react-redux";
-import {AddPostReduxForm} from "./AddNewPost";
-import {addNewPost} from "../../Redux/Reducers/PostReducer";
+import {AddObjectReduxForm} from "./AddNewObject";
+import {addNewObject} from "../../Redux/Reducers/ObjectReducer";
 import React, {useState} from "react";
 import {compose} from "redux";
 import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
 
-const AddNewPostContainer = (props) => {
+const AddNewObjectContainer = (props) => {
 
     const [Tag, SetTag] = useState('');
     const [TagsArr, SetTagsArr] = useState([]);
@@ -30,27 +30,27 @@ const AddNewPostContainer = (props) => {
     }
 
     const handleSubmit = (formData) => {
-        const newPost = {
+        const newObject = {
             name: formData.name,
-            post: FieldsArr,
+            fields: FieldsArr,
             tags: TagsArr
         }
-        props.addNewPost(newPost);
+        props.addNewObject(newObject);
     }
 
     return (
-        <AddPostReduxForm onSubmit={handleSubmit} handleAddTag={handleAddTag} TagsArr={TagsArr}
-                          handleTagChange={handleTagChange} handleFieldChange={handleFieldChange}
-                          handleAddField={handleAddField} FieldsArr={FieldsArr}/>
+        <AddObjectReduxForm onSubmit={handleSubmit} handleAddTag={handleAddTag} TagsArr={TagsArr}
+                            handleTagChange={handleTagChange} handleFieldChange={handleFieldChange}
+                            handleAddField={handleAddField} FieldsArr={FieldsArr}/>
     )
 }
 
 const mapStateToProps = (state) => ({})
 const actionCreators = {
-    addNewPost
+    addNewObject
 }
 
 export default compose(
     connect(mapStateToProps, actionCreators),
     WithAuthRedirect
-)(AddNewPostContainer);
+)(AddNewObjectContainer);

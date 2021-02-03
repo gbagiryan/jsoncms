@@ -1,17 +1,17 @@
 import SideBar from "./SideBar";
 import {connect} from "react-redux";
-import {postData} from "../../Redux/Selectors/PostSelectors";
+import {objectData} from "../../Redux/Selectors/ObjectSelectors";
 import React from "react";
 
 const SideBarContainer = (props) => {
 
     return (
-        <SideBar posts={props.posts}/>
+        <SideBar objects={props.objects}/>
     )
 }
 
 const mapStateToProps = (state) => ({
-    posts: postData(state)
+    objects: objectData(state)
 });
 const actionCreators = {};
 

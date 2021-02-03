@@ -29,21 +29,21 @@ const SideBar = (props) => {
         <Paper elevation={4} className={classes.paper}>
             <List>
                 <ListItem key={'head'} className={classes.sidebarHead}>
-                    <ListItemText primary={'MyPosts'}/>
+                    <ListItemText primary={'My Objects'}/>
                 </ListItem>
-                <ListItem button key={'addPost'} component={Link} to={'/add_post'}>
+                <ListItem button key={'addObject'} component={Link} to={'/add_object'}>
                     <ListItemIcon><AddCircleIcon/></ListItemIcon>
-                    <ListItemText primary={'Add New Post'}/>
+                    <ListItemText primary={'Add New Object'}/>
                 </ListItem>
-                {props.posts
-                    ? props.posts.map((post) => (
-                        <ListItem button key={post.name}>
+                <Divider/>
+                {props.objects
+                    ? props.objects.map((object) => (
+                        <ListItem button key={object.name}>
                             <ListItemIcon><EmojiObjectsIcon/></ListItemIcon>
-                            <ListItemText primary={post.name}/>
+                            <ListItemText primary={object.name}/>
                         </ListItem>))
                     : null}
             </List>
-            <Divider/>
         </Paper>
     )
 };
