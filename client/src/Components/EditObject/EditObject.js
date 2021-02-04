@@ -5,6 +5,7 @@ import {renderTextField} from "../../Common/RenderTextFields";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React from "react";
+import {Error, Success} from "../../Common/Messages";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -31,6 +32,16 @@ const EditObject = (props) => {
             <Typography>Edit Object</Typography>
             <form className={classes.form} onSubmit={props.handleSubmit}>
                 <Grid container spacing={2}>
+                    {props.errorMsg &&
+                    <Grid item xs={12}>
+                        <Error errorMsg={props.errorMsg}/>
+                    </Grid>
+                    }
+                    {props.successMsg &&
+                    <Grid item xs={12}>
+                        <Success successMsg={props.successMsg}/>
+                    </Grid>
+                    }
                     <Grid item xs={12}>
                         <Field fullWidth placeholder={'Name'} name={'name'} component={renderTextField}
                                label={'Name'} validate={[required, maxLength20]}/>
@@ -39,7 +50,8 @@ const EditObject = (props) => {
                         {props.FieldsArr.map((field) =>
                             <div>
                                 {field.key + ':' + field.value}
-                                <IconButton onClick={()=>props.handleDeleteField(props.FieldsArr.indexOf(field))} color="primary">
+                                <IconButton onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
+                                            color="primary">
                                     <HighlightOffIcon/>
                                 </IconButton>
                             </div>
@@ -47,11 +59,11 @@ const EditObject = (props) => {
                     </Grid>
                     <Grid item xs={5}>
                         <Field fullWidth placeholder={'Key'} name={'key'} component={renderTextField}
-                               label={'Key'} onChange={props.handleFieldChange} validate={[required]}/>
+                               label={'Key'} onChange={props.handleFieldChange}/>
                     </Grid>
                     <Grid item xs={5}>
                         <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
-                               label={'Value'} onChange={props.handleFieldChange} validate={[required]}/>
+                               label={'Value'} onChange={props.handleFieldChange}/>
                     </Grid>
                     <Grid item xs={2}>
                         <IconButton onClick={props.handleAddField} color="primary">
@@ -62,7 +74,8 @@ const EditObject = (props) => {
                         {props.TagsArr.map((tag) =>
                             <div>
                                 {tag}
-                                <IconButton onClick={()=>props.handleDeleteTag(props.TagsArr.indexOf(tag))} color="primary">
+                                <IconButton onClick={() => props.handleDeleteTag(props.TagsArr.indexOf(tag))}
+                                            color="primary">
                                     <HighlightOffIcon/>
                                 </IconButton>
                                 {', '}
@@ -71,7 +84,7 @@ const EditObject = (props) => {
                     </Grid>
                     <Grid item xs={10}>
                         <Field fullWidth placeholder={'Tag'} name={'tag'} component={renderTextField}
-                               label={'Tag'} onChange={props.handleTagChange} validate={[required]}/>
+                               label={'Tag'} onChange={props.handleTagChange}/>
                     </Grid>
                     <Grid item xs={2}>
                         <IconButton onClick={props.handleAddTag} color="primary">

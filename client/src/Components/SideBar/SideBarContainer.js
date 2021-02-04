@@ -2,7 +2,7 @@ import SideBar from "./SideBar";
 import {connect} from "react-redux";
 import {objectData} from "../../Redux/Selectors/ObjectSelectors";
 import React, {useState} from "react";
-import {fetchAnObject, getObjectsByTag} from "../../Redux/Reducers/ObjectReducer";
+import {getObjectsByTag, setSingleObjectData} from "../../Redux/Reducers/ObjectReducer";
 import {withRouter} from "react-router-dom";
 import {compose} from "redux";
 
@@ -18,7 +18,7 @@ const SideBarContainer = (props) => {
     }
 
     const handleClick = (objectId) => {
-        props.fetchAnObject(objectId);
+        props.setSingleObjectData(props.objects.find((obj) => obj._id === objectId));
         props.history.push("/");
     }
 
@@ -32,8 +32,8 @@ const mapStateToProps = (state) => ({
     objects: objectData(state)
 });
 const actionCreators = {
-    fetchAnObject,
-    getObjectsByTag
+    getObjectsByTag,
+    setSingleObjectData
 };
 
 export default compose(

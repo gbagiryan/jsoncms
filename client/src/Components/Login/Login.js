@@ -3,6 +3,7 @@ import {Field, reduxForm} from "redux-form";
 import {renderTextField} from "../../Common/RenderTextFields";
 import React from "react";
 import {required} from "../../Common/Validators";
+import {Error, Success} from "../../Common/Messages";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -26,6 +27,16 @@ const Login = (props) => {
         <Paper className={classes.paperStyle} elevation={8}>
             <Typography>Login</Typography>
             <form className={classes.form} onSubmit={props.handleSubmit}>
+                {props.errorMsg &&
+                <Grid item xs={12}>
+                    <Error errorMsg={props.errorMsg}/>
+                </Grid>
+                }
+                {props.successMsg &&
+                <Grid item xs={12}>
+                    <Success successMsg={props.successMsg}/>
+                </Grid>
+                }
                 <Grid container spacing={2}>
                     <Grid item xs={12}>
                         <Field fullWidth placeholder={'Username'} name={'username'} component={renderTextField}

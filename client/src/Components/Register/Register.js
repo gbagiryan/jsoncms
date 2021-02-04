@@ -3,6 +3,7 @@ import {Field, reduxForm} from "redux-form";
 import {renderTextField} from "../../Common/RenderTextFields";
 import React from "react";
 import {minLength, passwordsMatch, required} from "../../Common/Validators";
+import {Error, Success} from "../../Common/Messages";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -30,6 +31,16 @@ const Register = (props) => {
             <Typography>Register</Typography>
             <form className={classes.form} onSubmit={props.handleSubmit}>
                 <Grid container spacing={2}>
+                    {props.errorMsg &&
+                    <Grid item xs={12}>
+                        <Error errorMsg={props.errorMsg}/>
+                    </Grid>
+                    }
+                    {props.successMsg &&
+                    <Grid item xs={12}>
+                        <Success successMsg={props.successMsg}/>
+                    </Grid>
+                    }
                     <Grid item xs={12}>
                         <Field fullWidth placeholder={'Username'} name={'username'} component={renderTextField}
                                label={'Username'}
@@ -53,4 +64,4 @@ const Register = (props) => {
     )
 };
 
-export const RegisterReduxForm = reduxForm({form:'register'})(Register);
+export const RegisterReduxForm = reduxForm({form: 'register'})(Register);

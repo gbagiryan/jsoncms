@@ -6,8 +6,16 @@ import {connect} from "react-redux";
 import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
 import React, {useEffect, useState} from "react";
 import {withRouter} from "react-router-dom";
+import {getErrorMsg, getSuccessMsg} from "../../Redux/Selectors/AppSelectors";
+import {clearMessages} from "../../Redux/Reducers/AppReducer";
 
 const EditObjectContainer = (props) => {
+
+    useEffect(() => {
+        return () => {
+            props.clearMessages()
+        }
+    }, []);
 
     useEffect(() => {
         const objectId = props.match.params.objectId
@@ -51,6 +59,8 @@ const EditObjectContainer = (props) => {
     }
 
     const handleSubmit = (formData) => {
+        props.clearMessages();
+
         const updatedObject = {
             name: formData.name,
             fields: FieldsArr,
@@ -63,16 +73,20 @@ const EditObjectContainer = (props) => {
         <EditObjectReduxForm onSubmit={handleSubmit} handleAddTag={handleAddTag} TagsArr={TagsArr}
                              handleTagChange={handleTagChange} handleFieldChange={handleFieldChange}
                              handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
-                             handleDeleteField={handleDeleteField}/>
+                             handleDeleteField={handleDeleteField} errorMsg={props.errorMsg}
+                             successMsg={props.successMsg}/>
     )
 }
 
 const mapStateToProps = (state) => ({
-    object: singleObjectData(state)
+    object: singleObjectData(state),
+    errorMsg: getErrorMsg(state),
+    successMsg: getSuccessMsg(state)
 });
 const actionCreators = {
     updateObject,
-    fetchAnObject
+    fetchAnObject,
+    clearMessages
 };
 
 export default compose(

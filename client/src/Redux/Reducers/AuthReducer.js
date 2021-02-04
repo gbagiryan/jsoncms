@@ -1,4 +1,5 @@
 import {AuthApi} from "../../API/api";
+import {setErrorMsg, setSuccessMsg} from "./AppReducer";
 
 const AUTH_SET_USER_DATA = 'AUTH_SET_USER_DATA';
 const AUTH_SET_IS_AUTHED = 'AUTH_SET_IS_AUTHED';
@@ -37,6 +38,7 @@ export const signIn = (username, password) => async (dispatch) => {
         dispatch(setIsAuthed(true));
     } catch (err) {
         console.log(err);
+        dispatch(setErrorMsg(err.response.data.errorMessage));
     }
 };
 export const signOut = () => async (dispatch) => {
@@ -51,9 +53,11 @@ export const signOut = () => async (dispatch) => {
 
 export const signUp = (username, password) => async (dispatch) => {
     try {
-        await AuthApi.signUp(username, password);
+        const res = await AuthApi.signUp(username, password);
+        dispatch(setSuccessMsg(res.data.successMessage));
     } catch (err) {
         console.log(err);
+        dispatch(setErrorMsg(err.response.data.errorMessage));
     }
 };
 export const verifyAuth = () => async (dispatch) => {

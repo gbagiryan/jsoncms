@@ -1,12 +1,19 @@
 import {connect} from "react-redux";
 import {AddObjectReduxForm} from "./AddNewObject";
 import {addNewObject} from "../../Redux/Reducers/ObjectReducer";
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import {compose} from "redux";
 import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
-import {EditObjectReduxForm} from "../EditObject/EditObject";
+import {getErrorMsg, getSuccessMsg} from "../../Redux/Selectors/AppSelectors";
+import {clearMessages} from "../../Redux/Reducers/AppReducer";
 
 const AddNewObjectContainer = (props) => {
+
+    useEffect(() => {
+        return () => {
+            props.clearMessages()
+        }
+    }, []);
 
     const [Tag, SetTag] = useState('');
     const [TagsArr, SetTagsArr] = useState([]);
@@ -37,6 +44,7 @@ const AddNewObjectContainer = (props) => {
     }
 
     const handleSubmit = (formData) => {
+        props.clearMessages();
         const newObject = {
             name: formData.name,
             fields: FieldsArr,
@@ -49,13 +57,18 @@ const AddNewObjectContainer = (props) => {
         <AddObjectReduxForm onSubmit={handleSubmit} handleAddTag={handleAddTag} TagsArr={TagsArr}
                             handleTagChange={handleTagChange} handleFieldChange={handleFieldChange}
                             handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
-                            handleDeleteField={handleDeleteField}/>
+                            handleDeleteField={handleDeleteField} errorMsg={props.errorMsg}
+                            successMsg={props.successMsg}/>
     )
 }
 
-const mapStateToProps = (state) => ({})
+const mapStateToProps = (state) => ({
+    errorMsg: getErrorMsg(state),
+    successMsg: getSuccessMsg(state)
+})
 const actionCreators = {
-    addNewObject
+    addNewObject,
+    clearMessages
 }
 
 export default compose(

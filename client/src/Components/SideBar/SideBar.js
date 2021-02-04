@@ -1,5 +1,5 @@
 import {
-    Divider, IconButton,
+    Divider,
     List,
     ListItem,
     ListItemIcon,
@@ -8,7 +8,6 @@ import {
 } from "@material-ui/core";
 import EmojiObjectsIcon from '@material-ui/icons/EmojiObjects';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
-import SearchIcon from '@material-ui/icons/Search';
 import {Link} from "react-router-dom";
 import React from "react";
 
