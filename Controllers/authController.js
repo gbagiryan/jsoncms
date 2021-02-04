@@ -44,7 +44,19 @@ const signUp = async (req, res) => {
             password: hashedPass
         });
         await user.save();
-        return res.status(200).json({successMessage: 'Signup successful. You can ow log in'});
+        const token = jwt.sign(
+            {userId: user._id},
+            process.env.JWT_SECRET,
+            {expiresIn: '1h'}
+        )
+        res.cookie('jwt', token, {
+            httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000
+        });
+
+        return res.status(200).json({
+            username,
+            userId: user._id
+        });
     } catch (err) {
         console.log(err);
         return res.status(500).json({errorMessage: 'server error'});

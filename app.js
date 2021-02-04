@@ -14,11 +14,15 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', objectsRoutes);
 
-mongoose.connect(process.env.MONGO_URI, {
-    useCreateIndex: true,
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-}).then(() => app.listen(port, () => console.log(`app started at port ${port}`)))
-    .catch((err => console.log(err)));
-
-
+(async () => {
+    try {
+        await mongoose.connect(process.env.MONGO_URI, {
+            useCreateIndex: true,
+            useNewUrlParser: true,
+            useUnifiedTopology: true
+        })
+        app.listen(port, () => console.log(`app started at port ${port}`))
+    } catch (error) {
+        console.log(error)
+    }
+})();

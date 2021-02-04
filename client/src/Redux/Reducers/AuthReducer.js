@@ -54,7 +54,8 @@ export const signOut = () => async (dispatch) => {
 export const signUp = (username, password) => async (dispatch) => {
     try {
         const res = await AuthApi.signUp(username, password);
-        dispatch(setSuccessMsg(res.data.successMessage));
+        dispatch(setUserData(res.data));
+        dispatch(setIsAuthed(true));
     } catch (err) {
         console.log(err);
         dispatch(setErrorMsg(err.response.data.errorMessage));
