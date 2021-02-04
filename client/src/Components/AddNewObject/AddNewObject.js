@@ -1,4 +1,4 @@
-import {Button, Grid, IconButton, makeStyles, Paper, Typography} from "@material-ui/core";
+import {Button, Grid, IconButton, makeStyles, MenuItem, Paper, TextField, Typography} from "@material-ui/core";
 import {Field, reduxForm} from "redux-form";
 import {renderTextField} from "../../Common/RenderTextFields";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -58,13 +58,29 @@ const AddNewObject = (props) => {
                             </div>
                         )}
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={4}>
                         <Field fullWidth placeholder={'Key'} name={'key'} component={renderTextField}
                                label={'Key'} onChange={props.handleFieldChange}/>
                     </Grid>
-                    <Grid item xs={5}>
+                    <Grid item xs={4}>
                         <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
                                label={'Value'} onChange={props.handleFieldChange}/>
+                    </Grid>
+                    <Grid item xs={2}>
+                        <TextField
+                            id="standard-select"
+                            select
+                            label="Select"
+                            value={props.Type}
+                            onChange={props.handleChangeType}
+                            helperText="Select type"
+                        >
+                            {props.inputTypes.map((option) => (
+                                <MenuItem key={option.value} value={option.value}>
+                                    {option.label}
+                                </MenuItem>
+                            ))}
+                        </TextField>
                     </Grid>
                     <Grid item xs={2}>
                         <IconButton onClick={props.handleAddField} color="primary">
@@ -73,14 +89,14 @@ const AddNewObject = (props) => {
                     </Grid>
                     <Grid item xs={12}>
                         {props.TagsArr.map((tag) =>
-                            <div>
+                            <>
                                 {tag}
                                 <IconButton onClick={() => props.handleDeleteTag(props.TagsArr.indexOf(tag))}
                                             color="primary">
                                     <HighlightOffIcon/>
                                 </IconButton>
                                 {', '}
-                            </div>
+                            </>
                         )}
                     </Grid>
                     <Grid item xs={10}>

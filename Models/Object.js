@@ -12,7 +12,7 @@ const objectSchema = new mongoose.Schema({
             required: true
         },
         value: {
-            type: String,
+            type: {},
             required: true
         },
     }],

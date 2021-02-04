@@ -5,9 +5,7 @@ import React, {useEffect} from "react";
 import {Redirect} from "react-router-dom";
 import {isAuthed} from "../../Redux/Selectors/AuthSelectors";
 import {getErrorMsg, getSuccessMsg} from "../../Redux/Selectors/AppSelectors";
-import {fetchAnObject} from "../../Redux/Reducers/ObjectReducer";
 import {clearMessages} from "../../Redux/Reducers/AppReducer";
-import {EditObjectReduxForm} from "../EditObject/EditObject";
 
 const LoginContainer = (props) => {
 

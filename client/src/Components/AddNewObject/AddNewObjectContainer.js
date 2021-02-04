@@ -5,7 +5,7 @@ import React, {useEffect, useState} from "react";
 import {compose} from "redux";
 import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
 import {getErrorMsg, getSuccessMsg} from "../../Redux/Selectors/AppSelectors";
-import {clearMessages} from "../../Redux/Reducers/AppReducer";
+import {clearMessages, setErrorMsg} from "../../Redux/Reducers/AppReducer";
 
 const AddNewObjectContainer = (props) => {
 
@@ -15,28 +15,49 @@ const AddNewObjectContainer = (props) => {
         }
     }, []);
 
+    const inputTypes = [
+        {value: 'string', label: 'string'},
+        {value: 'array', label: 'array'},
+        {value: 'object', label: 'object'},
+        {value: 'file', label: 'file'},
+        {value: 'rich-text', label: 'rich-text'}
+    ];
+
     const [Tag, SetTag] = useState('');
     const [TagsArr, SetTagsArr] = useState([]);
     const [Field, SetField] = useState({key: '', value: ''});
     const [FieldsArr, SetFieldsArr] = useState([]);
+    const [Type, SetType] = useState('');
+
+    const handleChangeType = (event) => {
+        SetType(event.target.value);
+    };
 
     const handleTagChange = (e) => {
+        props.clearMessages();
         SetTag(e.target.value);
     }
     const handleFieldChange = (e) => {
+        props.clearMessages();
         const {name, value} = e.target;
         SetField({...Field, [name]: value});
-        console.log(Field)
     }
     const handleAddTag = () => {
-        Tag && SetTagsArr([...TagsArr, Tag]);
+        if (!TagsArr.includes(Tag)) {
+            SetTagsArr([...TagsArr, Tag]);
+        } else {
+            props.setErrorMsg('Tags must be unique')
+        }
     }
     const handleDeleteTag = (index) => {
+        console.log(index)
         SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index));
     }
     const handleAddField = () => {
-        if (Field.key && Field.value) {
+        if (!FieldsArr.find((el) => el.key === Field.key)) {
             SetFieldsArr([...FieldsArr, Field]);
+        } else {
+            props.setErrorMsg('Keys of fields must be unique')
         }
     }
     const handleDeleteField = (index) => {
@@ -58,7 +79,8 @@ const AddNewObjectContainer = (props) => {
                             handleTagChange={handleTagChange} handleFieldChange={handleFieldChange}
                             handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
                             handleDeleteField={handleDeleteField} errorMsg={props.errorMsg}
-                            successMsg={props.successMsg}/>
+                            successMsg={props.successMsg} Type={Type} handleChangeType={handleChangeType}
+                            inputTypes={inputTypes}/>
     )
 }
 
@@ -68,7 +90,8 @@ const mapStateToProps = (state) => ({
 })
 const actionCreators = {
     addNewObject,
-    clearMessages
+    clearMessages,
+    setErrorMsg
 }
 
 export default compose(

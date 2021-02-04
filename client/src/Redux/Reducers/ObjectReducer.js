@@ -82,7 +82,6 @@ export const deleteObject = (objectId) => async (dispatch) => {
         const res = await ObjectApi.deleteObject(objectId);
         dispatch(setSingleObjectData(null));
         dispatch(fetchObjects(true));
-        dispatch(setSuccessMsg(res.data.successMessage));
     } catch (err) {
         console.log(err);
         dispatch(setErrorMsg(err.response.data.errorMessage));
