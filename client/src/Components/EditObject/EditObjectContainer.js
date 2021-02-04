@@ -43,7 +43,7 @@ const EditObjectContainer = (props) => {
     const [TagsArr, SetTagsArr] = useState([]);
     const [Field, SetField] = useState({key: '', value: ''});
     const [FieldsArr, SetFieldsArr] = useState([]);
-    const [Type, SetType] = useState('');
+    const [Type, SetType] = useState(inputTypes[0].value);
 
     const handleChangeType = (event) => {
         SetType(event.target.value);
