@@ -6,6 +6,7 @@ import {compose} from "redux";
 import {WithAuthRedirect} from "../../Common/WithAuthRedirect";
 import {getErrorMsg, getSuccessMsg} from "../../Redux/Selectors/AppSelectors";
 import {clearMessages, setErrorMsg} from "../../Redux/Reducers/AppReducer";
+import {EditObjectReduxForm} from "../EditObject/EditObject";
 
 const AddNewObjectContainer = (props) => {
 
@@ -23,24 +24,32 @@ const AddNewObjectContainer = (props) => {
         {value: 'rich-text', label: 'rich-text'}
     ];
 
+    const [FieldsArr, SetFieldsArr] = useState([]);
     const [Tag, SetTag] = useState('');
     const [TagsArr, SetTagsArr] = useState([]);
-    const [Field, SetField] = useState({key: '', value: ''});
-    const [FieldsArr, SetFieldsArr] = useState([]);
     const [Type, SetType] = useState(inputTypes[0].value);
+    const [Key, SetKey] = useState('');
+    const [Value, SetValue] = useState('');
 
+    const handleChangeKey = (e) => {
+        SetKey(e.target.value);
+    }
+    const handleChangeValue = (e) => {
+        SetValue(e.target.value);
+    }
+    const handleEditorChange = (value) => {
+        SetValue(value)
+    }
+    const handleUpload = (e) => {
+        SetValue(e.target.files[0]);
+    }
     const handleChangeType = (event) => {
         SetType(event.target.value);
+        SetValue('');
     };
-
     const handleTagChange = (e) => {
         props.clearMessages();
         SetTag(e.target.value);
-    }
-    const handleFieldChange = (e) => {
-        props.clearMessages();
-        const {name, value} = e.target;
-        SetField({...Field, [name]: value});
     }
     const handleAddTag = () => {
         if (!TagsArr.includes(Tag)) {
@@ -50,12 +59,13 @@ const AddNewObjectContainer = (props) => {
         }
     }
     const handleDeleteTag = (index) => {
-        console.log(index)
         SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index));
     }
     const handleAddField = () => {
-        if (!FieldsArr.find((el) => el.key === Field.key)) {
-            SetFieldsArr([...FieldsArr, Field]);
+        if (!FieldsArr.find((el) => el.key === Key)) {
+            SetFieldsArr([...FieldsArr, {Key, Value}]);
+            SetKey('');
+            SetValue('');
         } else {
             props.setErrorMsg('Keys of fields must be unique')
         }
@@ -75,12 +85,13 @@ const AddNewObjectContainer = (props) => {
     }
 
     return (
-        <AddObjectReduxForm onSubmit={handleSubmit} handleAddTag={handleAddTag} TagsArr={TagsArr}
-                            handleTagChange={handleTagChange} handleFieldChange={handleFieldChange}
+        <AddObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
+                            handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
                             handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
-                            handleDeleteField={handleDeleteField} errorMsg={props.errorMsg}
-                            successMsg={props.successMsg} Type={Type} handleChangeType={handleChangeType}
-                            inputTypes={inputTypes}/>
+                            handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}
+                            inputTypes={inputTypes} handleEditorChange={handleEditorChange} handleUpload={handleUpload}
+                            Value={Value} handleChangeValue={handleChangeValue} Key={Key}
+                            handleChangeKey={handleChangeKey}/>
     )
 }
 

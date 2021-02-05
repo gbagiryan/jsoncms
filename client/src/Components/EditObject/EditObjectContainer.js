@@ -42,26 +42,27 @@ const EditObjectContainer = (props) => {
     const [Tag, SetTag] = useState('');
     const [TagsArr, SetTagsArr] = useState([]);
     const [Type, SetType] = useState(inputTypes[0].value);
-    const [key, setKey] = useState('');
-    const [value, setValue] = useState('');
+    const [Key, SetKey] = useState('');
+    const [Value, SetValue] = useState('');
 
+    const handleChangeKey = (e) => {
+        SetKey(e.target.value);
+    }
     const handleChangeValue = (e) => {
-        setValue(e.target.value);
+        SetValue(e.target.value);
     }
     const handleEditorChange = (value) => {
-        setValue(value)
+        SetValue(value)
     }
     const handleUpload = (e) => {
-        setValue(e.target.files[0]);
-    }
-    const handleChangeKey = (e) => {
-        setKey(e.target.value)
+        SetValue(e.target.files[0]);
     }
     const handleChangeType = (e) => {
         SetType(e.target.value);
-        setValue('');
+        SetValue('');
     };
     const handleTagChange = (e) => {
+        props.clearMessages();
         SetTag(e.target.value);
     }
     const handleAddTag = () => {
@@ -75,10 +76,10 @@ const EditObjectContainer = (props) => {
         SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index));
     }
     const handleAddField = () => {
-        if (!FieldsArr.find((el) => el.key === key)) {
-            SetFieldsArr([...FieldsArr, {key, value}]);
-            setKey('');
-            setValue('');
+        if (!FieldsArr.find((el) => el.key === Key)) {
+            SetFieldsArr([...FieldsArr, {Key, Value}]);
+            SetKey('');
+            SetValue('');
         } else {
             props.setErrorMsg('Keys of fields must be unique')
         }
@@ -103,8 +104,7 @@ const EditObjectContainer = (props) => {
                              handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
                              handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}
                              inputTypes={inputTypes} handleEditorChange={handleEditorChange} handleUpload={handleUpload}
-                             key={key} handleChangeKey={handleChangeKey} value={value}
-                             handleChangeValue={handleChangeValue}/>
+                             Value={Value} handleChangeValue={handleChangeValue} Key={Key} handleChangeKey={handleChangeKey}/>
     )
 }
 

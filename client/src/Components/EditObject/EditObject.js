@@ -52,7 +52,7 @@ const EditObject = (props) => {
                     <Grid item xs={12}>
                         {props.FieldsArr.map((field) =>
                             <div>
-                                {field.key + ':' + field.value}
+                                {field.Key + ':' + field.Value}
                                 <IconButton onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
                                             color="primary">
                                     <HighlightOffIcon/>
@@ -95,7 +95,7 @@ const EditObject = (props) => {
                     {props.Type === 'rich-text'
                     &&
                     <Grid item xs={12}>
-                        <ReactQuill value={props.value} onChange={props.handleEditorChange}/>
+                        <ReactQuill value={props.Value} onChange={props.handleEditorChange}/>
                     </Grid>
                     }
                     {props.Type === 'file'

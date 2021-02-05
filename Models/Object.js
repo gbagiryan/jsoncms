@@ -7,11 +7,11 @@ const objectSchema = new mongoose.Schema({
         maxLength: 20
     },
     fields: [{
-        key: {
+        Key: {
             type: String,
             required: true
         },
-        value: {
+        Value: {
             type: {},
             required: true
         },
