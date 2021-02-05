@@ -3,12 +3,11 @@ import {singleObjectData} from "../../Redux/Selectors/ObjectSelectors";
 import {fetchAnObject, updateObject} from "../../Redux/Reducers/ObjectReducer";
 import {compose} from "redux";
 import {connect} from "react-redux";
-import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
+import {WithAuthRedirect} from "../../Common/WithAuthRedirect";
 import React, {useEffect, useState} from "react";
 import {withRouter} from "react-router-dom";
 import {getErrorMsg, getSuccessMsg} from "../../Redux/Selectors/AppSelectors";
 import {clearMessages, setErrorMsg} from "../../Redux/Reducers/AppReducer";
-import {AddObjectReduxForm} from "../AddNewObject/AddNewObject";
 
 const EditObjectContainer = (props) => {
 
@@ -33,28 +32,37 @@ const EditObjectContainer = (props) => {
 
     const inputTypes = [
         {value: 'string', label: 'string'},
-        {value: 'array', label: 'array'},
-        {value: 'object', label: 'object'},
+        {value: 'rich-text', label: 'rich-text'},
         {value: 'file', label: 'file'},
-        {value: 'rich-text', label: 'rich-text'}
+        {value: 'array', label: 'array'},
+        {value: 'object', label: 'object'}
     ];
 
+    const [FieldsArr, SetFieldsArr] = useState([]);
     const [Tag, SetTag] = useState('');
     const [TagsArr, SetTagsArr] = useState([]);
-    const [Field, SetField] = useState({key: '', value: ''});
-    const [FieldsArr, SetFieldsArr] = useState([]);
     const [Type, SetType] = useState(inputTypes[0].value);
+    const [key, setKey] = useState('');
+    const [value, setValue] = useState('');
 
-    const handleChangeType = (event) => {
-        SetType(event.target.value);
+    const handleChangeValue = (e) => {
+        setValue(e.target.value);
+    }
+    const handleEditorChange = (value) => {
+        setValue(value)
+    }
+    const handleUpload = (e) => {
+        setValue(e.target.files[0]);
+    }
+    const handleChangeKey = (e) => {
+        setKey(e.target.value)
+    }
+    const handleChangeType = (e) => {
+        SetType(e.target.value);
+        setValue('');
     };
-
     const handleTagChange = (e) => {
         SetTag(e.target.value);
-    }
-    const handleFieldChange = (e) => {
-        const {name, value} = e.target;
-        SetField({...Field, [name]: value});
     }
     const handleAddTag = () => {
         if (!TagsArr.includes(Tag)) {
@@ -63,13 +71,14 @@ const EditObjectContainer = (props) => {
             props.setErrorMsg('Tags must be unique')
         }
     }
-
     const handleDeleteTag = (index) => {
         SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index));
     }
     const handleAddField = () => {
-        if (!FieldsArr.find((el) => el.key === Field.key)) {
-            SetFieldsArr([...FieldsArr, Field]);
+        if (!FieldsArr.find((el) => el.key === key)) {
+            SetFieldsArr([...FieldsArr, {key, value}]);
+            setKey('');
+            setValue('');
         } else {
             props.setErrorMsg('Keys of fields must be unique')
         }
@@ -80,7 +89,6 @@ const EditObjectContainer = (props) => {
 
     const handleSubmit = (formData) => {
         props.clearMessages();
-
         const updatedObject = {
             name: formData.name,
             fields: FieldsArr,
@@ -90,12 +98,13 @@ const EditObjectContainer = (props) => {
     }
 
     return (
-        <EditObjectReduxForm onSubmit={handleSubmit} handleAddTag={handleAddTag} TagsArr={TagsArr}
-                             handleTagChange={handleTagChange} handleFieldChange={handleFieldChange}
+        <EditObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
+                             handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
                              handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
-                             handleDeleteField={handleDeleteField} errorMsg={props.errorMsg}
-                             successMsg={props.successMsg} Type={Type} handleChangeType={handleChangeType}
-                             inputTypes={inputTypes}/>
+                             handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}
+                             inputTypes={inputTypes} handleEditorChange={handleEditorChange} handleUpload={handleUpload}
+                             key={key} handleChangeKey={handleChangeKey} value={value}
+                             handleChangeValue={handleChangeValue}/>
     )
 }
 

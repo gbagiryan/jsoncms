@@ -6,6 +6,9 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React from "react";
 import {Error, Success} from "../../Common/Messages";
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import {renderFileInput} from "../../Common/renderFileInput";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -57,13 +60,9 @@ const EditObject = (props) => {
                             </div>
                         )}
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={8}>
                         <Field fullWidth placeholder={'Key'} name={'key'} component={renderTextField}
-                               label={'Key'} onChange={props.handleFieldChange}/>
-                    </Grid>
-                    <Grid item xs={4}>
-                        <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
-                               label={'Value'} onChange={props.handleFieldChange}/>
+                               label={'Key'} onChange={props.handleChangeKey}/>
                     </Grid>
                     <Grid item xs={2}>
                         <TextField
@@ -86,6 +85,28 @@ const EditObject = (props) => {
                             <AddCircleIcon/>
                         </IconButton>
                     </Grid>
+                    {props.Type === 'string'
+                    &&
+                    <Grid item xs={12}>
+                        <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
+                               label={'Value'} onChange={props.handleChangeValue}/>
+                    </Grid>
+                    }
+                    {props.Type === 'rich-text'
+                    &&
+                    <Grid item xs={12}>
+                        <ReactQuill value={props.value} onChange={props.handleEditorChange}/>
+                    </Grid>
+                    }
+                    {props.Type === 'file'
+                    &&
+                    <Grid item xs={12}>
+                        <div>
+                            <Field name={'upload'} type={'file'} component={renderFileInput}
+                                   handleUpload={props.handleUpload}/>
+                        </div>
+                    </Grid>
+                    }
                     <Grid item xs={12}>
                         {props.TagsArr.map((tag) =>
                             <>

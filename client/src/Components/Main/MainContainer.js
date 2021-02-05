@@ -1,5 +1,5 @@
 import {compose} from "redux";
-import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
+import {WithAuthRedirect} from "../../Common/WithAuthRedirect";
 import Main from "./Main";
 import React from "react";
 import {connect} from "react-redux";

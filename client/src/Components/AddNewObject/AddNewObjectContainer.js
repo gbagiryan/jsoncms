@@ -3,7 +3,7 @@ import {AddObjectReduxForm} from "./AddNewObject";
 import {addNewObject} from "../../Redux/Reducers/ObjectReducer";
 import React, {useEffect, useState} from "react";
 import {compose} from "redux";
-import {WithAuthRedirect} from "../../HOC/WithAuthRedirect";
+import {WithAuthRedirect} from "../../Common/WithAuthRedirect";
 import {getErrorMsg, getSuccessMsg} from "../../Redux/Selectors/AppSelectors";
 import {clearMessages, setErrorMsg} from "../../Redux/Reducers/AppReducer";
 

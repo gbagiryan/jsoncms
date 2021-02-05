@@ -1,3 +1,4 @@
+import './App.css';
 import {BrowserRouter, Switch, Route, Redirect} from "react-router-dom";
 import Main from "./Components/Main/MainContainer";
 import {Grid, makeStyles, Paper} from "@material-ui/core";
