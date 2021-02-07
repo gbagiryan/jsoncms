@@ -20,7 +20,8 @@ app.use('/api/posts', objectsRoutes);
     await mongoose.connect(process.env.MONGO_URI, {
       useCreateIndex: true,
       useNewUrlParser: true,
-      useUnifiedTopology: true
+      useUnifiedTopology: true,
+      useFindAndModify: false
     })
     app.listen(port, () => logger.info(`app started at port ${port}`))
   } catch (error) {

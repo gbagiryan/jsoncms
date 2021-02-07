@@ -6,7 +6,6 @@ import {compose} from "redux";
 import {WithAuthRedirect} from "../../Common/WithAuthRedirect";
 import {getErrorMsg, getSuccessMsg} from "../../Redux/Selectors/AppSelectors";
 import {clearMessages, setErrorMsg} from "../../Redux/Reducers/AppReducer";
-import {EditObjectReduxForm} from "../EditObject/EditObject";
 
 const AddNewObjectContainer = (props) => {
 
@@ -52,22 +51,30 @@ const AddNewObjectContainer = (props) => {
         SetTag(e.target.value);
     }
     const handleAddTag = () => {
-        if (!TagsArr.includes(Tag)) {
-            SetTagsArr([...TagsArr, Tag]);
-        } else {
-            props.setErrorMsg('Tags must be unique')
+        if (Tag) {
+            if (!TagsArr.includes(Tag)) {
+                SetTagsArr([...TagsArr, Tag]);
+            } else {
+                props.setErrorMsg('Tags must be unique')
+            }
+        }else {
+            props.setErrorMsg('Tag can\'t be empty');
         }
     }
     const handleDeleteTag = (index) => {
         SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index));
     }
     const handleAddField = () => {
-        if (!FieldsArr.find((el) => el.key === Key)) {
-            SetFieldsArr([...FieldsArr, {Key, Value}]);
-            SetKey('');
-            SetValue('');
+        if (Key && Value) {
+            if (!FieldsArr.find((el) => el.Key === Key)) {
+                SetFieldsArr([...FieldsArr, {Key, Value}]);
+                SetKey('');
+                SetValue('');
+            } else {
+                props.setErrorMsg('Keys of fields must be unique')
+            }
         } else {
-            props.setErrorMsg('Keys of fields must be unique')
+            props.setErrorMsg('Key and Value required')
         }
     }
     const handleDeleteField = (index) => {

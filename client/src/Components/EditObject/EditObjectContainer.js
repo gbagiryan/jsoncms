@@ -66,22 +66,30 @@ const EditObjectContainer = (props) => {
         SetTag(e.target.value);
     }
     const handleAddTag = () => {
-        if (!TagsArr.includes(Tag)) {
-            SetTagsArr([...TagsArr, Tag]);
+        if (Tag) {
+            if (!TagsArr.includes(Tag)) {
+                SetTagsArr([...TagsArr, Tag]);
+            } else {
+                props.setErrorMsg('Tags must be unique')
+            }
         } else {
-            props.setErrorMsg('Tags must be unique')
+            props.setErrorMsg('Tag can\'t be empty');
         }
     }
     const handleDeleteTag = (index) => {
         SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index));
     }
     const handleAddField = () => {
-        if (!FieldsArr.find((el) => el.key === Key)) {
-            SetFieldsArr([...FieldsArr, {Key, Value}]);
-            SetKey('');
-            SetValue('');
+        if (Key && Value) {
+            if (!FieldsArr.find((el) => el.Key === Key)) {
+                SetFieldsArr([...FieldsArr, {Key, Value}]);
+                SetKey('');
+                SetValue('');
+            } else {
+                props.setErrorMsg('Keys of fields must be unique')
+            }
         } else {
-            props.setErrorMsg('Keys of fields must be unique')
+            props.setErrorMsg('Key and Value required')
         }
     }
     const handleDeleteField = (index) => {
@@ -90,9 +98,11 @@ const EditObjectContainer = (props) => {
 
     const handleSubmit = (formData) => {
         props.clearMessages();
+        // const fieldsArr = new FormData();
         const updatedObject = {
             name: formData.name,
             fields: FieldsArr,
+            // fields: fieldsArr.append(Key, Value),
             tags: TagsArr
         }
         props.updateObject(props.object._id, updatedObject)
@@ -104,7 +114,8 @@ const EditObjectContainer = (props) => {
                              handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
                              handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}
                              inputTypes={inputTypes} handleEditorChange={handleEditorChange} handleUpload={handleUpload}
-                             Value={Value} handleChangeValue={handleChangeValue} Key={Key} handleChangeKey={handleChangeKey}/>
+                             Value={Value} handleChangeValue={handleChangeValue} Key={Key}
+                             handleChangeKey={handleChangeKey}/>
     )
 }
 
