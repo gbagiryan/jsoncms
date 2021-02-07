@@ -9,8 +9,8 @@ const HeaderContainer = (props) => {
 
     const handleClick = () => {
         props.signOut();
-        props.setObjectData();
-        props.setSingleObjectData();
+        props.setObjectData(null);
+        props.setSingleObjectData(null);
     }
 
     return (

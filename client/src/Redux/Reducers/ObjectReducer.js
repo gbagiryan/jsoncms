@@ -25,6 +25,7 @@ const ObjectReducer = (state = initialState, action) => {
             return state;
     }
 };
+
 //action creators
 export const setObjectData = (objectData) => ({type: POST_SET_OBJECT_DATA, objectData});
 export const setSingleObjectData = (singleObjectData) => ({type: POST_SET_SINGLE_OBJECT_DATA, singleObjectData});
@@ -79,7 +80,7 @@ export const updateObject = (objectId, updatedObject) => async (dispatch) => {
 };
 export const deleteObject = (objectId) => async (dispatch) => {
     try {
-        const res = await ObjectApi.deleteObject(objectId);
+        await ObjectApi.deleteObject(objectId);
         dispatch(setSingleObjectData(null));
         dispatch(fetchObjects(true));
     } catch (err) {
