@@ -57,7 +57,7 @@ const AddNewObjectContainer = (props) => {
             } else {
                 props.setErrorMsg('Tags must be unique')
             }
-        }else {
+        } else {
             props.setErrorMsg('Tag can\'t be empty');
         }
     }
@@ -81,14 +81,22 @@ const AddNewObjectContainer = (props) => {
         SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index));
     }
 
-    const handleSubmit = (formData) => {
+    const handleSubmit = (form) => {
         props.clearMessages();
-        const newObject = {
-            name: formData.name,
-            fields: FieldsArr,
-            tags: TagsArr
-        }
-        props.addNewObject(newObject);
+
+        const formData = new FormData();
+
+        formData.append('name', form.name)
+        FieldsArr.map(field => {
+            if (field.Value.__proto__ === File.prototype) {
+                formData.append('fileKey', field.Key)
+                formData.append('fileValue', field.Value)
+            } else {
+                formData.append('fields', field)
+            }
+        })
+        TagsArr.map(tag => formData.append('tags', tag))
+        props.addNewObject(formData);
     }
 
     return (

@@ -3,17 +3,30 @@ const logger = require('../logger')
 
 const createAnObject = async (req, res) => {
   try {
-    const { name, fields, tags } = req.body
+    const { name, fields, tags, fileKey } = req.body
+    const files = req.files
+
+    console.log(JSON.parse(fields[0]))
+
+    const fieldsArr = [...JSON.stringify(fields).forEach((field) => JSON.parse(field))]
+
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}` })
+      }
+    }
+
     const object = new Object({
       name,
-      fields,
+      fields: fieldsArr,
       tags,
       createdBy: req.user._id
     })
     await object.save()
     res.status(200).json({ successMessage: 'new object posted' })
   } catch (err) {
-    logger.error(err)
+    // logger.error(err)
+    console.log(err)
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
