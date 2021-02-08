@@ -3,16 +3,20 @@ const logger = require('../logger')
 
 const createAnObject = async (req, res) => {
   try {
-    const { name, fields, tags, fileKey } = req.body
+    const { name, fieldKey, fieldValue, tags, fileKey } = req.body
     const files = req.files
 
-    console.log(JSON.parse(fields[0]))
-
-    const fieldsArr = [...JSON.stringify(fields).forEach((field) => JSON.parse(field))]
+    const fieldsArr = []
 
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
         fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}` })
+      }
+    }
+    console.log(fieldValue)
+    if (fieldValue && fieldValue.length > 0) {
+      for (let i = 0; i < fieldValue.length; i++) {
+        fieldsArr.push({ Key: fieldKey[i], Value: fieldValue[i] })
       }
     }
 

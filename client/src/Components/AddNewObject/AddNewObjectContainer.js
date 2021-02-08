@@ -92,7 +92,8 @@ const AddNewObjectContainer = (props) => {
                 formData.append('fileKey', field.Key)
                 formData.append('fileValue', field.Value)
             } else {
-                formData.append('fields', field)
+                formData.append('fieldKey', field.Key)
+                formData.append('fieldValue', field.Value)
             }
         })
         TagsArr.map(tag => formData.append('tags', tag))
