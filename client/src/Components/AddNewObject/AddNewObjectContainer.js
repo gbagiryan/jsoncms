@@ -67,7 +67,11 @@ const AddNewObjectContainer = (props) => {
     const handleAddField = () => {
         if (Key && Value) {
             if (!FieldsArr.find((el) => el.Key === Key)) {
-                SetFieldsArr([...FieldsArr, {Key, Value}]);
+                if (Type==='array'){
+                    SetFieldsArr([...FieldsArr, {Key, Value: Value.trim().split(',')}]);
+                }else{
+                    SetFieldsArr([...FieldsArr, {Key, Value}]);
+                }
                 SetKey('');
                 SetValue('');
             } else {

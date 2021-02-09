@@ -8,6 +8,7 @@ import HighlightOffIcon from "@material-ui/icons/HighlightOff";
 import {Error, Success} from "../../Common/Messages";
 import ReactQuill from "react-quill";
 import {renderFileInput} from "../../Common/renderFileInput";
+import Parser from 'html-react-parser';
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -52,7 +53,8 @@ const AddNewObject = (props) => {
                     <Grid item xs={12}>
                         {props.FieldsArr.map((field) =>
                             <div>
-                                {field.Key + ':' + field.Value}
+                                {field.Key + ' : '}
+                                {field.FileName ? field.FileName : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
                                 <IconButton onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
                                             color="primary">
                                     <HighlightOffIcon/>
@@ -85,12 +87,13 @@ const AddNewObject = (props) => {
                             <AddCircleIcon/>
                         </IconButton>
                     </Grid>
-                    {props.Type === 'string'
-                    &&
+                    {props.Type === 'string' || props.Type === 'array'
+                    ?
                     <Grid item xs={12}>
                         <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
                                label={'Value'} onChange={props.handleChangeValue}/>
                     </Grid>
+                        :null
                     }
                     {props.Type === 'rich-text'
                     &&

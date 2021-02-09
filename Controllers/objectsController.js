@@ -6,11 +6,13 @@ const createAnObject = async (req, res) => {
     const { name, fields, tags, fileKey } = req.body
     const files = req.files
 
-    const fieldsArr = [...fields.map((field) => JSON.parse(field))]
-
+    const fieldsArr = []
+    if (fields && fields.length > 0) {
+      fieldsArr.push(...fields.map((field) => JSON.parse(field)))
+    }
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}${files[i].mimetype}`, FileName: files[i].originalname })
+        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}`, FileName: files[i].originalname })
       }
     }
 
@@ -23,8 +25,7 @@ const createAnObject = async (req, res) => {
     await object.save()
     res.status(200).json({ successMessage: 'new object posted' })
   } catch (err) {
-    // logger.error(err)
-    console.log(err)
+    logger.error(err)
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
@@ -40,11 +41,14 @@ const updateObject = async (req, res) => {
       return res.status(400).json({ errorMessage: 'object with given id not found' })
     }
 
-    const fieldsArr = [...fields.map((field) => JSON.parse(field))]
+    const fieldsArr = []
+    if (fields && fields.length > 0) {
+      fieldsArr.push(...fields.map((field) => JSON.parse(field)))
+    }
 
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}${files[i].mimetype}`, FileName: files[i].originalname })
+        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}`, FileName: files[i].originalname })
       }
     }
 

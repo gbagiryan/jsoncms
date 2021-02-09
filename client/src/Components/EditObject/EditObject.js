@@ -5,6 +5,7 @@ import {renderTextField} from "../../Common/RenderTextFields";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import React from "react";
+import Parser from 'html-react-parser';
 import {Error, Success} from "../../Common/Messages";
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
@@ -52,7 +53,8 @@ const EditObject = (props) => {
                     <Grid item xs={12}>
                         {props.FieldsArr.map((field) =>
                             <div>
-                                {field.Key + ':' + field.FileName ? field.FileName : (field.Value.name ? field.Value.name : field.Value)}
+                                {field.Key + ' : '}
+                                {field.FileName ? field.FileName : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
                                 <IconButton onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
                                             color="primary">
                                     <HighlightOffIcon/>

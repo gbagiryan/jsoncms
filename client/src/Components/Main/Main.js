@@ -2,6 +2,7 @@ import React from "react";
 import {Button, Card, CardContent, CardHeader, Grid, makeStyles, Typography} from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Parser from 'html-react-parser';
 import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
@@ -43,20 +44,18 @@ const Main = (props) => {
                         </Card>
                         <CardContent>
                             <p>Fields</p>
-                            {props.object.fields.map((field) => (
-                                <Typography variant="body1" color="primary" component="p">
-
-                                    {field.FileName
-                                        ? <p>
-                                            {field.Key + ':'}
-                                            <Link to={`${field.Value}`}>
-                                                {field.FileName}
-                                            </Link>
-                                        </p>
-
-                                        : field.Key + ':' + field.Value}
-                                </Typography>
-                            ))}
+                                {props.object.fields.map((field) => (
+                                    <Grid container direction={'column'} spacing={1}>
+                                        <Grid item xs={2}>
+                                            {field.Key + ' : '}
+                                        </Grid>
+                                        <Grid item xs={10}>
+                                            {field.FileName ?
+                                                <Link to={`${field.Value}`}>{field.FileName}</Link>
+                                                : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
+                                        </Grid>
+                                    </Grid>
+                                ))}
                         </CardContent>
                         <CardContent>
                             <p>Tags</p>
