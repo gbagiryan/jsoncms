@@ -1,4 +1,15 @@
-import {Button, Grid, IconButton, makeStyles, MenuItem, Paper, TextField, Typography} from "@material-ui/core";
+import {
+    Button,
+    Grid,
+    IconButton,
+    makeStyles,
+    MenuItem,
+    Paper,
+    Table, TableBody, TableCell, TableContainer,
+    TableHead, TableRow,
+    TextField,
+    Typography
+} from "@material-ui/core";
 import {Field, reduxForm} from "redux-form";
 import {renderTextField} from "../../Common/RenderTextFields";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
@@ -9,6 +20,7 @@ import {Error, Success} from "../../Common/Messages";
 import ReactQuill from "react-quill";
 import {renderFileInput} from "../../Common/renderFileInput";
 import Parser from 'html-react-parser';
+import {Link} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     form: {
@@ -50,18 +62,34 @@ const AddNewObject = (props) => {
                         <Field fullWidth placeholder={'Name'} name={'name'} component={renderTextField}
                                label={'Name'} validate={[required, maxLength20]}/>
                     </Grid>
-                    <Grid item xs={12}>
-                        {props.FieldsArr.map((field) =>
-                            <div>
-                                {field.Key + ' : '}
-                                {field.FileName ? field.FileName : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
-                                <IconButton onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
+                    <TableContainer component={Paper}>
+                        <Table className={classes.table}>
+                            <TableHead>
+                                <TableRow>
+                                    <TableCell>Keys</TableCell>
+                                    <TableCell align="right">Values</TableCell>
+                                </TableRow>
+                            </TableHead>
+                            <TableBody>
+                                {props.FieldsArr.map((field) => (
+                                    <TableRow key={field._id}>
+                                        <TableCell component="th" scope="row">
+                                            {field.Key}
+                                        </TableCell>
+                                        <TableCell align="right">{field.FileName ?
+                                            <Link to={`${field.Value}`}>{field.FileName}</Link>
+                                            : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
+                                        </TableCell>
+                                        <IconButton
+                                            onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
                                             color="primary">
-                                    <HighlightOffIcon/>
-                                </IconButton>
-                            </div>
-                        )}
-                    </Grid>
+                                            <HighlightOffIcon/>
+                                        </IconButton>
+                                    </TableRow>
+                                ))}
+                            </TableBody>
+                        </Table>
+                    </TableContainer>
                     <Grid item xs={8}>
                         <Field fullWidth placeholder={'Key'} name={'key'} component={renderTextField}
                                label={'Key'} onChange={props.handleChangeKey}/>
@@ -88,12 +116,12 @@ const AddNewObject = (props) => {
                         </IconButton>
                     </Grid>
                     {props.Type === 'string' || props.Type === 'array'
-                    ?
-                    <Grid item xs={12}>
-                        <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
-                               label={'Value'} onChange={props.handleChangeValue}/>
-                    </Grid>
-                        :null
+                        ?
+                        <Grid item xs={12}>
+                            <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
+                                   label={'Value'} onChange={props.handleChangeValue}/>
+                        </Grid>
+                        : null
                     }
                     {props.Type === 'rich-text'
                     &&

@@ -1,5 +1,15 @@
 import React from "react";
-import {Button, Card, CardContent, CardHeader, Grid, makeStyles, Typography} from "@material-ui/core";
+import {
+    Button,
+    Card,
+    CardContent,
+    CardHeader,
+    Grid,
+    makeStyles,
+    Paper, Table, TableBody, TableCell,
+    TableContainer, TableHead, TableRow,
+    Typography
+} from "@material-ui/core";
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Parser from 'html-react-parser';
@@ -43,19 +53,29 @@ const Main = (props) => {
                             />
                         </Card>
                         <CardContent>
-                            <p>Fields</p>
-                                {props.object.fields.map((field) => (
-                                    <Grid container direction={'column'} spacing={1}>
-                                        <Grid item xs={2}>
-                                            {field.Key + ' : '}
-                                        </Grid>
-                                        <Grid item xs={10}>
-                                            {field.FileName ?
-                                                <Link to={`${field.Value}`}>{field.FileName}</Link>
-                                                : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
-                                        </Grid>
-                                    </Grid>
-                                ))}
+                            <TableContainer component={Paper}>
+                                <Table className={classes.table}>
+                                    <TableHead>
+                                        <TableRow>
+                                            <TableCell>Keys</TableCell>
+                                            <TableCell align="right">Values</TableCell>
+                                        </TableRow>
+                                    </TableHead>
+                                    <TableBody>
+                                        {props.object.fields.map((field) => (
+                                            <TableRow key={field._id}>
+                                                <TableCell component="th" scope="row">
+                                                    {field.Key}
+                                                </TableCell>
+                                                <TableCell align="right">{field.FileName ?
+                                                    <Link to={`${field.Value}`}>{field.FileName}</Link>
+                                                    : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
+                                                </TableCell>
+                                            </TableRow>
+                                        ))}
+                                    </TableBody>
+                                </Table>
+                            </TableContainer>
                         </CardContent>
                         <CardContent>
                             <p>Tags</p>
