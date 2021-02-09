@@ -45,7 +45,16 @@ const Main = (props) => {
                             <p>Fields</p>
                             {props.object.fields.map((field) => (
                                 <Typography variant="body1" color="primary" component="p">
-                                    {field.Key + ':' + field.Value}
+
+                                    {field.FileName
+                                        ? <p>
+                                            {field.Key + ':'}
+                                            <Link to={`${field.Value}`}>
+                                                {field.FileName}
+                                            </Link>
+                                        </p>
+
+                                        : field.Key + ':' + field.Value}
                                 </Typography>
                             ))}
                         </CardContent>

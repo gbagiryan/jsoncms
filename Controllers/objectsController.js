@@ -3,20 +3,14 @@ const logger = require('../logger')
 
 const createAnObject = async (req, res) => {
   try {
-    const { name, fieldKey, fieldValue, tags, fileKey } = req.body
+    const { name, fields, tags, fileKey } = req.body
     const files = req.files
 
-    const fieldsArr = []
+    const fieldsArr = [...fields.map((field) => JSON.parse(field))]
 
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}` })
-      }
-    }
-    console.log(fieldValue)
-    if (fieldValue && fieldValue.length > 0) {
-      for (let i = 0; i < fieldValue.length; i++) {
-        fieldsArr.push({ Key: fieldKey[i], Value: fieldValue[i] })
+        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}${files[i].mimetype}`, FileName: files[i].originalname })
       }
     }
 
@@ -38,14 +32,25 @@ const createAnObject = async (req, res) => {
 const updateObject = async (req, res) => {
   try {
     const objectId = req.params.objectId
-    const { name, fields, tags } = req.body
+    const { name, fields, tags, fileKey } = req.body
+    const files = req.files
+
     const object = await Object.findOne({ createdBy: req.user._id, _id: objectId })
     if (!object) {
       return res.status(400).json({ errorMessage: 'object with given id not found' })
     }
+
+    const fieldsArr = [...fields.map((field) => JSON.parse(field))]
+
+    if (files && files.length > 0) {
+      for (let i = 0; i < files.length; i++) {
+        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}${files[i].mimetype}`, FileName: files[i].originalname })
+      }
+    }
+
     await Object.findOneAndUpdate({ _id: objectId }, {
       name,
-      fields,
+      fields: fieldsArr,
       tags,
       createdBy: req.user._id
     })

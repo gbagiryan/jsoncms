@@ -52,7 +52,7 @@ const EditObject = (props) => {
                     <Grid item xs={12}>
                         {props.FieldsArr.map((field) =>
                             <div>
-                                {field.Key + ':' + field.Value}
+                                {field.Key + ':' + field.FileName ? field.FileName : (field.Value.name ? field.Value.name : field.Value)}
                                 <IconButton onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
                                             color="primary">
                                     <HighlightOffIcon/>

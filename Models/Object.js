@@ -14,6 +14,9 @@ const objectSchema = new mongoose.Schema({
     Value: {
       type: {},
       required: true
+    },
+    FileName: {
+      type: String
     }
   }],
   tags: [{
