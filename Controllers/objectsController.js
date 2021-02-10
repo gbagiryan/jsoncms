@@ -133,7 +133,7 @@ const download = (req, res) => {
   try {
     const fileName = req.params.fileName
     const directoryPath = 'uploads/'
-    res.status(200).download(directoryPath + fileName)
+    res.status(200).blob(directoryPath + fileName)
   } catch (err) {
     logger.error(err)
     res.status(500).json({ errorMessage: 'server error' })
