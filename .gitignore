@@ -1,5 +1,4 @@
 .idea
-.env
 .log
 node_modules
 /combined.log

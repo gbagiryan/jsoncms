@@ -13,8 +13,7 @@ app.use(express.json())
 app.use(cookieParser())
 
 app.use('/api/auth', authRoutes)
-app.use('/api/posts', objectsRoutes)
-app.use('/public', express.static('uploads'));
+app.use('/api/posts', objectsRoutes);
 
 (async () => {
   try {

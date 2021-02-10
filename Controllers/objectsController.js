@@ -12,7 +12,11 @@ const createAnObject = async (req, res) => {
     }
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}`, FileName: files[i].originalname })
+        fieldsArr.push({
+          Key: fileKey[i],
+          Value: files[i].filename,
+          FileName: files[i].originalname
+        })
       }
     }
 
@@ -48,7 +52,11 @@ const updateObject = async (req, res) => {
 
     if (files && files.length > 0) {
       for (let i = 0; i < files.length; i++) {
-        fieldsArr.push({ Key: fileKey[i], Value: `/public/${files[i].filename}`, FileName: files[i].originalname })
+        fieldsArr.push({
+          Key: fileKey[i],
+          Value: files[i].filename,
+          FileName: files[i].originalname
+        })
       }
     }
 
@@ -121,11 +129,23 @@ const getAnObject = async (req, res) => {
   }
 }
 
+const download = (req, res) => {
+  try {
+    const fileName = req.params.fileName
+    const directoryPath = 'uploads/'
+    res.status(200).download(directoryPath + fileName)
+  } catch (err) {
+    logger.error(err)
+    res.status(500).json({ errorMessage: 'server error' })
+  }
+}
+
 module.exports = {
   getObjects,
   getObjectsByTag,
   getAnObject,
   createAnObject,
   updateObject,
-  deleteObject
+  deleteObject,
+  download
 }
