@@ -82,10 +82,12 @@ const AddNewObjectContainer = (props) => {
     SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
   }
   const handleAddField = () => {
-    if (Key && Value) {
+    if ((Key && Value)||(Key && InnerValue)) {
       if (!FieldsArr.find((el) => el.Key === Key)) {
         if (Type === 'array') {
           SetFieldsArr([...FieldsArr, { Key, Value: Value.trim().split(',') }])
+        }else if (Type === 'object') {
+          SetFieldsArr([...FieldsArr, { Key, Value: InnerFieldsArr }])
         } else {
           SetFieldsArr([...FieldsArr, { Key, Value }])
         }

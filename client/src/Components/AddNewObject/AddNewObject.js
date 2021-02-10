@@ -173,12 +173,12 @@ const AddNewObject = (props) => {
             </TableContainer>
             <Grid container xs={12}>
               <Grid item xs={5}>
-                <Field placeholder={'Key'} name={'key'} component={renderTextField}
-                       label={'Key'} onChange={props.handleInnerKeyChange}/>
+                <Field placeholder={'InnerKey'} name={'innerKey'} component={renderTextField}
+                       label={'InnerKey'} onChange={props.handleInnerKeyChange}/>
               </Grid>
               <Grid item xs={5}>
-                <Field placeholder={'Value'} name={'value'} component={renderTextField}
-                       label={'Value'} onChange={props.handleInnerValueChange}/>
+                <Field placeholder={'InnerValue'} name={'innerValue'} component={renderTextField}
+                       label={'InnerValue'} onChange={props.handleInnerValueChange}/>
               </Grid>
               <Grid item xs={2}>
                 <IconButton onClick={props.handleAddInnerField} color="primary">
