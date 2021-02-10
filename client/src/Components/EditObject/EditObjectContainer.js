@@ -83,8 +83,6 @@ const EditObjectContainer = (props) => {
         if (Key && Value) {
             if (!FieldsArr.find((el) => el.Key === Key)) {
                 SetFieldsArr([...FieldsArr, {Key, Value}]);
-                SetKey('');
-                SetValue('');
             } else {
                 props.setErrorMsg('Keys of fields must be unique')
             }

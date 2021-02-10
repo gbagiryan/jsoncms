@@ -4,7 +4,8 @@ const objectSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    maxLength: 20
+    maxLength: 20,
+    unique: true
   },
   fields: [{
     Key: {

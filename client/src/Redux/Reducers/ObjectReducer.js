@@ -34,7 +34,6 @@ export const setSingleObjectData = (singleObjectData) => ({ type: POST_SET_SINGL
 export const downloadFile = (fileName) => async (dispatch) => {
   try {
     const res = await ObjectApi.downloadFile(fileName)
-    console.log(res)
   } catch (err) {
     dispatch(setErrorMsg(err.response.data.errorMessage))
   }

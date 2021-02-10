@@ -11,12 +11,10 @@ router.use(isAuthedMiddleware)
 router.get('/getObjects', objectsController.getObjects)
 router.post('/getObjectsByTag', objectsController.getObjectsByTag)
 router.get('/getAnObject/:objectId', objectsController.getAnObject)
-router.patch('/updateObject/:objectId', upload.array('fileValue'),
-  // validateCreateUpdateObject, isValidated,
+router.patch('/updateObject/:objectId', upload.array('fileValue'), validateCreateUpdateObject, isValidated,
   objectsController.updateObject)
 router.delete('/deleteObject/:objectId', objectsController.deleteObject)
-router.post('/createAnObject', upload.array('fileValue'),
-  // validateCreateUpdateObject, isValidated,
+router.post('/createAnObject', upload.array('fileValue'), validateCreateUpdateObject, isValidated,
   objectsController.createAnObject)
 router.get('/download/:fileName', objectsController.download)
 
