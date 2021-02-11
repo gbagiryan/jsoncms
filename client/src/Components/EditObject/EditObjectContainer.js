@@ -1,142 +1,171 @@
-import {EditObjectReduxForm} from "./EditObject";
-import {singleObjectData} from "../../Redux/Selectors/ObjectSelectors";
-import {fetchAnObject, updateObject} from "../../Redux/Reducers/ObjectReducer";
-import {compose} from "redux";
-import {connect} from "react-redux";
-import {WithAuthRedirect} from "../../Common/WithAuthRedirect";
-import React, {useEffect, useState} from "react";
-import {withRouter} from "react-router-dom";
-import {getErrorMsg, getSuccessMsg} from "../../Redux/Selectors/AppSelectors";
-import {clearMessages, setErrorMsg} from "../../Redux/Reducers/AppReducer";
+import { EditObjectReduxForm } from './EditObject'
+import { singleObjectData } from '../../Redux/Selectors/ObjectSelectors'
+import { fetchAnObject, updateObject } from '../../Redux/Reducers/ObjectReducer'
+import { compose } from 'redux'
+import { connect } from 'react-redux'
+import { WithAuthRedirect } from '../../Common/WithAuthRedirect'
+import React, { useEffect, useState } from 'react'
+import { withRouter } from 'react-router-dom'
+import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors'
+import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer'
+import { AddObjectReduxForm } from '../AddNewObject/AddNewObject'
 
 const EditObjectContainer = (props) => {
 
-    useEffect(() => {
-        return () => {
-            props.clearMessages()
-        }
-    }, []);
-
-    useEffect(() => {
-        const objectId = props.match.params.objectId
-        props.fetchAnObject(objectId);
-    }, []);
-
-    useEffect(() => {
-        if (props.object) {
-            SetFieldsArr(props.object.fields);
-            SetTagsArr(props.object.tags);
-        }
-    }, [props.object]);
-
-
-    const inputTypes = [
-        {value: 'string', label: 'string'},
-        {value: 'rich-text', label: 'rich-text'},
-        {value: 'file', label: 'file'},
-        {value: 'array', label: 'array'},
-        {value: 'object', label: 'object'}
-    ];
-
-    const [FieldsArr, SetFieldsArr] = useState([]);
-    const [Tag, SetTag] = useState('');
-    const [TagsArr, SetTagsArr] = useState([]);
-    const [Type, SetType] = useState(inputTypes[0].value);
-    const [Key, SetKey] = useState('');
-    const [Value, SetValue] = useState('');
-
-    const handleChangeKey = (e) => {
-        SetKey(e.target.value);
+  useEffect(() => {
+    return () => {
+      props.clearMessages()
     }
-    const handleChangeValue = (e) => {
-        SetValue(e.target.value);
-    }
-    const handleEditorChange = (value) => {
-        SetValue(value)
-    }
-    const handleUpload = (e) => {
-        SetValue(e.target.files[0]);
-    }
-    const handleChangeType = (e) => {
-        SetType(e.target.value);
-        SetValue('');
-    };
-    const handleTagChange = (e) => {
-        props.clearMessages();
-        SetTag(e.target.value);
-    }
-    const handleAddTag = () => {
-        if (Tag) {
-            if (!TagsArr.includes(Tag)) {
-                SetTagsArr([...TagsArr, Tag]);
-            } else {
-                props.setErrorMsg('Tags must be unique')
-            }
-        } else {
-            props.setErrorMsg('Tag can\'t be empty');
-        }
-    }
-    const handleDeleteTag = (index) => {
-        SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index));
-    }
-    const handleAddField = () => {
-        if (Key && Value) {
-            if (!FieldsArr.find((el) => el.Key === Key)) {
-                SetFieldsArr([...FieldsArr, {Key, Value}]);
-            } else {
-                props.setErrorMsg('Keys of fields must be unique')
-            }
-        } else {
-            props.setErrorMsg('Key and Value required')
-        }
-    }
-    const handleDeleteField = (index) => {
-        SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index));
-    }
+  }, [])
 
-    const handleSubmit = (form) => {
-        props.clearMessages();
+  useEffect(() => {
+    const objectId = props.match.params.objectId
+    props.fetchAnObject(objectId)
+  }, [])
 
-        const formData = new FormData();
-
-        formData.append('name', form.name)
-        FieldsArr.map(field => {
-            if (field.Value.__proto__ === File.prototype) {
-                formData.append('fileKey[]', field.Key)
-                formData.append('fileValue', field.Value)
-            } else {
-                formData.append('fields[]', JSON.stringify({Key: field.Key, Value: field.Value}))
-            }
-        })
-        TagsArr.map(tag => formData.append('tags', tag))
-        props.updateObject(props.object._id, formData)
+  useEffect(() => {
+    if (props.object) {
+      SetFieldsArr(props.object.fields)
+      SetTagsArr(props.object.tags)
     }
+  }, [props.object])
 
-    return (
-        <EditObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
-                             handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
-                             handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
-                             handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}
-                             inputTypes={inputTypes} handleEditorChange={handleEditorChange} handleUpload={handleUpload}
-                             Value={Value} handleChangeValue={handleChangeValue} Key={Key}
-                             handleChangeKey={handleChangeKey}/>
-    )
+  const inputTypes = [
+    { value: 'string', label: 'string' },
+    { value: 'rich-text', label: 'rich-text' },
+    { value: 'file', label: 'file' },
+    { value: 'array', label: 'array' },
+    { value: 'object', label: 'object' }
+  ]
+
+  const [FieldsArr, SetFieldsArr] = useState([])
+  const [Tag, SetTag] = useState('')
+  const [TagsArr, SetTagsArr] = useState([])
+  const [Type, SetType] = useState(inputTypes[0].value)
+  const [Key, SetKey] = useState('')
+  const [Value, SetValue] = useState('')
+
+  const [InnerValue, SetInnerValue] = useState('')
+  const [InnerKey, SetInnerKey] = useState('')
+  const [InnerFields, SetInnerFields] = useState({})
+
+  const handleInnerValueChange = (e) => {
+    SetInnerValue(e.target.value)
+  }
+  const handleInnerKeyChange = (e) => {
+    SetInnerKey(e.target.value)
+  }
+  const handleAddInnerField = () => {
+    if (!InnerKey || !InnerValue) {
+      props.setErrorMsg('Key and Value required')
+    } else if (InnerFields[InnerKey]) {
+      props.setErrorMsg('Keys must be unique')
+    } else {
+      props.clearMessages()
+      SetInnerFields({ ...InnerFields, ...{ [InnerKey]: InnerValue } })
+    }
+  }
+  const handleDeleteInnerField = (keyName) => {
+    const { [keyName]: tmp, ...rest } = InnerFields
+    SetInnerFields(rest)
+  }
+
+  const handleChangeKey = (e) => {
+    SetKey(e.target.value)
+  }
+  const handleChangeValue = (e) => {
+    SetValue(e.target.value)
+  }
+  const handleEditorChange = (value) => {
+    SetValue(value)
+  }
+  const handleUpload = (e) => {
+    SetValue(e.target.files[0])
+  }
+  const handleChangeType = (e) => {
+    SetType(e.target.value)
+    SetValue('')
+  }
+  const handleTagChange = (e) => {
+    props.clearMessages()
+    SetTag(e.target.value)
+  }
+  const handleAddTag = () => {
+    if (Tag) {
+      if (!TagsArr.includes(Tag)) {
+        SetTagsArr([...TagsArr, Tag])
+      } else {
+        props.setErrorMsg('Tags must be unique')
+      }
+    } else {
+      props.setErrorMsg('Tag can\'t be empty')
+    }
+  }
+  const handleDeleteTag = (index) => {
+    SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
+  }
+  const handleAddField = () => {
+    if (Key && Value || (Key && InnerValue)) {
+      if (!FieldsArr.find((el) => el.Key === Key)) {
+        SetFieldsArr([...FieldsArr, { Key, Value }])
+      } else if (Type === 'object') {
+        SetFieldsArr([...FieldsArr, { Key, Value: InnerFields }])
+      } else {
+        props.setErrorMsg('Keys of fields must be unique')
+      }
+    } else {
+      props.setErrorMsg('Key and Value required')
+    }
+  }
+  const handleDeleteField = (index) => {
+    SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index))
+  }
+
+  const handleSubmit = (form) => {
+    props.clearMessages()
+
+    const formData = new FormData()
+
+    formData.append('name', form.name)
+    FieldsArr.map(field => {
+      if (field.Value.__proto__ === File.prototype) {
+        formData.append('fileKey[]', field.Key)
+        formData.append('fileValue', field.Value)
+      } else {
+        formData.append('fields[]', JSON.stringify({ Key: field.Key, Value: field.Value }))
+      }
+    })
+    TagsArr.map(tag => formData.append('tags', tag))
+    props.updateObject(props.object._id, formData)
+  }
+
+  return (
+    <EditObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
+                         handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
+                         handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
+                         handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}
+                         inputTypes={inputTypes} handleEditorChange={handleEditorChange} handleUpload={handleUpload}
+                         Value={Value} handleChangeValue={handleChangeValue} Key={Key}
+                         handleChangeKey={handleChangeKey} handleInnerValueChange={handleInnerValueChange}
+                         handleInnerKeyChange={handleInnerKeyChange} handleAddInnerField={handleAddInnerField}
+                         InnerFields={InnerFields} handleDeleteInnerField={handleDeleteInnerField}/>
+  )
 }
 
 const mapStateToProps = (state) => ({
-    object: singleObjectData(state),
-    errorMsg: getErrorMsg(state),
-    successMsg: getSuccessMsg(state)
-});
+  object: singleObjectData(state),
+  errorMsg: getErrorMsg(state),
+  successMsg: getSuccessMsg(state)
+})
 const actionCreators = {
-    updateObject,
-    fetchAnObject,
-    clearMessages,
-    setErrorMsg
-};
+  updateObject,
+  fetchAnObject,
+  clearMessages,
+  setErrorMsg
+}
 
 export default compose(
-    withRouter,
-    connect(mapStateToProps, actionCreators),
-    WithAuthRedirect
-)(EditObjectContainer);
+  withRouter,
+  connect(mapStateToProps, actionCreators),
+  WithAuthRedirect
+)(EditObjectContainer)

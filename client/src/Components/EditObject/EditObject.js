@@ -77,8 +77,8 @@ const EditObject = (props) => {
                                             {field.Key}
                                         </TableCell>
                                         <TableCell align="right">{field.FileName ?
-                                            <Link to={`${field.Value}`}>{field.FileName}</Link>
-                                            : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
+                                          <Link to={`${field.Value}`}>{field.FileName}</Link>
+                                          : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
                                         </TableCell>
                                         <IconButton
                                             onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
@@ -136,6 +136,53 @@ const EditObject = (props) => {
                                    handleUpload={props.handleUpload}/>
                         </div>
                     </Grid>
+                    }
+                    {props.Type === 'object'
+                    &&
+                    <div className={classes.innerObject}  >
+                        <TableContainer component={Paper}>
+                            <Table className={classes.table}>
+                                <TableHead>
+                                    <TableRow>
+                                        <TableCell>Keys</TableCell>
+                                        <TableCell align="right">Values</TableCell>
+                                    </TableRow>
+                                </TableHead>
+                                <TableBody>
+                                    {Object.entries(props.InnerFields).map((field) => (
+                                      <TableRow key={field._id}>
+                                          <TableCell component="th" scope="row">
+                                              {field[0]}
+                                          </TableCell>
+                                          <TableCell align="right">
+                                              {field[1]}
+                                          </TableCell>
+                                          <IconButton
+                                            onClick={() => props.handleDeleteInnerField(field[0])}
+                                            color="primary">
+                                              <HighlightOffIcon/>
+                                          </IconButton>
+                                      </TableRow>
+                                    ))}
+                                </TableBody>
+                            </Table>
+                        </TableContainer>
+                        <Grid container xs={12}>
+                            <Grid item xs={5}>
+                                <Field placeholder={'InnerKey'} name={'innerKey'} component={renderTextField}
+                                       label={'InnerKey'} onChange={props.handleInnerKeyChange}/>
+                            </Grid>
+                            <Grid item xs={5}>
+                                <Field placeholder={'InnerValue'} name={'innerValue'} component={renderTextField}
+                                       label={'InnerValue'} onChange={props.handleInnerValueChange}/>
+                            </Grid>
+                            <Grid item xs={2}>
+                                <IconButton onClick={props.handleAddInnerField} color="primary">
+                                    <AddCircleIcon/>
+                                </IconButton>
+                            </Grid>
+                        </Grid>
+                    </div>
                     }
                     <Grid item xs={12}>
                         {props.TagsArr.map((tag) =>

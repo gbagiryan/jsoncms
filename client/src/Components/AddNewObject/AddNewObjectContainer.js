@@ -32,7 +32,7 @@ const AddNewObjectContainer = (props) => {
 
   const [InnerValue, SetInnerValue] = useState('')
   const [InnerKey, SetInnerKey] = useState('')
-  const [InnerFieldsArr, SetInnerFieldsArr] = useState([])
+  const [InnerFields, SetInnerFields] = useState({})
 
   const handleInnerValueChange = (e) => {
     SetInnerValue(e.target.value)
@@ -41,10 +41,18 @@ const AddNewObjectContainer = (props) => {
     SetInnerKey(e.target.value)
   }
   const handleAddInnerField = () => {
-    SetInnerFieldsArr([...InnerFieldsArr, { InnerKey, InnerValue }])
+    if (!InnerKey || !InnerValue) {
+      props.setErrorMsg('Key and Value required')
+    } else if (InnerFields[InnerKey]) {
+      props.setErrorMsg('Keys must be unique')
+    } else {
+      props.clearMessages()
+      SetInnerFields({ ...InnerFields, ...{ [InnerKey]: InnerValue } })
+    }
   }
-  const handleDeleteInnerField = (index) => {
-    SetInnerFieldsArr(InnerFieldsArr.filter((field) => InnerFieldsArr.indexOf(field) !== index))
+  const handleDeleteInnerField = (keyName) => {
+    const { [keyName]: tmp, ...rest } = InnerFields
+    SetInnerFields(rest)
   }
 
   const handleChangeKey = (e) => {
@@ -82,12 +90,12 @@ const AddNewObjectContainer = (props) => {
     SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
   }
   const handleAddField = () => {
-    if ((Key && Value)||(Key && InnerValue)) {
+    if ((Key && Value) || (Key && InnerValue)) {
       if (!FieldsArr.find((el) => el.Key === Key)) {
         if (Type === 'array') {
           SetFieldsArr([...FieldsArr, { Key, Value: Value.trim().split(',') }])
-        }else if (Type === 'object') {
-          SetFieldsArr([...FieldsArr, { Key, Value: InnerFieldsArr }])
+        } else if (Type === 'object') {
+          SetFieldsArr([...FieldsArr, { Key, Value: InnerFields }])
         } else {
           SetFieldsArr([...FieldsArr, { Key, Value }])
         }
@@ -129,7 +137,7 @@ const AddNewObjectContainer = (props) => {
                         Value={Value} handleChangeValue={handleChangeValue} Key={Key}
                         handleChangeKey={handleChangeKey} handleInnerValueChange={handleInnerValueChange}
                         handleInnerKeyChange={handleInnerKeyChange} handleAddInnerField={handleAddInnerField}
-                        InnerFieldsArr={InnerFieldsArr} handleDeleteInnerField={handleDeleteInnerField}/>
+                        InnerFields={InnerFields} handleDeleteInnerField={handleDeleteInnerField}/>
   )
 }
 

@@ -13,9 +13,9 @@ const validateCreateUpdateObject = async (req, res, next) => {
   if (!req.body.name) {
     return res.status(400).json({ errorMessage: 'Name is required' })
   }
-  if (await Object.findOne({ createdBy: req.user._id, name: req.body.name })) {
-    return res.status(400).json({ errorMessage: 'Name must be unique' })
-  }
+  // if (await Object.findOne({ createdBy: req.user._id, name: req.body.name })) {
+  //   return res.status(400).json({ errorMessage: 'Name must be unique' })
+  // }
   if (!req.body.fields && !req.files) {
     return res.status(400).json({ errorMessage: 'At least 1 field is required' })
   }
@@ -24,18 +24,6 @@ const validateCreateUpdateObject = async (req, res, next) => {
   }
   next()
 }
-//
-// const validateCreateUpdateObject = [
-//   check('name')
-//     .notEmpty()
-//     .withMessage('Name is required'),
-//   check('fields')
-//     .notEmpty()
-//     .withMessage('At least 1 field is required'),
-//   check('tags')
-//     .notEmpty()
-//     .withMessage('At least 1 tag is required')
-// ]
 
 const isValidated = (req, res, next) => {
   const errors = validationResult(req)

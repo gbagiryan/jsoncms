@@ -153,16 +153,16 @@ const AddNewObject = (props) => {
                   </TableRow>
                 </TableHead>
                 <TableBody>
-                  {props.InnerFieldsArr.map((field) => (
+                  {Object.entries(props.InnerFields).map((field) => (
                     <TableRow key={field._id}>
                       <TableCell component="th" scope="row">
-                        {field.InnerKey}
+                        {field[0]}
                       </TableCell>
                       <TableCell align="right">
-                        {field.InnerValue}
+                        {field[1]}
                       </TableCell>
                       <IconButton
-                        onClick={() => props.handleDeleteInnerField(props.FieldsArr.indexOf(field))}
+                        onClick={() => props.handleDeleteInnerField(field[0])}
                         color="primary">
                         <HighlightOffIcon/>
                       </IconButton>
