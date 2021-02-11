@@ -1,4 +1,3 @@
-import { EditObjectReduxForm } from './EditObject'
 import { singleObjectData } from '../../Redux/Selectors/ObjectSelectors'
 import { fetchAnObject, updateObject } from '../../Redux/Reducers/ObjectReducer'
 import { compose } from 'redux'
@@ -8,7 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors'
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer'
-import { AddObjectReduxForm } from '../AddNewObject/AddNewObject'
+import { ObjectReduxForm } from '../ObjectForm/ObjectForm'
 
 const EditObjectContainer = (props) => {
 
@@ -140,7 +139,7 @@ const EditObjectContainer = (props) => {
   }
 
   return (
-    <EditObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
+    <ObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
                          handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
                          handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
                          handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}

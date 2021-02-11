@@ -1,11 +1,11 @@
 import { connect } from 'react-redux'
-import { AddObjectReduxForm } from './AddNewObject'
 import { addNewObject } from '../../Redux/Reducers/ObjectReducer'
 import React, { useEffect, useState } from 'react'
 import { compose } from 'redux'
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect'
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors'
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer'
+import { ObjectReduxForm } from '../ObjectForm/ObjectForm'
 
 const AddNewObjectContainer = (props) => {
 
@@ -129,7 +129,7 @@ const AddNewObjectContainer = (props) => {
   }
 
   return (
-    <AddObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
+    <ObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
                         handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
                         handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
                         handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}

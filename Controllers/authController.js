@@ -1,17 +1,11 @@
-const User = require('../Models/User')
 const jwt = require('jsonwebtoken')
-const bcrypt = require('bcrypt')
 const logger = require('../logger')
+const authService = require('../Service/authService')
 
 const signIn = async (req, res) => {
   try {
-    const { username, password } = req.body
-    let user
-    try {
-      user = await User.comparePasswords(username, password)
-    } catch (err) {
-      return res.status(400).json({ errorMessage: err.message })
-    }
+    const user = await authService.signIn(req.body)
+
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
@@ -22,27 +16,18 @@ const signIn = async (req, res) => {
     })
 
     return res.status(200).json({
-      username,
+      username: user.username,
       userId: user._id
     })
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     return res.status(500).json({ errorMessage: 'server error' })
   }
 }
 const signUp = async (req, res) => {
   try {
-    const { username, password } = req.body
-    const candidate = await User.findOne({ username })
-    if (candidate) {
-      return res.status(400).json({ errorMessage: 'username already taken' })
-    }
-    const hashedPass = await bcrypt.hash(password, 12)
-    const user = new User({
-      username,
-      password: hashedPass
-    })
-    await user.save()
+    const user = await authService.signUp(req.body)
+
     const token = jwt.sign(
       { userId: user._id },
       process.env.JWT_SECRET,
@@ -53,11 +38,11 @@ const signUp = async (req, res) => {
     })
 
     return res.status(200).json({
-      username,
+      username: user.username,
       userId: user._id
     })
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     return res.status(500).json({ errorMessage: 'server error' })
   }
 }
@@ -67,30 +52,20 @@ const signOut = (req, res) => {
     res.clearCookie('jwt')
     res.status(200).json()
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     return res.status(500).json({ errorMessage: 'server error' })
   }
 }
 
-const verifyAuth = (req, res) => {
-  const token = req.cookies.jwt
-  if (!token) {
-    return res.status(200).json(false)
-  }
+const verifyAuth = async (req, res) => {
   try {
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-      if (err) {
-        return res.status(400).json({ errorMessage: 'unauthorized' })
-      } else {
-        const user = await User.findOne({ _id: decodedToken.userId })
-        res.status(200).json({
-          username: user.username,
-          userId: user._id
-        })
-      }
+    const user = await authService.verifyAuth(req.cookies)
+    res.status(200).json({
+      username: user.username,
+      userId: user._id
     })
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     return res.status(500).json({ errorMessage: 'server error' })
   }
 }

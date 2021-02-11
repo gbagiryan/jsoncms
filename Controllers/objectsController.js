@@ -1,130 +1,62 @@
-const Object = require('../Models/Object')
 const logger = require('../logger')
+const objetService = require('../Service/objectService')
 
 const createAnObject = async (req, res) => {
   try {
-    const { name, fields, tags, fileKey } = req.body
-    const files = req.files
-
-    const fieldsArr = []
-    if (fields && fields.length > 0) {
-      fieldsArr.push(...fields.map((field) => JSON.parse(field)))
-    }
-    if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        fieldsArr.push({
-          Key: fileKey[i],
-          Value: files[i].filename,
-          FileName: files[i].originalname
-        })
-      }
-    }
-
-    const object = new Object({
-      name,
-      fields: fieldsArr,
-      tags,
-      createdBy: req.user._id
-    })
-    await object.save()
+    await objetService.createObject(req.body, req.files, req.local)
     res.status(200).json({ successMessage: 'new object posted' })
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
 
 const updateObject = async (req, res) => {
   try {
-    const objectId = req.params.objectId
-    const { name, fields, tags, fileKey } = req.body
-    const files = req.files
-
-    const object = await Object.findOne({ createdBy: req.user._id, _id: objectId })
-    if (!object) {
-      return res.status(400).json({ errorMessage: 'object with given id not found' })
-    }
-
-    const fieldsArr = []
-    if (fields && fields.length > 0) {
-      fieldsArr.push(...fields.map((field) => JSON.parse(field)))
-    }
-
-    if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        fieldsArr.push({
-          Key: fileKey[i],
-          Value: files[i].filename,
-          FileName: files[i].originalname
-        })
-      }
-    }
-
-    await Object.findOneAndUpdate({ _id: objectId }, {
-      name,
-      fields: fieldsArr,
-      tags,
-      createdBy: req.user._id
-    })
+    await objetService.updateObject(req.params, req.body, req.files, req.local)
     return res.status(200).json({ successMessage: 'object updated' })
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
 
 const deleteObject = async (req, res) => {
   try {
-    const objectId = req.params.objectId
-    const object = await Object.findOne({ createdBy: req.user._id, _id: objectId })
-    if (!object) {
-      return res.status(400).json({ errorMessage: 'object with given id not found' })
-    }
-    await object.remove()
-
+    await objetService.deleteObject(req.params, req.local)
     return res.status(200).json({ successMessage: 'object removed' })
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
 
 const getObjects = async (req, res) => {
   try {
-    const objects = await Object.find({ createdBy: req.user._id })
-    if (!objects) {
-      return res.status(400).json({ errorMessage: 'objects don\'t exist' })
-    }
+    const objects = await objetService.getObjects(req.local)
     return res.status(200).json(objects)
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
 
 const getObjectsByTag = async (req, res) => {
-  const { tags } = req.body
   try {
-    const objects = await Object.find({ createdBy: req.user._id, tags })
-    if (!objects) {
-      return res.status(400).json({ errorMessage: 'objects don\'t exist' })
-    }
+    const objects = await objetService.getObjectsByTag(req.body, req.local)
     return res.status(200).json(objects)
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
+
 const getAnObject = async (req, res) => {
   try {
-    const objectId = req.params.objectId
-    const object = await Object.findOne({ createdBy: req.user._id, _id: objectId })
-    if (!object) {
-      return res.status(400).json({ errorMessage: 'object with given id not found' })
-    }
+    const object = await objetService.getAnObject(req.params, req.local)
     return res.status(200).json(object)
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
@@ -135,7 +67,7 @@ const download = (req, res) => {
     const directoryPath = 'uploads/'
     res.status(200).download(directoryPath + fileName)
   } catch (err) {
-    logger.error(err)
+    logger.error(err.message)
     res.status(500).json({ errorMessage: 'server error' })
   }
 }

@@ -43,7 +43,7 @@ const useStyles = makeStyles(theme => ({
 
 const maxLength20 = maxLength(20)
 
-const AddNewObject = (props) => {
+const ObjectForm = (props) => {
   const classes = useStyles()
 
   return (
@@ -210,11 +210,11 @@ const AddNewObject = (props) => {
             </IconButton>
           </Grid>
           <Button fullWidth type={'submit'} variant="contained" color="primary"
-                  className={classes.button}>Add</Button>
+                  className={classes.button}>Save</Button>
         </Grid>
       </form>
     </Paper>
   )
 }
 
-export const AddObjectReduxForm = reduxForm({ form: 'addObject' })(AddNewObject)
+export const ObjectReduxForm = reduxForm({ form: 'objectForm' })(ObjectForm)

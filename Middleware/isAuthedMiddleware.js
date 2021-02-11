@@ -12,7 +12,7 @@ const isAuthedMiddleware = async (req, res, next) => {
     if (!verifiedToken) {
       return res.status(401).json({ message: 'unauthorized' })
     } else {
-      req.user = await User.findById(verifiedToken.userId)
+      req.local.user = await User.findById(verifiedToken.userId)
       next()
     }
   } catch (err) {
