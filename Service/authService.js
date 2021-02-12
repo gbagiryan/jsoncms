@@ -35,8 +35,12 @@ const verifyAuth = async (cookies) => {
     if (!token) {
       return false
     }
-    const decodedToken = jwtService.verifyToken(token)
-    return await User.findOne({ _id: decodedToken.userId })
+    const decodedToken = await jwtService.verifyToken(token)
+    const user = await User.findOne({ _id: decodedToken.userId })
+    return {
+      username: user.username,
+      userId: user._id
+    }
   } catch (err) {
     throw Error(err)
   }

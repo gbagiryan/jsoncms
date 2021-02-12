@@ -116,6 +116,7 @@ const getAnObject = async (params, locals) => {
   }
 }
 
+
 module.exports = {
   createObject,
   updateObject,

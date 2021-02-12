@@ -8,10 +8,10 @@ const logger = require('./logger')
 
 const app = express()
 dotenv.config()
-const port = process.env.port || 5000
+const port = process.env.port || 5050
 app.use(express.json())
 app.use(cookieParser())
-
+app.use('/public', express.static('uploads'))
 app.use('/api/auth', authRoutes)
 app.use('/api/posts', objectsRoutes);
 

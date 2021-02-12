@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { addNewObject } from '../../Redux/Reducers/ObjectReducer'
+import { addNewObject, sendFile } from '../../Redux/Reducers/ObjectReducer'
 import React, { useEffect, useState } from 'react'
 import { compose } from 'redux'
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect'
@@ -65,7 +65,10 @@ const AddNewObjectContainer = (props) => {
     SetValue(value)
   }
   const handleUpload = (e) => {
-    SetValue(e.target.files[0])
+    alert(e.target.files[0])
+    const formData = new FormData()
+    formData.append('uploadedFile', e.target.files[0])
+    props.sendFile(formData)
   }
   const handleChangeType = (event) => {
     SetType(event.target.value)
@@ -148,7 +151,8 @@ const mapStateToProps = (state) => ({
 const actionCreators = {
   addNewObject,
   clearMessages,
-  setErrorMsg
+  setErrorMsg,
+  sendFile
 }
 
 export default compose(

@@ -71,6 +71,14 @@ const download = (req, res) => {
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
+const fileUpload = async (req, res) => {
+  try {
+    res.status(200).json(req.file.filename)
+  } catch (err) {
+    logger.error(err)
+    res.status(500).json({ errorMessage: 'server error' })
+  }
+}
 
 module.exports = {
   getObjects,
@@ -79,5 +87,6 @@ module.exports = {
   createAnObject,
   updateObject,
   deleteObject,
-  download
+  download,
+  fileUpload
 }

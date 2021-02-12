@@ -1,17 +1,13 @@
-const jwt = require('jsonwebtoken')
+const jwtService = require('../Service/jwtService')
 const logger = require('../logger')
 const authService = require('../Service/authService')
-const User = require('../Models/User')
 
 const signIn = async (req, res) => {
   try {
     const user = await authService.signIn(req.body)
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' }
-    )
+    const token = jwtService.signToken(user)
+
     res.cookie('jwt', token, {
       httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000
     })
@@ -29,11 +25,8 @@ const signUp = async (req, res) => {
   try {
     const user = await authService.signUp(req.body)
 
-    const token = jwt.sign(
-      { userId: user._id },
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' }
-    )
+    const token = jwtService.signToken(user)
+
     res.cookie('jwt', token, {
       httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000
     })
@@ -60,26 +53,8 @@ const signOut = (req, res) => {
 
 const verifyAuth = async (req, res) => {
   try {
-    const token = req.cookies.jwt
-    if (!token) {
-      return res.status(200).json(false)
-    }
-    try {
-      jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-        if (err) {
-          return res.status(400).json({ errorMessage: 'unauthorized' })
-        } else {
-          const user = await User.findOne({ _id: decodedToken.userId })
-          res.status(200).json({
-            username: user.username,
-            userId: user._id
-          })
-        }
-      })
-    } catch (err) {
-      logger.error(err)
-      return res.status(500).json({ errorMessage: 'server error' })
-    }
+    const user = await authService.verifyAuth(req.cookies)
+    res.status(200).json(user)
   } catch (err) {
     logger.error(err)
     return res.status(500).json({ errorMessage: 'server error' })

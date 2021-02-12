@@ -10,6 +10,7 @@ const SideBarContainer = (props) => {
 
   const [SearchField, SetSearchField] = useState('')
   const [FilteredObjects, SetFilteredObjects] = useState([])
+  const [SelectedItem, SetSelectedItem] = useState('')
 
   const handleChange = (e) => {
     SetSearchField(e.target.value)
@@ -18,13 +19,14 @@ const SideBarContainer = (props) => {
   }
 
   const handleClick = (objectId) => {
+    SetSelectedItem(objectId)
     props.setSingleObjectData(props.objects.find((obj) => obj._id === objectId))
     props.history.push('/')
   }
 
   return (
     <SideBar objects={SearchField.length > 0 ? FilteredObjects : props.objects} handleClick={handleClick}
-             SearchField={SearchField} handleChange={handleChange}/>
+             SearchField={SearchField} handleChange={handleChange} SelectedItem={SelectedItem}/>
   )
 }
 

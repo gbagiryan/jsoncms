@@ -1,29 +1,26 @@
 const jwt = require('jsonwebtoken')
 
-const verifyToken = (token) => {
+const signToken = (user) => {
   try {
-    jwt.verify(token, process.env.JWT_SECRET, async (err, decodedToken) => {
-      if (err) {
-        throw Error('unauthorized')
-      } else {
-        return decodedToken
-      }
-    })
+    return jwt.sign(
+      { userId: user._id },
+      process.env.JWT_SECRET,
+      { expiresIn: '1h' }
+    )
   } catch (err) {
     throw Error(err)
   }
 }
 
-// const verifyToken = async (token) => {
-//   try {
-//     return await jwt.verify(token, process.env.JWT_SECRET)
-//   } catch (err) {
-//     throw Error(err)
-//   }
-// }
-
-
+const verifyToken = async (token) => {
+  try {
+    return await jwt.verify(token, process.env.JWT_SECRET)
+  } catch (err) {
+    throw Error(err)
+  }
+}
 
 module.exports = {
-  verifyToken
+  verifyToken,
+  signToken
 }

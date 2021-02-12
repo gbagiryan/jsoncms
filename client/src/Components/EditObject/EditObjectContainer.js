@@ -104,7 +104,7 @@ const EditObjectContainer = (props) => {
     SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
   }
   const handleAddField = () => {
-    if (Key && Value || (Key && InnerValue)) {
+    if ((Key && Value) || (Key && InnerValue)) {
       if (!FieldsArr.find((el) => el.Key === Key)) {
         SetFieldsArr([...FieldsArr, { Key, Value }])
       } else if (Type === 'object') {

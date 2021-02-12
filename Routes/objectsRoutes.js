@@ -16,6 +16,7 @@ router.patch('/updateObject/:objectId', upload.array('fileValue'), validateCreat
 router.delete('/deleteObject/:objectId', objectsController.deleteObject)
 router.post('/createAnObject', upload.array('fileValue'), validateCreateUpdateObject, isValidated,
   objectsController.createAnObject)
+router.post('/sendFile', upload.single('uploadedFile'), objectsController.fileUpload)
 router.get('/download/:fileName', objectsController.download)
 
 module.exports = router

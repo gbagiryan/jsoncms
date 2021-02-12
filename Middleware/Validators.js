@@ -19,9 +19,6 @@ const validateCreateUpdateObject = async (req, res, next) => {
   if (!req.body.fields && !req.files) {
     return res.status(400).json({ errorMessage: 'At least 1 field is required' })
   }
-  if (!req.body.tags) {
-    return res.status(400).json({ errorMessage: 'At least 1 tag is required' })
-  }
   next()
 }
 

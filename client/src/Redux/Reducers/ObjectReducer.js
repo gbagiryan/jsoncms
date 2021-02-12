@@ -29,6 +29,7 @@ const ObjectReducer = (state = initialState, action) => {
 //action creators
 export const setObjectData = (objectData) => ({ type: POST_SET_OBJECT_DATA, objectData })
 export const setSingleObjectData = (singleObjectData) => ({ type: POST_SET_SINGLE_OBJECT_DATA, singleObjectData })
+export const setUploadedFile = (singleObjectData) => ({ type: POST_SET_SINGLE_OBJECT_DATA, singleObjectData })
 
 //thunks
 export const downloadFile = (fileName) => async (dispatch) => {
@@ -70,6 +71,15 @@ export const addNewObject = (newObject) => async (dispatch) => {
     const res = await ObjectApi.addNewObject(newObject)
     dispatch(fetchObjects(true))
     dispatch(setSuccessMsg(res.data.successMessage))
+  } catch (err) {
+    console.log(err)
+    dispatch(setErrorMsg(err.response.data.errorMessage))
+  }
+}
+export const sendFile = (file) => async (dispatch) => {
+  try {
+    const res = await ObjectApi.sendFile(file)
+    dispatch(setUploadedFile(res.data))
   } catch (err) {
     console.log(err)
     dispatch(setErrorMsg(err.response.data.errorMessage))
