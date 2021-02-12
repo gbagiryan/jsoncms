@@ -1,6 +1,6 @@
 const Object = require('../Models/Object')
 
-const createObject = async (body, files, local) => {
+const createObject = async (body, files, locals) => {
   try {
     const { name, fields, tags, fileKey } = body
 
@@ -23,7 +23,7 @@ const createObject = async (body, files, local) => {
       name,
       fields: fieldsArr,
       tags,
-      createdBy: local.user._id
+      createdBy: locals.user._id
     })
     await object.save()
   } catch (err) {
@@ -31,12 +31,12 @@ const createObject = async (body, files, local) => {
   }
 }
 
-const updateObject = async (params, body, files, local) => {
+const updateObject = async (params, body, files, locals) => {
   try {
     const { name, fields, tags, fileKey } = body
     const objectId = params.objectId
 
-    const object = await Object.findOne({ createdBy: local.user._id, _id: objectId })
+    const object = await Object.findOne({ createdBy: locals.user._id, _id: objectId })
     if (!object) {
       throw Error('object with given id not found')
     }
@@ -60,17 +60,17 @@ const updateObject = async (params, body, files, local) => {
       name,
       fields: fieldsArr,
       tags,
-      createdBy: local.user._id
+      createdBy: locals.user._id
     })
   } catch (err) {
     throw Error(err)
   }
 }
 
-const deleteObject = async (params, local) => {
+const deleteObject = async (params, locals) => {
   try {
     const objectId = params.objectId
-    const object = await Object.findOne({ createdBy: local.user._id, _id: objectId })
+    const object = await Object.findOne({ createdBy: locals.user._id, _id: objectId })
     if (!object) {
       throw Error('object with given id not found')
     }
@@ -80,9 +80,9 @@ const deleteObject = async (params, local) => {
   }
 }
 
-const getObjects = async (local) => {
+const getObjects = async (locals) => {
   try {
-    const objects = await Object.find({ createdBy: local.user._id })
+    const objects = await Object.find({ createdBy: locals.user._id })
     if (!objects) {
       throw Error('objects don\'t exist')
     }
@@ -92,10 +92,10 @@ const getObjects = async (local) => {
   }
 }
 
-const getObjectsByTag = async (body, local) => {
+const getObjectsByTag = async (body, locals) => {
   try {
     const { tags } = body
-    const objects = await Object.find({ createdBy: local.user._id, tags: { $in: tags } })
+    const objects = await Object.find({ createdBy: locals.user._id, tags: { $in: tags } })
     if (!objects) {
       throw Error('objects don\'t exist')
     }
@@ -104,10 +104,10 @@ const getObjectsByTag = async (body, local) => {
   }
 }
 
-const getAnObject = async (params, local) => {
+const getAnObject = async (params, locals) => {
   try {
     const objectId = params.objectId
-    const object = await Object.findOne({ createdBy: local.user._id, _id: objectId })
+    const object = await Object.findOne({ createdBy: locals.user._id, _id: objectId })
     if (!object) {
       throw Error('object with given id not found')
     }

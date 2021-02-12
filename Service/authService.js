@@ -29,14 +29,14 @@ const signUp = async (body) => {
   }
 }
 
-const verifyAuth = (cookies) => {
+const verifyAuth = async (cookies) => {
   try {
     const token = cookies.jwt
     if (!token) {
       return false
     }
     const decodedToken = jwtService.verifyToken(token)
-    return User.findOne({ _id: decodedToken.userId })
+    return await User.findOne({ _id: decodedToken.userId })
   } catch (err) {
     throw Error(err)
   }
