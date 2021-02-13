@@ -33,11 +33,5 @@ export const ObjectApi = {
     },
     async getObjectsByTag(tags) {
         return await Axios.post(`/api/posts/getObjectsByTag`, tags);
-    },
-    async downloadFile(fileName) {
-        return await Axios.get(`/api/posts/download/${fileName}`);
-    },
-    async sendFile(file) {
-        return await Axios.post('/api/posts/sendFile', file);
     }
 }

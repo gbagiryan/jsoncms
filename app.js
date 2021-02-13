@@ -8,7 +8,7 @@ const logger = require('./logger')
 
 const app = express()
 dotenv.config()
-const port = process.env.port || 5050
+const port = process.env.port || 5000
 app.use(express.json())
 app.use(cookieParser())
 app.use('/public', express.static('uploads'))
@@ -26,5 +26,6 @@ app.use('/api/posts', objectsRoutes);
     app.listen(port, () => logger.info(`app started at port ${port}`))
   } catch (error) {
     logger.error(error)
+    process.exit(1)
   }
 })()

@@ -14,7 +14,7 @@ import EditIcon from '@material-ui/icons/Edit'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import Parser from 'html-react-parser'
 import { Link } from 'react-router-dom'
-import GetAppIcon from '@material-ui/icons/GetApp'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -68,13 +68,14 @@ const Main = (props) => {
                         <TableCell component="th" scope="row">
                           {field.Key}
                         </TableCell>
-                        <TableCell align="right">{field.FileName ?
+                        <TableCell align="right">{field.Value.fileName ?
                           <div>
-                            {field.FileName}
+                            {field.Value.fileName}
                             <IconButton
-                              onClick={() => props.handleDownload(field.Value)}
+                              component={Link} to={{pathname: process.env.REACT_APP_SERVER_BASE_URL + field.Value.fileName}}
+                              target={'_blank'}
                               color="primary">
-                              <GetAppIcon/>
+                              <ExitToAppIcon/>
                             </IconButton>
                           </div>
                           : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}

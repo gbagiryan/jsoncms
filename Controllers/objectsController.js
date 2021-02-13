@@ -3,7 +3,7 @@ const objetService = require('../Service/objectService')
 
 const createAnObject = async (req, res) => {
   try {
-    await objetService.createObject(req.body, req.files, req.app.locals)
+    await objetService.createObject(req.body, req.app.locals)
     res.status(200).json({ successMessage: 'new object posted' })
   } catch (err) {
     logger.error(err)
@@ -71,9 +71,12 @@ const download = (req, res) => {
     res.status(500).json({ errorMessage: 'server error' })
   }
 }
-const fileUpload = async (req, res) => {
+const uploadFile = async (req, res) => {
   try {
-    res.status(200).json(req.file.filename)
+    res.status(200).json({
+      fileName: `/public/${req.file.filename}`,
+      originalName: req.file.originalname
+    })
   } catch (err) {
     logger.error(err)
     res.status(500).json({ errorMessage: 'server error' })
@@ -88,5 +91,5 @@ module.exports = {
   updateObject,
   deleteObject,
   download,
-  fileUpload
+  uploadFile
 }

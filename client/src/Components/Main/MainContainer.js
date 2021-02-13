@@ -8,16 +8,12 @@ import { deleteObject, downloadFile } from '../../Redux/Reducers/ObjectReducer'
 
 const MainContainer = (props) => {
 
-  const handleDownload = (fileName) => {
-    props.downloadFile(fileName)
-  }
-
   const handleDeleteObject = () => {
     props.deleteObject(props.object._id)
   }
 
   return (
-    <Main object={props.object} handleDeleteObject={handleDeleteObject} handleDownload={handleDownload}/>
+    <Main object={props.object} handleDeleteObject={handleDeleteObject}/>
   )
 }
 
@@ -25,8 +21,7 @@ const mapStateToProps = (state) => ({
   object: singleObjectData(state)
 })
 const actionCreators = {
-  deleteObject,
-  downloadFile
+  deleteObject
 }
 
 export default compose(

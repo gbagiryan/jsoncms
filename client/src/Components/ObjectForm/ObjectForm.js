@@ -21,6 +21,8 @@ import ReactQuill from 'react-quill'
 import { renderFileInput } from '../../Common/renderFileInput'
 import Parser from 'html-react-parser'
 import { Link } from 'react-router-dom'
+import ProgressWithPercentage from '../../Common/ProgressWithPercentage'
+import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -79,15 +81,20 @@ const ObjectForm = (props) => {
                     <TableCell component="th" scope="row">
                       {field.Key}
                     </TableCell>
-                    <TableCell align="right">{field.FileName ?
-                      <Link to={`${field.Value}`}>{field.FileName}</Link>
+                    <TableCell align="right">{field.Value.fileName ?
+                      <IconButton
+                        component={Link} to={{pathname: process.env.REACT_APP_SERVER_BASE_URL + field.Value.fileName}}
+                        target={'_blank'}
+                        color="primary">
+                        <ExitToAppIcon/>
+                      </IconButton>
                       : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
+                      <IconButton
+                        onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
+                        color="primary">
+                        <HighlightOffIcon/>
+                      </IconButton>
                     </TableCell>
-                    <IconButton
-                      onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
-                      color="primary">
-                      <HighlightOffIcon/>
-                    </IconButton>
                   </TableRow>
                 ))}
               </TableBody>
@@ -139,11 +146,14 @@ const ObjectForm = (props) => {
               <Field name={'upload'} type={'file'} component={renderFileInput}
                      handleUpload={props.handleUpload}/>
             </div>
+            {(props.UploadProgress > 0)
+            && <ProgressWithPercentage value={props.UploadProgress}/>
+            }
           </Grid>
           }
           {props.Type === 'object'
           &&
-          <div className={classes.innerObject}  >
+          <div className={classes.innerObject}>
             <TableContainer component={Paper}>
               <Table className={classes.table}>
                 <TableHead>

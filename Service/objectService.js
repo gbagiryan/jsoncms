@@ -1,27 +1,12 @@
 const Object = require('../Models/Object')
 
-const createObject = async (body, files, locals) => {
+const createObject = async (body, locals) => {
   try {
-    const { name, fields, tags, fileKey } = body
-
-    const fieldsArr = []
-    if (fields && fields.length > 0) {
-      fieldsArr.push(...fields.map((field) => JSON.parse(field)))
-    }
-
-    if (files && files.length > 0) {
-      for (let i = 0; i < files.length; i++) {
-        fieldsArr.push({
-          Key: fileKey[i],
-          Value: files[i].filename,
-          FileName: files[i].originalname
-        })
-      }
-    }
+    const { name, fields, tags} = body
 
     const object = new Object({
       name,
-      fields: fieldsArr,
+      fields,
       tags,
       createdBy: locals.user._id
     })

@@ -1,8 +1,8 @@
 import { ObjectApi } from '../../API/api'
 import { setErrorMsg, setSuccessMsg } from './AppReducer'
 
-const POST_SET_OBJECT_DATA = 'POST_SET_OBJECT_DATA'
-const POST_SET_SINGLE_OBJECT_DATA = 'POST_SET_SINGLE_OBJECT_DATA'
+const OBJECT_SET_OBJECT_DATA = 'OBJECT_SET_OBJECT_DATA'
+const OBJECT_SET_SINGLE_OBJECT_DATA = 'OBJECT_SET_SINGLE_OBJECT_DATA'
 
 const initialState = {
   objects: null,
@@ -11,12 +11,12 @@ const initialState = {
 
 const ObjectReducer = (state = initialState, action) => {
   switch (action.type) {
-    case POST_SET_OBJECT_DATA:
+    case OBJECT_SET_OBJECT_DATA:
       return {
         ...state,
         objects: action.objectData
       }
-    case POST_SET_SINGLE_OBJECT_DATA:
+    case OBJECT_SET_SINGLE_OBJECT_DATA:
       return {
         ...state,
         singleObject: action.singleObjectData
@@ -27,19 +27,10 @@ const ObjectReducer = (state = initialState, action) => {
 }
 
 //action creators
-export const setObjectData = (objectData) => ({ type: POST_SET_OBJECT_DATA, objectData })
-export const setSingleObjectData = (singleObjectData) => ({ type: POST_SET_SINGLE_OBJECT_DATA, singleObjectData })
-export const setUploadedFile = (singleObjectData) => ({ type: POST_SET_SINGLE_OBJECT_DATA, singleObjectData })
+export const setObjectData = (objectData) => ({ type: OBJECT_SET_OBJECT_DATA, objectData })
+export const setSingleObjectData = (singleObjectData) => ({ type: OBJECT_SET_SINGLE_OBJECT_DATA, singleObjectData })
 
 //thunks
-export const downloadFile = (fileName) => async (dispatch) => {
-  try {
-    const res = await ObjectApi.downloadFile(fileName)
-  } catch (err) {
-    dispatch(setErrorMsg(err.response.data.errorMessage))
-  }
-}
-
 export const fetchObjects = (isAuthed) => async (dispatch) => {
   try {
     if (!isAuthed) {
@@ -71,15 +62,6 @@ export const addNewObject = (newObject) => async (dispatch) => {
     const res = await ObjectApi.addNewObject(newObject)
     dispatch(fetchObjects(true))
     dispatch(setSuccessMsg(res.data.successMessage))
-  } catch (err) {
-    console.log(err)
-    dispatch(setErrorMsg(err.response.data.errorMessage))
-  }
-}
-export const sendFile = (file) => async (dispatch) => {
-  try {
-    const res = await ObjectApi.sendFile(file)
-    dispatch(setUploadedFile(res.data))
   } catch (err) {
     console.log(err)
     dispatch(setErrorMsg(err.response.data.errorMessage))
