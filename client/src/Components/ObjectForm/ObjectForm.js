@@ -22,6 +22,8 @@ import Parser from 'html-react-parser'
 import { Link } from 'react-router-dom'
 import ProgressWithPercentage from '../../Common/ProgressWithPercentage'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
+import ReactQuill from 'react-quill'
+import "react-quill/dist/quill.snow.css";
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -138,7 +140,7 @@ const ObjectForm = (props) => {
           {props.Type === 'rich-text'
           &&
           <Grid item xs={12}>
-
+            <ReactQuill value={props.Value} onChange={props.handleEditorChange}/>
           </Grid>
           }
           {props.Type === 'file'
