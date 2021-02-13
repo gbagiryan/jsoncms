@@ -1,161 +1,127 @@
-import {connect} from 'react-redux'
-import {addNewObject} from '../../Redux/Reducers/ObjectReducer'
-import React, {useEffect, useState} from 'react'
-import {compose} from 'redux'
-import {WithAuthRedirect} from '../../Common/WithAuthRedirect'
-import {getErrorMsg, getSuccessMsg} from '../../Redux/Selectors/AppSelectors'
-import {clearMessages, setErrorMsg} from '../../Redux/Reducers/AppReducer'
-import {ObjectReduxForm} from '../ObjectForm/ObjectForm'
-import Axios from "axios";
+import { connect } from 'react-redux'
+import { addNewObject } from '../../Redux/Reducers/ObjectReducer'
+import React, { useEffect, useState } from 'react'
+import { compose } from 'redux'
+import { WithAuthRedirect } from '../../Common/WithAuthRedirect'
+import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors'
+import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer'
+import { ObjectReduxForm } from '../ObjectForm/ObjectForm'
+import Axios from 'axios'
 
 const AddNewObjectContainer = (props) => {
 
-    useEffect(() => {
-        return () => {
-            props.clearMessages()
-        }
-    }, [])
+  useEffect(() => {
+    return () => {
+      props.clearMessages()
+    }
+  }, [])
 
-    const inputTypes = [
-        {value: 'string', label: 'string'},
-        {value: 'array', label: 'array'},
-        {value: 'object', label: 'object'},
-        {value: 'file', label: 'file'},
-        {value: 'rich-text', label: 'rich-text'}
-    ]
+  const inputTypes = [
+    { value: 'string', label: 'string' },
+    { value: 'array', label: 'array' },
+    { value: 'object', label: 'object' },
+    { value: 'file', label: 'file' },
+    { value: 'rich-text', label: 'rich-text' }
+  ]
 
-    const [FieldsArr, SetFieldsArr] = useState([])
-    const [Tag, SetTag] = useState('')
-    const [TagsArr, SetTagsArr] = useState([])
-    const [Type, SetType] = useState(inputTypes[0].value)
-    const [Key, SetKey] = useState('')
-    const [Value, SetValue] = useState('')
-    const [UploadProgress, SetUploadProgress] = useState(0)
+  const [FieldsArr, SetFieldsArr] = useState([])
+  const [Tag, SetTag] = useState('')
+  const [TagsArr, SetTagsArr] = useState([])
+  const [Type, SetType] = useState(inputTypes[0].value)
+  const [Key, SetKey] = useState('')
+  const [Value, SetValue] = useState('')
+  const [UploadProgress, SetUploadProgress] = useState(0)
 
-    const [InnerValue, SetInnerValue] = useState('')
-    const [InnerKey, SetInnerKey] = useState('')
-    const [InnerFields, SetInnerFields] = useState({})
+  const handleChangeKey = (e) => {
+    SetKey(e.target.value)
+  }
+  const handleChangeValue = (e) => {
+    SetValue(e.target.value)
+  }
+  const handleEditorChange = (value) => {
+    SetValue(value)
+  }
+  const handleUpload = async (e) => {
+    SetUploadProgress(0)
+    const formData = new FormData()
+    formData.append('uploadedFile', e.target.files[0])
+    const uploadedFileName = await Axios.post('/api/posts/uploadFile', formData, {
+      onUploadProgress: progressEvent => {
+        const { loaded, total } = progressEvent
+        SetUploadProgress(Math.floor((loaded * 100) / total))
+      }
+    })
+    SetValue(uploadedFileName.data)
+  }
+  const handleChangeType = (event) => {
+    SetType(event.target.value)
+    SetValue('')
+  }
+  const handleTagChange = (e) => {
+    props.clearMessages()
+    SetTag(e.target.value)
+  }
+  const handleAddField = () => {
+    if (Key && Value) {
+      if (!FieldsArr.find((el) => el.Key === Key)) {
+        SetFieldsArr([...FieldsArr, { Key, Value }])
+      } else {
+        props.setErrorMsg('Keys of fields must be unique')
+      }
+    } else {
+      props.setErrorMsg('Key and Value required')
+    }
+  }
+  const handleAddTag = () => {
+    if (Tag) {
+      if (!TagsArr.includes(Tag)) {
+        SetTagsArr([...TagsArr, Tag])
+      } else {
+        props.setErrorMsg('Tags must be unique')
+      }
+    } else {
+      props.setErrorMsg('Tag can\'t be empty')
+    }
+  }
+  const handleDeleteField = (index) => {
+    SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index))
+  }
+  const handleDeleteTag = (index) => {
+    SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
+  }
 
-    const handleInnerValueChange = (e) => {
-        SetInnerValue(e.target.value)
+  const handleSubmit = (formData) => {
+    props.clearMessages()
+    const newObject = {
+      name: formData.name,
+      fields: FieldsArr,
+      tags: TagsArr
     }
-    const handleInnerKeyChange = (e) => {
-        SetInnerKey(e.target.value)
-    }
-    const handleAddInnerField = () => {
-        if (!InnerKey || !InnerValue) {
-            props.setErrorMsg('Key and Value required')
-        } else if (InnerFields[InnerKey]) {
-            props.setErrorMsg('Keys must be unique')
-        } else {
-            props.clearMessages()
-            SetInnerFields({...InnerFields, ...{[InnerKey]: InnerValue}})
-        }
-    }
-    const handleDeleteInnerField = (keyName) => {
-        const {[keyName]: tmp, ...rest} = InnerFields
-        SetInnerFields(rest)
-    }
+    props.addNewObject(newObject)
+  }
 
-    const handleChangeKey = (e) => {
-        SetKey(e.target.value)
-    }
-    const handleChangeValue = (e) => {
-        SetValue(e.target.value)
-    }
-    const handleEditorChange = (value) => {
-        SetValue(value)
-    }
-    const handleUpload = async (e) => {
-        SetUploadProgress(0)
-        const formData = new FormData()
-        formData.append('uploadedFile', e.target.files[0])
-        const uploadedFileName = await Axios.post('/api/posts/uploadFile', formData, {
-            onUploadProgress: progressEvent => {
-                const {loaded, total} = progressEvent
-                SetUploadProgress(Math.floor((loaded * 100) / total))
-            }
-        })
-        SetValue(uploadedFileName.data)
-    }
-    const handleChangeType = (event) => {
-        SetType(event.target.value)
-        SetValue('')
-    }
-    const handleTagChange = (e) => {
-        props.clearMessages()
-        SetTag(e.target.value)
-    }
-    const handleAddField = () => {
-        if ((Key && Value) || (Key && InnerValue)) {
-            if (!FieldsArr.find((el) => el.Key === Key)) {
-                if (Type === 'array') {
-                    SetFieldsArr([...FieldsArr, {Key, Value: Value.trim().split(',')}])
-                } else if (Type === 'object') {
-                    SetFieldsArr([...FieldsArr, {Key, Value: InnerFields}])
-                } else {
-                    SetFieldsArr([...FieldsArr, {Key, Value}])
-                }
-            } else {
-                props.setErrorMsg('Keys of fields must be unique')
-            }
-        } else {
-            props.setErrorMsg('Key and Value required')
-        }
-    }
-    const handleAddTag = () => {
-        if (Tag) {
-            if (!TagsArr.includes(Tag)) {
-                SetTagsArr([...TagsArr, Tag])
-            } else {
-                props.setErrorMsg('Tags must be unique')
-            }
-        } else {
-            props.setErrorMsg('Tag can\'t be empty')
-        }
-    }
-    const handleDeleteField = (index) => {
-        SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index))
-    }
-    const handleDeleteTag = (index) => {
-        SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
-    }
-
-    const handleSubmit = (formData) => {
-        props.clearMessages()
-        const newObject = {
-            name: formData.name,
-            fields: FieldsArr,
-            tags: TagsArr
-        }
-        props.addNewObject(newObject);
-    }
-
-    return (
-        <ObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
-                         handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
-                         handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
-                         handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}
-                         inputTypes={inputTypes} handleEditorChange={handleEditorChange} handleUpload={handleUpload}
-                         Value={Value} handleChangeValue={handleChangeValue} Key={Key}
-                         handleChangeKey={handleChangeKey} handleInnerValueChange={handleInnerValueChange}
-                         handleInnerKeyChange={handleInnerKeyChange} handleAddInnerField={handleAddInnerField}
-                         InnerFields={InnerFields} handleDeleteInnerField={handleDeleteInnerField}
-                         UploadProgress={UploadProgress}/>
-    )
+  return (
+    <ObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
+                     handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
+                     handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
+                     handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}
+                     inputTypes={inputTypes} handleEditorChange={handleEditorChange} handleUpload={handleUpload}
+                     Value={Value} handleChangeValue={handleChangeValue} Key={Key}
+                     handleChangeKey={handleChangeKey} UploadProgress={UploadProgress}/>
+  )
 }
 
 const mapStateToProps = (state) => ({
-    errorMsg: getErrorMsg(state),
-    successMsg: getSuccessMsg(state)
+  errorMsg: getErrorMsg(state),
+  successMsg: getSuccessMsg(state)
 })
 const actionCreators = {
-    addNewObject,
-    clearMessages,
-    setErrorMsg
+  addNewObject,
+  clearMessages,
+  setErrorMsg
 }
 
 export default compose(
-    connect(mapStateToProps, actionCreators),
-    WithAuthRedirect
+  connect(mapStateToProps, actionCreators),
+  WithAuthRedirect
 )(AddNewObjectContainer)

@@ -17,6 +17,5 @@ router.delete('/deleteObject/:objectId', objectsController.deleteObject)
 router.post('/createAnObject', upload.array('fileValue'), validateCreateUpdateObject, isValidated,
   objectsController.createAnObject)
 router.post('/uploadFile', upload.single('uploadedFile'), objectsController.uploadFile)
-router.get('/download/:fileName', objectsController.download)
 
 module.exports = router

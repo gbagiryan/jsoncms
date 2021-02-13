@@ -17,7 +17,6 @@ import React from 'react'
 import { maxLength, required } from '../../Common/Validators'
 import HighlightOffIcon from '@material-ui/icons/HighlightOff'
 import { Error, Success } from '../../Common/Messages'
-import ReactQuill from 'react-quill'
 import { renderFileInput } from '../../Common/renderFileInput'
 import Parser from 'html-react-parser'
 import { Link } from 'react-router-dom'
@@ -82,12 +81,16 @@ const ObjectForm = (props) => {
                       {field.Key}
                     </TableCell>
                     <TableCell align="right">{field.Value.fileName ?
-                      <IconButton
-                        component={Link} to={{pathname: process.env.REACT_APP_SERVER_BASE_URL + field.Value.fileName}}
-                        target={'_blank'}
-                        color="primary">
-                        <ExitToAppIcon/>
-                      </IconButton>
+                      <>
+                        {field.Value.originalName}
+                        <IconButton
+                          component={Link}
+                          to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + field.Value.fileName }}
+                          target={'_blank'}
+                          color="primary">
+                          <ExitToAppIcon/>
+                        </IconButton>
+                      </>
                       : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
                       <IconButton
                         onClick={() => props.handleDeleteField(props.FieldsArr.indexOf(field))}
@@ -125,18 +128,17 @@ const ObjectForm = (props) => {
               <AddCircleIcon/>
             </IconButton>
           </Grid>
-          {props.Type === 'string' || props.Type === 'array'
-            ?
-            <Grid item xs={12}>
-              <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
-                     label={'Value'} onChange={props.handleChangeValue}/>
-            </Grid>
-            : null
+          {props.Type === 'string'
+          &&
+          <Grid item xs={12}>
+            <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
+                   label={'Value'} onChange={props.handleChangeValue}/>
+          </Grid>
           }
           {props.Type === 'rich-text'
           &&
           <Grid item xs={12}>
-            <ReactQuill value={props.Value} onChange={props.handleEditorChange}/>
+
           </Grid>
           }
           {props.Type === 'file'
@@ -153,49 +155,14 @@ const ObjectForm = (props) => {
           }
           {props.Type === 'object'
           &&
-          <div className={classes.innerObject}>
-            <TableContainer component={Paper}>
-              <Table className={classes.table}>
-                <TableHead>
-                  <TableRow>
-                    <TableCell>Keys</TableCell>
-                    <TableCell align="right">Values</TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {Object.entries(props.InnerFields).map((field) => (
-                    <TableRow key={field._id}>
-                      <TableCell component="th" scope="row">
-                        {field[0]}
-                      </TableCell>
-                      <TableCell align="right">
-                        {field[1]}
-                      </TableCell>
-                      <IconButton
-                        onClick={() => props.handleDeleteInnerField(field[0])}
-                        color="primary">
-                        <HighlightOffIcon/>
-                      </IconButton>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-            <Grid container xs={12}>
-              <Grid item xs={5}>
-                <Field placeholder={'InnerKey'} name={'innerKey'} component={renderTextField}
-                       label={'InnerKey'} onChange={props.handleInnerKeyChange}/>
-              </Grid>
-              <Grid item xs={5}>
-                <Field placeholder={'InnerValue'} name={'innerValue'} component={renderTextField}
-                       label={'InnerValue'} onChange={props.handleInnerValueChange}/>
-              </Grid>
-              <Grid item xs={2}>
-                <IconButton onClick={props.handleAddInnerField} color="primary">
-                  <AddCircleIcon/>
-                </IconButton>
-              </Grid>
-            </Grid>
+          <div>
+            object placeholder
+          </div>
+          }
+          {props.Type === 'array'
+          &&
+          <div>
+            array placeholder
           </div>
           }
           <Grid item xs={12}>

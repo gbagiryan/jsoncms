@@ -70,7 +70,7 @@ const Main = (props) => {
                         </TableCell>
                         <TableCell align="right">{field.Value.fileName ?
                           <div>
-                            {field.Value.fileName}
+                            {field.Value.originalName}
                             <IconButton
                               component={Link} to={{pathname: process.env.REACT_APP_SERVER_BASE_URL + field.Value.fileName}}
                               target={'_blank'}
