@@ -44,7 +44,7 @@ const RecursiveForm = (props) => {
 
   const handleAddSubObject = (SubSubObjects) => {
 
-    SetSubObjects({ ...SubObjects, [SubObjects.Key]: SubSubObjects })
+    SetSubObjects({ ...SubObjects, ...{ Key: SubObjects.Key, Value: SubSubObjects }})
     props.handleChangeObjects(SubObjects)
 
   }
