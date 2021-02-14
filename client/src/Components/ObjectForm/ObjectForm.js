@@ -24,6 +24,7 @@ import ProgressWithPercentage from '../../Common/ProgressWithPercentage'
 import ExitToAppIcon from '@material-ui/icons/ExitToApp'
 import ReactQuill from 'react-quill'
 import "react-quill/dist/quill.snow.css";
+import RecursiveForm from './RecursiveForm'
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -38,9 +39,6 @@ const useStyles = makeStyles(theme => ({
     minHeight: 450,
     width: 600,
     border: '1px solid #3f51b5'
-  },
-  innerObject: {
-    border: '2px solid #3f51b5'
   }
 }))
 
@@ -51,7 +49,6 @@ const ObjectForm = (props) => {
 
   return (
     <Paper className={classes.paperStyle} elevation={8}>
-      <Typography>Add New Object</Typography>
       <form className={classes.form} onSubmit={props.handleSubmit}>
         <Grid container spacing={2}>
           {props.errorMsg &&
@@ -105,68 +102,9 @@ const ObjectForm = (props) => {
               </TableBody>
             </Table>
           </TableContainer>
-          <Grid item xs={8}>
-            <Field fullWidth placeholder={'Key'} name={'key'} component={renderTextField}
-                   label={'Key'} onChange={props.handleChangeKey}/>
-          </Grid>
-          <Grid item xs={2}>
-            <TextField
-              id="standard-select"
-              select
-              label="Select"
-              value={props.Type}
-              onChange={props.handleChangeType}
-              helperText="Select type"
-            >
-              {props.inputTypes.map((option) => (
-                <MenuItem key={option.value} value={option.value}>
-                  {option.label}
-                </MenuItem>
-              ))}
-            </TextField>
-          </Grid>
-          <Grid item xs={2}>
-            <IconButton onClick={props.handleAddField} color="primary">
-              <AddCircleIcon/>
-            </IconButton>
-          </Grid>
-          {props.Type === 'string'
-          &&
-          <Grid item xs={12}>
-            <Field fullWidth placeholder={'Value'} name={'value'} component={renderTextField}
-                   label={'Value'} onChange={props.handleChangeValue}/>
-          </Grid>
-          }
-          {props.Type === 'rich-text'
-          &&
-          <Grid item xs={12}>
-            <ReactQuill value={props.Value} onChange={props.handleEditorChange}/>
-          </Grid>
-          }
-          {props.Type === 'file'
-          &&
-          <Grid item xs={12}>
-            <div>
-              <Field name={'upload'} type={'file'} component={renderFileInput}
-                     handleUpload={props.handleUpload}/>
-            </div>
-            {(props.UploadProgress > 0)
-            && <ProgressWithPercentage value={props.UploadProgress}/>
-            }
-          </Grid>
-          }
-          {props.Type === 'object'
-          &&
-          <div>
-            object placeholder
-          </div>
-          }
-          {props.Type === 'array'
-          &&
-          <div>
-            array placeholder
-          </div>
-          }
+
+          <RecursiveForm handleChangeObjects={props.handleChangeObjects} objects={props.objects}/>
+
           <Grid item xs={12}>
             {props.TagsArr.map((tag) =>
               <>
