@@ -15,25 +15,24 @@ const RecursiveForm = (props) => {
   ]
 
   const [SubObjects, SetSubObjects] = useState({})
-  const [Checkbox, SetCheckbox] = useState(false)
   const [Type, SetType] = useState(inputTypes[0].value)
   const [UploadProgress, SetUploadProgress] = useState(0)
 
-  // const handleEditorChange = (value) => {
-  //   SetValue(value)
-  // }
-  // const handleUpload = async (e) => {
-  //   SetUploadProgress(0)
-  //   const formData = new FormData()
-  //   formData.append('uploadedFile', e.target.files[0])
-  //   const uploadedFileName = await Axios.post('/api/posts/uploadFile', formData, {
-  //     onUploadProgress: progressEvent => {
-  //       const { loaded, total } = progressEvent
-  //       SetUploadProgress(Math.floor((loaded * 100) / total))
-  //     }
-  //   })
-  //   SetValue(uploadedFileName.data)
-  // }
+  const handleEditorChange = (e) => {
+    SetSubObjects({ ...SubObjects, [SubObjects.Key]: e.target.value })
+  }
+  const handleUpload = async (e) => {
+    SetUploadProgress(0)
+    const formData = new FormData()
+    formData.append('uploadedFile', e.target.files[0])
+    const uploadedFileName = await Axios.post('/api/posts/uploadFile', formData, {
+      onUploadProgress: progressEvent => {
+        const { loaded, total } = progressEvent
+        SetUploadProgress(Math.floor((loaded * 100) / total))
+      }
+    })
+    SetSubObjects({ ...SubObjects, [SubObjects.Key]: uploadedFileName.data })
+  }
 
   const handleChangeType = (event) => {
     SetType(event.target.value)
@@ -45,7 +44,7 @@ const RecursiveForm = (props) => {
 
   const handleAddSubObject = (SubSubObjects) => {
 
-    SetSubObjects({ ...SubObjects, ...{ Key: SubObjects.Key, Value: SubSubObjects } })
+    SetSubObjects({ ...SubObjects, [SubObjects.Key]: SubSubObjects })
     props.handleChangeObjects(SubObjects)
 
   }
@@ -54,14 +53,14 @@ const RecursiveForm = (props) => {
     <Grid container spacing={2}>
       <Grid item xs={8}>
         <TextField fullWidth variant="outlined" placeholder={'Key'} name={'Key'} label={'Key'}
-                   onChange={handleChangeInput}/>
+                   value={SubObjects.Key} onChange={handleChangeInput}/>
       </Grid>
       <Grid item xs={2}>
         <TextField
           id="standard-select"
           select
           label="Select"
-          value={props.Type}
+          value={Type}
           onChange={handleChangeType}
           helperText="Select type"
         >
@@ -81,23 +80,23 @@ const RecursiveForm = (props) => {
       &&
       <Grid item xs={12}>
         <TextField fullWidth variant="outlined" placeholder={'Value'} name={'Value'} label={'Value'}
-                   onChange={handleChangeInput}/>
+                   value={SubObjects.Value} onChange={handleChangeInput}/>
       </Grid>
       }
       {Type === 'rich-text'
       &&
       <Grid item xs={12}>
-        <ReactQuill value={props.Value} onChange={props.handleEditorChange}/>
+        <ReactQuill value={props.Value} onChange={html => handleEditorChange({ target: { value: html } })}/>
       </Grid>
       }
       {Type === 'file'
       &&
       <Grid item xs={12}>
         <div>
-          <input type={'file'} name={'upload'} onChange={props.handleUpload}/>
+          <input type={'file'} name={'upload'} onChange={handleUpload}/>
         </div>
-        {(props.UploadProgress > 0)
-        && <ProgressWithPercentage value={props.UploadProgress}/>
+        {(UploadProgress > 0)
+        && <ProgressWithPercentage value={UploadProgress}/>
         }
       </Grid>
       }

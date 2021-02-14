@@ -7,8 +7,7 @@ import React, { useEffect, useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors'
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer'
-import { ObjectReduxForm } from '../ObjectForm/ObjectForm'
-import Axios from 'axios'
+import ObjectForm from '../ObjectForm/ObjectForm'
 
 const EditObjectContainer = (props) => {
 
@@ -25,7 +24,7 @@ const EditObjectContainer = (props) => {
 
   useEffect(() => {
     if (props.object) {
-      SetFieldsArr(props.object.fields)
+      // SetFieldsArr(props.object.fields)
       SetTagsArr(props.object.tags)
     }
   }, [props.object])
@@ -38,42 +37,17 @@ const EditObjectContainer = (props) => {
     { value: 'object', label: 'object' }
   ]
 
-  const [FieldsArr, SetFieldsArr] = useState([])
+  const [Name, SetName] = useState('')
   const [Tag, SetTag] = useState('')
   const [TagsArr, SetTagsArr] = useState([])
-  const [Type, SetType] = useState(inputTypes[0].value)
-  const [Key, SetKey] = useState('')
-  const [Value, SetValue] = useState('')
-  const [UploadProgress, SetUploadProgress] = useState(0)
 
-  const handleChangeKey = (e) => {
-    SetKey(e.target.value)
-  }
-  const handleChangeValue = (e) => {
-    SetValue(e.target.value)
-  }
-  const handleEditorChange = (value) => {
-    SetValue(value)
-  }
-  const handleUpload = async (e) => {
-    SetUploadProgress(0)
-    const formData = new FormData()
-    formData.append('uploadedFile', e.target.files[0])
-    const uploadedFileName = await Axios.post('/api/posts/uploadFile', formData, {
-      onUploadProgress: progressEvent => {
-        const { loaded, total } = progressEvent
-        SetUploadProgress(Math.floor((loaded * 100) / total))
-      }
-    })
-    SetValue(uploadedFileName.data)
-  }
-  const handleChangeType = (e) => {
-    SetType(e.target.value)
-    SetValue('')
-  }
   const handleTagChange = (e) => {
     props.clearMessages()
     SetTag(e.target.value)
+  }
+  const handleNameChange = (e) => {
+    props.clearMessages()
+    SetName(e.target.value)
   }
   const handleAddTag = () => {
     if (Tag) {
@@ -86,43 +60,35 @@ const EditObjectContainer = (props) => {
       props.setErrorMsg('Tag can\'t be empty')
     }
   }
+
+  // const handleDeleteField = (index) => {
+  //   SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index))
+  // }
   const handleDeleteTag = (index) => {
     SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
   }
-  const handleAddField = () => {
-    if (Key && Value) {
-      if (!FieldsArr.find((el) => el.Key === Key)) {
-        SetFieldsArr([...FieldsArr, { Key, Value }])
-      } else {
-        props.setErrorMsg('Keys of fields must be unique')
-      }
-    } else {
-      props.setErrorMsg('Key and Value required')
-    }
-  }
-  const handleDeleteField = (index) => {
-    SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index))
+  const [Objects, SetObject] = useState([])
+
+  const handleChangeObjects = (SubObjects) => {
+    SetObject([{ ...SubObjects }])
   }
 
   const handleSubmit = (formData) => {
     props.clearMessages()
 
     const updatedObject = {
-      name: formData.name,
-      fields: FieldsArr,
+      name: Name,
+      fields: Objects,
       tags: TagsArr
     }
     props.updateObject(props.object._id, updatedObject)
   }
 
   return (
-    <ObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
-                         handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
-                         handleAddField={handleAddField} FieldsArr={FieldsArr} handleDeleteTag={handleDeleteTag}
-                         handleDeleteField={handleDeleteField} Type={Type} handleChangeType={handleChangeType}
-                         inputTypes={inputTypes} handleEditorChange={handleEditorChange} handleUpload={handleUpload}
-                         Value={Value} handleChangeValue={handleChangeValue} Key={Key}
-                         handleChangeKey={handleChangeKey} UploadProgress={UploadProgress}/>
+    <ObjectForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
+                handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
+                Name={Name} handleNameChange={handleNameChange} handleDeleteTag={handleDeleteTag}
+                handleChangeObjects={handleChangeObjects} Objects={Objects}/>
   )
 }
 

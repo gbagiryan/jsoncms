@@ -5,8 +5,7 @@ import { compose } from 'redux'
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect'
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors'
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer'
-import RecursiveForm from '../ObjectForm/RecursiveForm'
-import { ObjectReduxForm } from '../ObjectForm/ObjectForm'
+import ObjectForm from '../ObjectForm/ObjectForm'
 
 const AddNewObjectContainer = (props) => {
 
@@ -16,13 +15,17 @@ const AddNewObjectContainer = (props) => {
     }
   }, [])
 
-  const [FieldsArr, SetFieldsArr] = useState([])
+  const [Name, SetName] = useState('')
   const [Tag, SetTag] = useState('')
   const [TagsArr, SetTagsArr] = useState([])
 
   const handleTagChange = (e) => {
     props.clearMessages()
     SetTag(e.target.value)
+  }
+  const handleNameChange = (e) => {
+    props.clearMessages()
+    SetName(e.target.value)
   }
 
   const handleAddTag = () => {
@@ -39,32 +42,31 @@ const AddNewObjectContainer = (props) => {
   // const handleDeleteField = (index) => {
   //   SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index))
   // }
-  // const handleDeleteTag = (index) => {
-  //   SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
-  // }
+  const handleDeleteTag = (index) => {
+    SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
+  }
 
-  const handleSubmit = (formData) => {
+  const [Objects, SetObject] = useState([])
+
+  const handleChangeObjects = (SubObjects) => {
+    SetObject([{ ...SubObjects }])
+  }
+
+  const handleSubmit = () => {
     props.clearMessages()
     const newObject = {
-      name: formData.name,
-      fields: FieldsArr,
+      name: Name,
+      fields: Objects,
       tags: TagsArr
     }
     props.addNewObject(newObject)
   }
 
-  const [objects, setObject] = useState([])
-
-  const handleChangeObjects = (SubObjects) => {
-    setObject([{ ...SubObjects }])
-  }
-  console.log(objects)
-
   return (
-    <ObjectReduxForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
-                     handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
-                     FieldsArr={FieldsArr}
-                     handleChangeObjects={handleChangeObjects} objects={objects}/>
+    <ObjectForm errorMsg={props.errorMsg} successMsg={props.successMsg} handleSubmit={handleSubmit}
+                handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
+                Name={Name} handleNameChange={handleNameChange} handleDeleteTag={handleDeleteTag}
+                handleChangeObjects={handleChangeObjects} Objects={Objects}/>
   )
 }
 
