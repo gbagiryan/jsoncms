@@ -7,17 +7,17 @@ import {
   Table, TableBody, TableCell, TableContainer,
   TableHead, TableRow,
   TextField
-} from '@material-ui/core'
-import AddCircleIcon from '@material-ui/icons/AddCircle'
-import React from 'react'
-import { maxLength, required } from '../../Common/Validators'
-import HighlightOffIcon from '@material-ui/icons/HighlightOff'
-import { Error, Success } from '../../Common/Messages'
-import Parser from 'html-react-parser'
-import { Link } from 'react-router-dom'
-import ExitToAppIcon from '@material-ui/icons/ExitToApp'
-import 'react-quill/dist/quill.snow.css'
-import RecursiveForm from './RecursiveForm'
+} from '@material-ui/core';
+import AddCircleIcon from '@material-ui/icons/AddCircle';
+import React from 'react';
+import { maxLength, required } from '../../Common/Validators';
+import HighlightOffIcon from '@material-ui/icons/HighlightOff';
+import { Error, Success } from '../../Common/Messages';
+import Parser from 'html-react-parser';
+import { Link } from 'react-router-dom';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import 'react-quill/dist/quill.snow.css';
+import RecursiveForm from './RecursiveForm';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -33,12 +33,12 @@ const useStyles = makeStyles(theme => ({
     width: 600,
     border: '1px solid #3f51b5'
   }
-}))
+}));
 
-const maxLength20 = maxLength(20)
+const maxLength20 = maxLength(20);
 
 const ObjectForm = (props) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <Paper className={classes.paperStyle} elevation={8}>
@@ -87,7 +87,7 @@ const ObjectForm = (props) => {
                 className={classes.button} onClick={props.handleSubmit}>Save</Button>
       </Grid>
     </Paper>
-  )
-}
+  );
+};
 
-export default ObjectForm
+export default ObjectForm;

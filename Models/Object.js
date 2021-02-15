@@ -1,4 +1,4 @@
-const mongoose = require('mongoose')
+const mongoose = require('mongoose');
 
 const objectSchema = new mongoose.Schema({
   name: {
@@ -8,7 +8,7 @@ const objectSchema = new mongoose.Schema({
     unique: true
   },
   fields: {
-    type:{}
+    type: {}
   },
   tags: [{
     type: String
@@ -18,6 +18,6 @@ const objectSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   }
-})
+});
 
-module.exports = mongoose.model('Object', objectSchema)
+module.exports = mongoose.model('Object', objectSchema);

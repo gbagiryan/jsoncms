@@ -1,4 +1,4 @@
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
 
 const signToken = (user) => {
   try {
@@ -6,21 +6,21 @@ const signToken = (user) => {
       { userId: user._id },
       process.env.JWT_SECRET,
       { expiresIn: '1h' }
-    )
+    );
   } catch (err) {
-    throw Error(err)
+    throw Error(err);
   }
-}
+};
 
 const verifyToken = async (token) => {
   try {
-    return await jwt.verify(token, process.env.JWT_SECRET)
+    return await jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    throw Error(err)
+    throw Error(err);
   }
-}
+};
 
 module.exports = {
   verifyToken,
   signToken
-}
+};

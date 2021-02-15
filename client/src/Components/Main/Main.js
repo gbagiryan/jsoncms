@@ -1,4 +1,4 @@
-import React from 'react'
+import React from 'react';
 import {
   Button,
   Card,
@@ -9,11 +9,11 @@ import {
   Paper, Table, TableBody, TableCell,
   TableContainer, TableHead, TableRow,
   Typography
-} from '@material-ui/core'
-import EditIcon from '@material-ui/icons/Edit'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import Parser from 'html-react-parser'
-import { Link } from 'react-router-dom'
+} from '@material-ui/core';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import Parser from 'html-react-parser';
+import { Link } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 
 const useStyles = makeStyles(theme => ({
@@ -28,10 +28,10 @@ const useStyles = makeStyles(theme => ({
   buttons: {
     textAlign: 'right'
   }
-}))
+}));
 
 const Main = (props) => {
-  const classes = useStyles()
+  const classes = useStyles();
 
   return (
     <div>
@@ -72,7 +72,8 @@ const Main = (props) => {
                           <div>
                             {props.object.fields[field].originalName}
                             <IconButton
-                              component={Link} to={{pathname: process.env.REACT_APP_SERVER_BASE_URL + props.object.fields[field].fileName}}
+                              component={Link}
+                              to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + props.object.fields[field].fileName }}
                               target={'_blank'}
                               color="primary">
                               <ExitToAppIcon/>
@@ -101,7 +102,7 @@ const Main = (props) => {
         </div>
       }
     </div>
-  )
-}
+  );
+};
 
-export default Main
+export default Main;

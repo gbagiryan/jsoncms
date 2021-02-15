@@ -1,6 +1,6 @@
 export const objectData = (state) => {
-    return state.object.objects;
+  return state.object.objects;
 };
 export const singleObjectData = (state) => {
-    return state.object.singleObject;
+  return state.object.singleObject;
 };

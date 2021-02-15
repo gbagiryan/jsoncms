@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const bcrypt = require('bcrypt')
+const mongoose = require('mongoose');
+const bcrypt = require('bcrypt');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -12,17 +12,17 @@ const userSchema = new mongoose.Schema({
     require: true,
     minlength: 6
   }
-})
+});
 
 userSchema.statics.comparePasswords = async function (username, password) {
-  const user = await this.findOne({ username })
+  const user = await this.findOne({ username });
   if (user) {
-    const isMatch = await bcrypt.compare(password, user.password)
+    const isMatch = await bcrypt.compare(password, user.password);
     if (isMatch) {
-      return user
+      return user;
     }
   }
-  throw Error('wrong username or password')
-}
+  throw Error('wrong username or password');
+};
 
-module.exports = mongoose.model('User', userSchema)
+module.exports = mongoose.model('User', userSchema);
