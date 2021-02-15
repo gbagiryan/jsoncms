@@ -46,11 +46,15 @@ const AddNewObjectContainer = (props) => {
     SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
   }
 
-  const [Objects, SetObject] = useState([])
+  const [Objects, SetObject] = useState({})
 
-  const handleChangeObjects = (SubObjects) => {
-    SetObject([{ ...SubObjects }])
+  const parentCallback = (SubObjects) => {
+    SetObject({ ...SubObjects })
   }
+
+  useEffect(() => {
+    console.log(Objects)
+  }, [Objects])
 
   const handleSubmit = () => {
     props.clearMessages()
@@ -66,7 +70,7 @@ const AddNewObjectContainer = (props) => {
     <ObjectForm errorMsg={props.errorMsg} successMsg={props.successMsg} handleSubmit={handleSubmit}
                 handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
                 Name={Name} handleNameChange={handleNameChange} handleDeleteTag={handleDeleteTag}
-                handleChangeObjects={handleChangeObjects} Objects={Objects}/>
+                parentCallback={parentCallback}/>
   )
 }
 

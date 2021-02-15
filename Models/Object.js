@@ -7,19 +7,22 @@ const objectSchema = new mongoose.Schema({
     maxLength: 20,
     unique: true
   },
-  fields: [{
-    Key: {
-      type: String,
-      required: true
-    },
-    Value: {
-      type: {},
-      required: true
-    },
-    FileName: {
-      type: String
-    }
-  }],
+  fields: {
+    type:{}
+  },
+  //   [{
+  //   Key: {
+  //     type: String,
+  //     required: true
+  //   },
+  //   Value: {
+  //     type: {},
+  //     required: true
+  //   },
+  //   FileName: {
+  //     type: String
+  //   }
+  // }],
   tags: [{
     type: String
   }],

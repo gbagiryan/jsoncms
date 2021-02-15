@@ -63,25 +63,25 @@ const Main = (props) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {props.object.fields.map((field) => (
-                      <TableRow key={field._id}>
+                    {Object.keys(props.object.fields).map((field, i) =>
+                      <TableRow key={field}>
                         <TableCell component="th" scope="row">
-                          {field.Key}
+                          {field}
                         </TableCell>
-                        <TableCell align="right">{field.Value.fileName ?
+                        <TableCell align="right">{props.object.fields[field].fileName ?
                           <div>
-                            {field.Value.originalName}
+                            {props.object.fields[field].originalName}
                             <IconButton
-                              component={Link} to={{pathname: process.env.REACT_APP_SERVER_BASE_URL + field.Value.fileName}}
+                              component={Link} to={{pathname: process.env.REACT_APP_SERVER_BASE_URL + props.object.fields[field].fileName}}
                               target={'_blank'}
                               color="primary">
                               <ExitToAppIcon/>
                             </IconButton>
                           </div>
-                          : field.Value.name ? field.Value.name : Parser(JSON.stringify(field.Value))}
+                          : props.object.fields[field].name ? props.object.fields[field].name : Parser(JSON.stringify(props.object.fields[field]))}
                         </TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>

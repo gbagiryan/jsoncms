@@ -8,7 +8,6 @@ import {
   TableHead, TableRow,
   TextField
 } from '@material-ui/core'
-import { renderTextField } from '../../Common/RenderTextFields'
 import AddCircleIcon from '@material-ui/icons/AddCircle'
 import React from 'react'
 import { maxLength, required } from '../../Common/Validators'
@@ -58,45 +57,8 @@ const ObjectForm = (props) => {
           <TextField fullWidth variant="outlined" placeholder={'Name'} name={'Name'} label={'Name'}
                      value={props.Name} onChange={props.handleNameChange}/>
         </Grid>
-        {/*<TableContainer component={Paper}>*/}
-        {/*  <Table className={classes.table}>*/}
-        {/*    <TableHead>*/}
-        {/*      <TableRow>*/}
-        {/*        <TableCell>Keys</TableCell>*/}
-        {/*        <TableCell align="right">Values</TableCell>*/}
-        {/*      </TableRow>*/}
-        {/*    </TableHead>*/}
-        {/*    <TableBody>*/}
-        {/*      {props.Objects.map((object) => (*/}
-        {/*        <TableRow key={object._id}>*/}
-        {/*          <TableCell component="th" scope="row">*/}
-        {/*            {object.Key}*/}
-        {/*          </TableCell>*/}
-        {/*          <TableCell align="right">{object.Value.fileName ?*/}
-        {/*            <>*/}
-        {/*              {object.Value.originalName}*/}
-        {/*              <IconButton*/}
-        {/*                component={Link}*/}
-        {/*                to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + object.Value.fileName }}*/}
-        {/*                target={'_blank'}*/}
-        {/*                color="primary">*/}
-        {/*                <ExitToAppIcon/>*/}
-        {/*              </IconButton>*/}
-        {/*            </>*/}
-        {/*            : object.Value.name ? object.Value.name : Parser(JSON.stringify(object.Value))}*/}
-        {/*            <IconButton*/}
-        {/*              // onClick={() => props.handleDeleteField(props.Objects.indexOf(object))}*/}
-        {/*              color="primary">*/}
-        {/*              <HighlightOffIcon/>*/}
-        {/*            </IconButton>*/}
-        {/*          </TableCell>*/}
-        {/*        </TableRow>*/}
-        {/*      ))}*/}
-        {/*    </TableBody>*/}
-        {/*  </Table>*/}
-        {/*</TableContainer>*/}
 
-        <RecursiveForm handleChangeObjects={props.handleChangeObjects} Objects={props.Objects}/>
+        <RecursiveForm parentCallback={props.parentCallback}/>
 
         <Grid item xs={12}>
           {props.TagsArr.map((tag) =>
