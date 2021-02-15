@@ -10,19 +10,6 @@ const objectSchema = new mongoose.Schema({
   fields: {
     type:{}
   },
-  //   [{
-  //   Key: {
-  //     type: String,
-  //     required: true
-  //   },
-  //   Value: {
-  //     type: {},
-  //     required: true
-  //   },
-  //   FileName: {
-  //     type: String
-  //   }
-  // }],
   tags: [{
     type: String
   }],

@@ -8,30 +8,32 @@ import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer'
 import ObjectForm from '../ObjectForm/ObjectForm'
 
 const AddNewObjectContainer = (props) => {
+  const [name, setName] = useState('');
+  const [tag, setTag] = useState('');
+  const [tagsArr, setTagsArr] = useState([]);
+
 
   useEffect(() => {
     return () => {
       props.clearMessages()
     }
-  }, [])
+  }, []);
 
-  const [Name, SetName] = useState('')
-  const [Tag, SetTag] = useState('')
-  const [TagsArr, SetTagsArr] = useState([])
+
 
   const handleTagChange = (e) => {
     props.clearMessages()
-    SetTag(e.target.value)
+    setTag(e.target.value)
   }
   const handleNameChange = (e) => {
     props.clearMessages()
-    SetName(e.target.value)
+    setName(e.target.value)
   }
 
   const handleAddTag = () => {
-    if (Tag) {
-      if (!TagsArr.includes(Tag)) {
-        SetTagsArr([...TagsArr, Tag])
+    if (tag) {
+      if (!tagsArr.includes(tag)) {
+        setTagsArr([...tagsArr, tag])
       } else {
         props.setErrorMsg('Tags must be unique')
       }
@@ -40,10 +42,10 @@ const AddNewObjectContainer = (props) => {
     }
   }
   // const handleDeleteField = (index) => {
-  //   SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index))
+  //   setFieldsArr(fieldsArr.filter((field) => fieldsArr.indexOf(field) !== index))
   // }
   const handleDeleteTag = (index) => {
-    SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index))
+    setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index))
   }
 
   const [Objects, SetObject] = useState({})
@@ -59,18 +61,28 @@ const AddNewObjectContainer = (props) => {
   const handleSubmit = () => {
     props.clearMessages()
     const newObject = {
-      name: Name,
+      name: name,
       fields: Objects,
-      tags: TagsArr
+      tags: tagsArr
     }
     props.addNewObject(newObject)
   }
 
   return (
-    <ObjectForm errorMsg={props.errorMsg} successMsg={props.successMsg} handleSubmit={handleSubmit}
-                handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
-                Name={Name} handleNameChange={handleNameChange} handleDeleteTag={handleDeleteTag}
-                parentCallback={parentCallback}/>
+    <ObjectForm
+      errorMsg={props.errorMsg}
+      successMsg={props.successMsg}
+      setErrorMsg={props.setErrorMsg}
+      clearMessages={props.clearMessages}
+      handleSubmit={handleSubmit}
+      handleAddTag={handleAddTag}
+      tagsArr={tagsArr}
+      handleTagChange={handleTagChange}
+      name={name}
+      handleNameChange={handleNameChange}
+      handleDeleteTag={handleDeleteTag}
+      parentCallback={parentCallback}
+    />
   )
 }
 

@@ -58,13 +58,15 @@ const ObjectForm = (props) => {
                      value={props.Name} onChange={props.handleNameChange}/>
         </Grid>
 
-        <RecursiveForm parentCallback={props.parentCallback}/>
+        <RecursiveForm parentCallback={props.parentCallback}
+                       setErrorMsg={props.setErrorMsg}
+                       clearMessages={props.clearMessages}/>
 
         <Grid item xs={12}>
-          {props.TagsArr.map((tag) =>
+          {props.tagsArr.map((tag) =>
             <>
               {tag}
-              <IconButton onClick={() => props.handleDeleteTag(props.TagsArr.indexOf(tag))}
+              <IconButton onClick={() => props.handleDeleteTag(props.tagsArr.indexOf(tag))}
                           color="primary">
                 <HighlightOffIcon/>
               </IconButton>
@@ -73,8 +75,8 @@ const ObjectForm = (props) => {
           )}
         </Grid>
         <Grid item xs={10}>
-          <TextField fullWidth variant="outlined" placeholder={'Tag'} name={'Tag'} label={'Tag'}
-                     value={props.Tag} onChange={props.handleTagChange}/>
+          <TextField fullWidth variant="outlined" placeholder={'Tag'} name={'tag'} label={'Tag'}
+                     value={props.tag} onChange={props.handleTagChange}/>
         </Grid>
         <Grid item xs={2}>
           <IconButton onClick={props.handleAddTag} color="primary">

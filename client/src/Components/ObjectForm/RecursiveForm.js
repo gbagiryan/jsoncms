@@ -39,41 +39,48 @@ const RecursiveForm = (props) => {
     { value: 'rich-text', label: 'rich-text' }
   ]
 
-  const [SubObjects, SetSubObjects] = useState({})
-  const [SubObjectKey, SetSubObjectKey] = useState('')
-  const [SubObjectValue, SetSubObjectValue] = useState('')
+  const [subObjects, setSubObjects] = useState({})
+  const [subObjectKey, setSubObjectKey] = useState('')
+  const [subObjectValue, setSubObjectValue] = useState('')
 
-  const [Type, SetType] = useState(inputTypes[0].value)
-  const [UploadProgress, SetUploadProgress] = useState(0)
+  const [type, setType] = useState(inputTypes[0].value)
+  const [uploadProgress, setUploadProgress] = useState(0)
 
   const handleChangeKey = (e) => {
-    SetSubObjectKey(e.target.value)
+    props.clearMessages()
+    setSubObjectKey(e.target.value)
   }
   const handleChangeValue = (e) => {
-    SetSubObjectValue(e.target.value)
+    props.clearMessages()
+    setSubObjectValue(e.target.value)
   }
   const handleAddSubObject = () => {
-    SetSubObjects({ ...SubObjects, ...{ [SubObjectKey]: SubObjectValue } })
-    props.parentCallback(SubObjects)
+    props.clearMessages()
+    if (subObjectKey && subObjectValue) {
+      setSubObjects({ ...subObjects, ...{ [subObjectKey]: subObjectValue } })
+      props.parentCallback(subObjects)
+    } else {
+      props.setErrorMsg('Key and Value Required')
+    }
   }
-  const parentCallback = (SubSubObjects) => {
-    SetSubObjects({ ...SubObjects, ...{ [SubObjectKey]: SubSubObjects } })
+  const parentCallback = (subSubObjects) => {
+    setSubObjects({ ...subObjects, ...{ [subObjectKey]: subSubObjects } })
   }
   const handleUpload = async (e) => {
-    SetUploadProgress(0)
+    setUploadProgress(0)
     const formData = new FormData()
     formData.append('uploadedFile', e.target.files[0])
     const uploadedFileName = await Axios.post('/api/posts/uploadFile', formData, {
       onUploadProgress: progressEvent => {
         const { loaded, total } = progressEvent
-        SetUploadProgress(Math.floor((loaded * 100) / total))
+        setUploadProgress(Math.floor((loaded * 100) / total))
       }
     })
-    SetSubObjectValue(uploadedFileName.data)
+    setSubObjectValue(uploadedFileName.data)
   }
 
   const handleChangeType = (event) => {
-    SetType(event.target.value)
+    setType(event.target.value)
   }
 
   return (
@@ -87,23 +94,23 @@ const RecursiveForm = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Object.keys(SubObjects).map((subObject, i) =>
+            {Object.keys(subObjects).map((subObject, i) =>
               <TableRow key={subObject}>
                 <TableCell component="th" scope="row">
                   {subObject}
                 </TableCell>
-                <TableCell align="right">{SubObjects[subObject].fileName ?
+                <TableCell align="right">{subObjects[subObject].fileName ?
                   <>
-                    {SubObjects[subObject].originalName}
+                    {subObjects[subObject].originalName}
                     <IconButton
                       component={Link}
-                      to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + SubObjects[subObject].fileName }}
+                      to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + subObjects[subObject].fileName }}
                       target={'_blank'}
                       color="primary">
                       <ExitToAppIcon/>
                     </IconButton>
                   </>
-                  : SubObjects[subObject].name ? SubObjects[subObject].name : Parser(JSON.stringify(SubObjects[subObject]))}
+                  : subObjects[subObject].name ? subObjects[subObject].name : Parser(JSON.stringify(subObjects[subObject]))}
                   <IconButton
                     // onClick={() => props.handleDeleteField(props.Objects.indexOf(object))}
                     color="primary">
@@ -117,15 +124,15 @@ const RecursiveForm = (props) => {
       </TableContainer>
       <Grid container spacing={2}>
         <Grid item xs={8}>
-          <TextField fullWidth variant="outlined" placeholder={'Key'} name={'Key'} label={'Key'}
-                     value={SubObjectKey} onChange={handleChangeKey}/>
+          <TextField fullWidth variant="outlined" placeholder={'Key'} name={'key'} label={'Key'}
+                     value={subObjectKey} onChange={handleChangeKey}/>
         </Grid>
         <Grid item xs={2}>
           <TextField
             id="standard-select"
             select
             label="Select"
-            value={Type}
+            value={type}
             onChange={handleChangeType}
             helperText="Select type"
           >
@@ -141,37 +148,39 @@ const RecursiveForm = (props) => {
             <AddCircleIcon/>
           </IconButton>
         </Grid>
-        {Type === 'string'
+        {type === 'string'
         &&
         <Grid item xs={12}>
-          <TextField fullWidth variant="outlined" placeholder={'Value'} name={'Value'} label={'Value'}
-                     value={SubObjectValue} onChange={handleChangeValue}/>
+          <TextField fullWidth variant="outlined" placeholder={'Value'} name={'value'} label={'Value'}
+                     value={subObjectValue} onChange={handleChangeValue}/>
         </Grid>
         }
-        {Type === 'rich-text'
+        {type === 'rich-text'
         &&
         <Grid item xs={12}>
-          <ReactQuill value={props.Value} onChange={html => handleChangeValue({ target: { value: html } })}/>
+          <ReactQuill value={subObjectValue} onChange={html => handleChangeValue({ target: { value: html } })}/>
         </Grid>
         }
-        {Type === 'file'
+        {type === 'file'
         &&
         <Grid item xs={12}>
           <div>
             <input type={'file'} name={'upload'} onChange={handleUpload}/>
           </div>
-          {(UploadProgress > 0)
-          && <ProgressWithPercentage value={UploadProgress}/>
+          {(uploadProgress > 0)
+          && <ProgressWithPercentage value={uploadProgress}/>
           }
         </Grid>
         }
-        {Type === 'object'
+        {type === 'object'
         &&
         <div>
-          <RecursiveForm parentCallback={parentCallback}/>
+          <RecursiveForm parentCallback={parentCallback}
+                         setErrorMsg={props.setErrorMsg}
+                         clearMessages={props.clearMessages}/>
         </div>
         }
-        {Type === 'array'
+        {type === 'array'
         &&
         <div>
           array placeholder
