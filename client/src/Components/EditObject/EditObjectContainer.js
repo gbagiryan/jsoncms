@@ -24,35 +24,26 @@ const EditObjectContainer = (props) => {
 
   useEffect(() => {
     if (props.object) {
-      // SetFieldsArr(props.object.fields)
-      SetTagsArr(props.object.tags);
+      setTagsArr(props.object.tags);
     }
   }, [props.object]);
 
-  const inputTypes = [
-    { value: 'string', label: 'string' },
-    { value: 'rich-text', label: 'rich-text' },
-    { value: 'file', label: 'file' },
-    { value: 'array', label: 'array' },
-    { value: 'object', label: 'object' }
-  ];
-
-  const [Name, SetName] = useState('');
-  const [Tag, SetTag] = useState('');
-  const [TagsArr, SetTagsArr] = useState([]);
+  const [name, setName] = useState('');
+  const [tag, setTag] = useState('');
+  const [tagsArr, setTagsArr] = useState([]);
 
   const handleTagChange = (e) => {
     props.clearMessages();
-    SetTag(e.target.value);
+    setTag(e.target.value);
   };
   const handleNameChange = (e) => {
     props.clearMessages();
-    SetName(e.target.value);
+    setName(e.target.value);
   };
   const handleAddTag = () => {
-    if (Tag) {
-      if (!TagsArr.includes(Tag)) {
-        SetTagsArr([...TagsArr, Tag]);
+    if (tag) {
+      if (!tagsArr.includes(tag)) {
+        setTagsArr([...tagsArr, tag]);
       } else {
         props.setErrorMsg('Tags must be unique');
       }
@@ -61,34 +52,41 @@ const EditObjectContainer = (props) => {
     }
   };
 
-  // const handleDeleteField = (index) => {
-  //   SetFieldsArr(FieldsArr.filter((field) => FieldsArr.indexOf(field) !== index))
-  // }
   const handleDeleteTag = (index) => {
-    SetTagsArr(TagsArr.filter((tag) => TagsArr.indexOf(tag) !== index));
+    setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index));
   };
   const [Objects, SetObject] = useState([]);
 
-  const handleChangeObjects = (SubObjects) => {
-    SetObject([{ ...SubObjects }]);
+  const setBaseObject = (subObjects) => {
+    SetObject({ ...subObjects });
   };
 
   const handleSubmit = (formData) => {
     props.clearMessages();
 
     const updatedObject = {
-      name: Name,
+      name: name,
       fields: Objects,
-      tags: TagsArr
+      tags: tagsArr
     };
     props.updateObject(props.object._id, updatedObject);
   };
 
   return (
-    <ObjectForm errorMsg={props.errorMsg} successMsg={props.successMsg} onSubmit={handleSubmit}
-                handleAddTag={handleAddTag} TagsArr={TagsArr} handleTagChange={handleTagChange}
-                Name={Name} handleNameChange={handleNameChange} handleDeleteTag={handleDeleteTag}
-                handleChangeObjects={handleChangeObjects} Objects={Objects}/>
+    <ObjectForm errorMsg={props.errorMsg}
+                successMsg={props.successMsg}
+                setErrorMsg={props.setErrorMsg}
+                clearMessages={props.clearMessages}
+                handleSubmit={handleSubmit}
+                handleAddTag={handleAddTag}
+                tagsArr={tagsArr}
+                handleTagChange={handleTagChange}
+                name={name}
+                handleNameChange={handleNameChange}
+                handleDeleteTag={handleDeleteTag}
+                setParentValue={setBaseObject}
+                existingObjs={props.object}
+    />
   );
 };
 

@@ -60,7 +60,8 @@ const ObjectForm = (props) => {
 
         <RecursiveForm setParentValue={props.setParentValue}
                        setErrorMsg={props.setErrorMsg}
-                       clearMessages={props.clearMessages}/>
+                       clearMessages={props.clearMessages}
+                       existingObjs={props.existingObjs}/>
 
         <Grid item xs={12}>
           {props.tagsArr.map((tag) =>

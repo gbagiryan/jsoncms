@@ -8,7 +8,8 @@ const objectSchema = new mongoose.Schema({
     unique: true
   },
   fields: {
-    type: {}
+    type: {},
+    required: true
   },
   tags: [{
     type: String

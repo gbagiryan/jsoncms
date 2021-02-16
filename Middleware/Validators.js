@@ -13,10 +13,7 @@ const validateCreateUpdateObject = async (req, res, next) => {
   if (!req.body.name) {
     return res.status(400).json({ errorMessage: 'Name is required' });
   }
-  // if (await Object.findOne({ createdBy: req.user._id, name: req.body.name })) {
-  //   return res.status(400).json({ errorMessage: 'Name must be unique' })
-  // }
-  if (!req.body.fields && !req.files) {
+  if (Object.keys(req.body.fields).length === 0) {
     return res.status(400).json({ errorMessage: 'At least 1 field is required' });
   }
   next();

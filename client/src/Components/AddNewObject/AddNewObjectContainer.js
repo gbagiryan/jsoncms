@@ -44,8 +44,8 @@ const AddNewObjectContainer = (props) => {
 
   const [Objects, SetObject] = useState({});
 
-  const setBaseObject = (SubObjects) => {
-    SetObject({ ...SubObjects });
+  const setBaseObject = (subObjects) => {
+    SetObject({ ...subObjects });
   };
 
   const handleSubmit = () => {

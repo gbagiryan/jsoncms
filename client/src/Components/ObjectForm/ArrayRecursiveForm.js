@@ -18,7 +18,7 @@ import { Link } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import Parser from 'html-react-parser';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
-import ArrayRecursiveForm from './ArrayRecursiveForm';
+import RecursiveForm from './RecursiveForm';
 
 const useStyles = makeStyles(theme => ({
   paperStyle: {
@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RecursiveForm = (props) => {
+const ArrayRecursiveForm = (props) => {
   const classes = useStyles();
 
   const inputTypes = [
@@ -40,8 +40,7 @@ const RecursiveForm = (props) => {
     { value: 'rich-text', label: 'rich-text' }
   ];
 
-  const [subObjects, setSubObjects] = useState({});
-  const [subObjectKey, setSubObjectKey] = useState('');
+  const [subObjects, setSubObjects] = useState([]);
   const [subObjectValue, setSubObjectValue] = useState('');
 
   const [type, setType] = useState(inputTypes[0].value);
@@ -51,37 +50,21 @@ const RecursiveForm = (props) => {
     props.setParentValue(subObjects);
   }, [subObjects]);
 
-  useEffect(() => {
-    if (props.existingObjs) {
-      setSubObjects(props.existingObjs.fields);
-    }
-  }, [props.existingObjs]);
-
-
   const getInnerObjects = (subSubObject) => {
     setSubObjectValue(subSubObject);
   };
 
-  const handleChangeKey = (e) => {
-    props.clearMessages();
-    setSubObjectKey(e.target.value);
-  };
   const handleChangeValue = (e) => {
     props.clearMessages();
     setSubObjectValue(e.target.value);
   };
   const handleAddSubObject = () => {
     props.clearMessages();
-    if (subObjectKey && subObjectValue) {
-      if (!subObjects.hasOwnProperty(subObjectKey)) {
-        setSubObjects({ ...subObjects, ...{ [subObjectKey]: subObjectValue } });
-        setSubObjectKey('');
-        setSubObjectValue('');
-      } else {
-        props.setErrorMsg('Keys of an object must be unique');
-      }
+    if (subObjectValue) {
+      setSubObjects([...subObjects, subObjectValue]);
+      setSubObjectValue('');
     } else {
-      props.setErrorMsg('Key and Value Required');
+      props.setErrorMsg('Value Required');
     }
   };
 
@@ -98,9 +81,8 @@ const RecursiveForm = (props) => {
     setSubObjectValue(uploadedFileName.data);
   };
 
-  const handleDeleteSubObject = (subObjectKey) => {
-    const { [subObjectKey]: tmp, ...rest } = subObjects;
-    setSubObjects(rest);
+  const handleDeleteSubObject = (index) => {
+    setSubObjects([...subObjects.filter((el) => subObjects.indexOf(el) !== index)]);
   };
   const handleChangeType = (event) => {
     setType(event.target.value);
@@ -112,30 +94,26 @@ const RecursiveForm = (props) => {
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
-              <TableCell>Keys</TableCell>
               <TableCell align="right">Values</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
-            {Object.keys(subObjects).map((subObject, i) =>
-              <TableRow key={subObject}>
-                <TableCell component="th" scope="row">
-                  {subObject}
-                </TableCell>
-                <TableCell align="right">{subObjects[subObject].fileName ?
+            {subObjects.map((item, i) =>
+              <TableRow key={item._id}>
+                <TableCell align="right">{item.fileName ?
                   <>
-                    {subObjects[subObject].originalName}
+                    {item.originalName}
                     <IconButton
                       component={Link}
-                      to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + subObjects[subObject].fileName }}
+                      to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + subObjects.fileName }}
                       target={'_blank'}
                       color="primary">
                       <ExitToAppIcon/>
                     </IconButton>
                   </>
-                  : subObjects[subObject].name ? subObjects[subObject].name : Parser(JSON.stringify(subObjects[subObject]))}
+                  : item.name ? item.name : Parser(JSON.stringify(item))}
                   <IconButton
-                    onClick={() => handleDeleteSubObject(subObject)}
+                    onClick={() => handleDeleteSubObject(subObjects.indexOf(item))}
                     color="primary">
                     <HighlightOffIcon/>
                   </IconButton>
@@ -145,48 +123,44 @@ const RecursiveForm = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+      <Grid item xs={2}>
+        <TextField
+          id="standard-select"
+          select
+          label="Select"
+          value={type}
+          onChange={handleChangeType}
+          helperText="Select type"
+        >
+          {inputTypes.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+      </Grid>
+      <Grid item xs={2}>
+        <IconButton onClick={handleAddSubObject} color="primary">
+          <AddCircleIcon/>
+        </IconButton>
+      </Grid>
       <Grid container spacing={2}>
-        <Grid item xs={8}>
-          <TextField fullWidth variant="outlined" placeholder={'Key'} name={'key'} label={'Key'}
-                     value={subObjectKey} onChange={handleChangeKey}/>
-        </Grid>
-        <Grid item xs={2}>
-          <TextField
-            id="standard-select"
-            select
-            label="Select"
-            value={type}
-            onChange={handleChangeType}
-            helperText="Select type"
-          >
-            {inputTypes.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
-        </Grid>
-        <Grid item xs={2}>
-          <IconButton onClick={handleAddSubObject} color="primary">
-            <AddCircleIcon/>
-          </IconButton>
-        </Grid>
         {type === 'string'
         &&
-        <Grid item xs={12}>
+        <Grid item xs={8}>
           <TextField fullWidth variant="outlined" placeholder={'Value'} name={'value'} label={'Value'}
                      value={subObjectValue} onChange={handleChangeValue}/>
         </Grid>
         }
         {type === 'rich-text'
         &&
-        <Grid item xs={12}>
+        <Grid item xs={8}>
           <ReactQuill value={subObjectValue} onChange={html => handleChangeValue({ target: { value: html } })}/>
         </Grid>
         }
         {type === 'file'
         &&
-        <Grid item xs={12}>
+        <Grid item xs={8}>
           <div>
             <input type={'file'} name={'upload'} onChange={handleUpload}/>
           </div>
@@ -197,16 +171,16 @@ const RecursiveForm = (props) => {
         }
         {type === 'object'
         &&
-          <RecursiveForm setParentValue={getInnerObjects}
-                         setErrorMsg={props.setErrorMsg}
-                         clearMessages={props.clearMessages}/>
+        <RecursiveForm setParentValue={getInnerObjects}
+                       setErrorMsg={props.setErrorMsg}
+                       clearMessages={props.clearMessages}/>
         }
         {type === 'array'
         &&
         <div>
           <ArrayRecursiveForm setParentValue={getInnerObjects}
-                         setErrorMsg={props.setErrorMsg}
-                         clearMessages={props.clearMessages}/>
+                              setErrorMsg={props.setErrorMsg}
+                              clearMessages={props.clearMessages}/>
         </div>
         }
       </Grid>
@@ -214,4 +188,4 @@ const RecursiveForm = (props) => {
   );
 };
 
-export default RecursiveForm;
+export default ArrayRecursiveForm;
