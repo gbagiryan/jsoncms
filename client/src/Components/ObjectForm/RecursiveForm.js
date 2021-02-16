@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Grid,
   IconButton,
@@ -46,6 +46,14 @@ const RecursiveForm = (props) => {
   const [type, setType] = useState(inputTypes[0].value);
   const [uploadProgress, setUploadProgress] = useState(0);
 
+  useEffect(() => {
+    props.setParentValue(subObjects);
+  }, [subObjects]);
+
+  const getInnerObjects = (subSubObject) => {
+    setSubObjectValue(subSubObject);
+  };
+
   const handleChangeKey = (e) => {
     props.clearMessages();
     setSubObjectKey(e.target.value);
@@ -57,15 +65,18 @@ const RecursiveForm = (props) => {
   const handleAddSubObject = () => {
     props.clearMessages();
     if (subObjectKey && subObjectValue) {
-      setSubObjects({ ...subObjects, ...{ [subObjectKey]: subObjectValue } });
-      props.parentCallback(subObjects);
+      if (!subObjects.hasOwnProperty(subObjectKey)) {
+        setSubObjects({ ...subObjects, ...{ [subObjectKey]: subObjectValue } });
+        setSubObjectKey('')
+        setSubObjectValue('')
+      } else {
+        props.setErrorMsg('Keys of an object must be unique');
+      }
     } else {
       props.setErrorMsg('Key and Value Required');
     }
   };
-  const parentCallback = (subSubObjects) => {
-    setSubObjects({ ...subObjects, ...{ [subObjectKey]: subSubObjects } });
-  };
+
   const handleUpload = async (e) => {
     setUploadProgress(0);
     const formData = new FormData();
@@ -80,8 +91,8 @@ const RecursiveForm = (props) => {
   };
 
   const handleDeleteSubObject = (subObjectKey) => {
-    setSubObjects({ ...Object.keys(subObjects).filter((subObject) => subObject !== subObjectKey) });
-
+    const { [subObjectKey]: tmp, ...rest } = subObjects;
+    setSubObjects(rest);
   };
   const handleChangeType = (event) => {
     setType(event.target.value);
@@ -179,7 +190,7 @@ const RecursiveForm = (props) => {
         {type === 'object'
         &&
         <div>
-          <RecursiveForm parentCallback={parentCallback}
+          <RecursiveForm setParentValue={getInnerObjects}
                          setErrorMsg={props.setErrorMsg}
                          clearMessages={props.clearMessages}/>
         </div>

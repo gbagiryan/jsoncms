@@ -4,14 +4,14 @@ import Main from './Main';
 import React from 'react';
 import { connect } from 'react-redux';
 import { singleObjectData } from '../../Redux/Selectors/ObjectSelectors';
-import { deleteObject, downloadFile } from '../../Redux/Reducers/ObjectReducer';
+import { deleteObject } from '../../Redux/Reducers/ObjectReducer';
 
 const MainContainer = (props) => {
 
   const handleDeleteObject = () => {
     props.deleteObject(props.object._id);
   };
-
+console.log(props.object)
   return (
     <Main object={props.object} handleDeleteObject={handleDeleteObject}/>
   );

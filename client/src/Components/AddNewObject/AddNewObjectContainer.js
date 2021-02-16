@@ -44,13 +44,9 @@ const AddNewObjectContainer = (props) => {
 
   const [Objects, SetObject] = useState({});
 
-  const parentCallback = (SubObjects) => {
+  const setBaseObject = (SubObjects) => {
     SetObject({ ...SubObjects });
   };
-
-  useEffect(() => {
-    console.log(Objects);
-  }, [Objects]);
 
   const handleSubmit = () => {
     props.clearMessages();
@@ -75,7 +71,7 @@ const AddNewObjectContainer = (props) => {
       name={name}
       handleNameChange={handleNameChange}
       handleDeleteTag={handleDeleteTag}
-      parentCallback={parentCallback}
+      setParentValue={setBaseObject}
     />
   );
 };

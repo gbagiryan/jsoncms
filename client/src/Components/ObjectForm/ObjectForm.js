@@ -58,7 +58,7 @@ const ObjectForm = (props) => {
                      value={props.Name} onChange={props.handleNameChange}/>
         </Grid>
 
-        <RecursiveForm parentCallback={props.parentCallback}
+        <RecursiveForm setParentValue={props.setParentValue}
                        setErrorMsg={props.setErrorMsg}
                        clearMessages={props.clearMessages}/>
 
