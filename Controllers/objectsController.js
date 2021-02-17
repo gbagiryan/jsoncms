@@ -63,7 +63,7 @@ const getAnObject = async (req, res) => {
 const uploadFile = async (req, res) => {
   try {
     res.status(200).json({
-      fileName: `/public/${req.file.filename}`,
+      fileName: `${req.file.filename}`,
       originalName: req.file.originalname
     });
   } catch (err) {

@@ -78,7 +78,7 @@ const ArrayRecursiveForm = (props) => {
         setUploadProgress(Math.floor((loaded * 100) / total));
       }
     });
-    setSubObjectValue(uploadedFileName.data);
+    setSubObjectValue({ ...uploadedFileName.data, 'type': 'file' });
   };
 
   const handleDeleteSubObject = (index) => {
@@ -89,7 +89,7 @@ const ArrayRecursiveForm = (props) => {
   };
 
   return (
-    <Paper className={classes.paperStyle} elevation={8}>
+    <Paper className={classes.paperStyle} elevation={2}>
       <TableContainer component={Paper}>
         <Table className={classes.table}>
           <TableHead>

@@ -55,10 +55,10 @@ const EditObjectContainer = (props) => {
   const handleDeleteTag = (index) => {
     setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index));
   };
-  const [Objects, SetObject] = useState([]);
+  const [fields, setFields] = useState([]);
 
   const setBaseObject = (subObjects) => {
-    SetObject({ ...subObjects });
+    setFields({ ...subObjects });
   };
 
   const handleSubmit = (formData) => {
@@ -66,7 +66,7 @@ const EditObjectContainer = (props) => {
 
     const updatedObject = {
       name: name,
-      fields: Objects,
+      fields: fields,
       tags: tagsArr
     };
     props.updateObject(props.object._id, updatedObject);

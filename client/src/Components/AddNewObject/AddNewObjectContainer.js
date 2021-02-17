@@ -42,17 +42,17 @@ const AddNewObjectContainer = (props) => {
     setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index));
   };
 
-  const [Objects, SetObject] = useState({});
+  const [fields, setFields] = useState({});
 
   const setBaseObject = (subObjects) => {
-    SetObject({ ...subObjects });
+    setFields({ ...subObjects });
   };
 
   const handleSubmit = () => {
     props.clearMessages();
     const newObject = {
       name: name,
-      fields: Objects,
+      fields: fields,
       tags: tagsArr
     };
     props.addNewObject(newObject);

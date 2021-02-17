@@ -1,8 +1,40 @@
 const Object = require('../Models/Object');
+const fs = require('fs');
+
+const findObject = (obj, key, value) => {
+  const result = [];
+  const recursiveSearch = (obj) => {
+    if (!obj || typeof obj !== 'object') {
+      return;
+    }
+    if (obj[key] === value) {
+      result.push(obj);
+    }
+    Object.keys(obj).forEach(function (k) {
+      recursiveSearch(obj[k]);
+    });
+  };
+  recursiveSearch(obj);
+  return result;
+};
 
 const createObject = async (body, locals) => {
   try {
     const { name, fields, tags } = body;
+    const files = findObject(fields, 'type', 'file');
+
+    files.forEach((file) => {
+      if (fs.existsSync(`./uploads/${file.fileName}`)) {
+        fs.rename(`./uploads/${file.fileName}`, `./uploadsFinal/${file.fileName}`, function (err) {
+          if (err) {
+            console.log(err);
+          }
+          console.log('Successfully renamed - AKA moved!');
+        });
+      }else{
+        console.log('not found');
+      }
+    });
 
     const object = new Object({
       name,

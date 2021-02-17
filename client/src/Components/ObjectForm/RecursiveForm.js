@@ -48,15 +48,14 @@ const RecursiveForm = (props) => {
   const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
-    props.setParentValue(subObjects);
-  }, [subObjects]);
-
-  useEffect(() => {
     if (props.existingObjs) {
       setSubObjects(props.existingObjs.fields);
     }
   }, [props.existingObjs]);
 
+  useEffect(() => {
+    props.setParentValue(subObjects);
+  }, [subObjects]);
 
   const getInnerObjects = (subSubObject) => {
     setSubObjectValue(subSubObject);
@@ -95,7 +94,7 @@ const RecursiveForm = (props) => {
         setUploadProgress(Math.floor((loaded * 100) / total));
       }
     });
-    setSubObjectValue(uploadedFileName.data);
+    setSubObjectValue({ ...uploadedFileName.data, 'type': 'file' });
   };
 
   const handleDeleteSubObject = (subObjectKey) => {
@@ -107,8 +106,8 @@ const RecursiveForm = (props) => {
   };
 
   return (
-    <Paper className={classes.paperStyle} elevation={8}>
-      <TableContainer component={Paper}>
+    <Paper className={classes.paperStyle} elevation={2}>
+      <TableContainer className={classes.tableContainer} component={Paper}>
         <Table className={classes.table}>
           <TableHead>
             <TableRow>
@@ -197,16 +196,16 @@ const RecursiveForm = (props) => {
         }
         {type === 'object'
         &&
-          <RecursiveForm setParentValue={getInnerObjects}
-                         setErrorMsg={props.setErrorMsg}
-                         clearMessages={props.clearMessages}/>
+        <RecursiveForm setParentValue={getInnerObjects}
+                       setErrorMsg={props.setErrorMsg}
+                       clearMessages={props.clearMessages}/>
         }
         {type === 'array'
         &&
         <div>
           <ArrayRecursiveForm setParentValue={getInnerObjects}
-                         setErrorMsg={props.setErrorMsg}
-                         clearMessages={props.clearMessages}/>
+                              setErrorMsg={props.setErrorMsg}
+                              clearMessages={props.clearMessages}/>
         </div>
         }
       </Grid>
