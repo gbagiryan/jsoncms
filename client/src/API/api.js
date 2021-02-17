@@ -15,23 +15,23 @@ export const AuthApi = {
   }
 };
 
-export const ObjectApi = {
-  async fetchObjects () {
-    return await Axios.get('/api/posts/getObjects');
+export const ObjApi = {
+  async fetchObjs () {
+    return await Axios.get('/api/posts/getObjs');
   },
-  async fetchAnObject (objectId) {
-    return await Axios.get(`/api/posts/getAnObject/${objectId}`);
+  async fetchAnObj (objId) {
+    return await Axios.get(`/api/posts/getAnObj/${objId}`);
   },
-  async addNewObject (newObject) {
-    return await Axios.post('/api/posts/createAnObject', newObject);
+  async addNewObj (newObj) {
+    return await Axios.post('/api/posts/createAnObj', newObj);
   },
-  async updateObject (objectId, updatedObject) {
-    return await Axios.patch(`/api/posts/updateObject/${objectId}`, updatedObject);
+  async updateObj (objId, updatedObj) {
+    return await Axios.patch(`/api/posts/updateObj/${objId}`, updatedObj);
   },
-  async deleteObject (objectId) {
-    return await Axios.delete(`/api/posts/deleteObject/${objectId}`);
+  async deleteObj (objId) {
+    return await Axios.delete(`/api/posts/deleteObj/${objId}`);
   },
-  async getObjectsByTag (tags) {
-    return await Axios.post(`/api/posts/getObjectsByTag`, tags);
+  async getObjByTag (tags) {
+    return await Axios.post(`/api/posts/getObjsByTag`, tags);
   }
 };

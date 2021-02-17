@@ -1,41 +1,41 @@
 import SideBar from './SideBar';
 import { connect } from 'react-redux';
-import { objectData } from '../../Redux/Selectors/ObjectSelectors';
+import { objData } from '../../Redux/Selectors/ObjSelectors';
 import React, { useState } from 'react';
-import { getObjectsByTag, setSingleObjectData } from '../../Redux/Reducers/ObjectReducer';
+import { getObjsByTag, setSingleObjData } from '../../Redux/Reducers/ObjReducer';
 import { withRouter } from 'react-router-dom';
 import { compose } from 'redux';
 
 const SideBarContainer = (props) => {
 
   const [SearchField, SetSearchField] = useState('');
-  const [FilteredObjects, SetFilteredObjects] = useState([]);
+  const [FilteredObjs, SetFilteredObjs] = useState([]);
   const [SelectedItem, SetSelectedItem] = useState('');
 
   const handleChange = (e) => {
     SetSearchField(e.target.value);
-    const filteredObjects = props.objects.filter((obj) => obj.tags.includes(e.target.value));
-    SetFilteredObjects(filteredObjects);
+    const filteredObjs = props.objs.filter((obj) => obj.tags.includes(e.target.value));
+    SetFilteredObjs(filteredObjs);
   };
 
-  const handleClick = (objectId) => {
-    SetSelectedItem(objectId);
-    props.setSingleObjectData(props.objects.find((obj) => obj._id === objectId));
+  const handleClick = (objId) => {
+    SetSelectedItem(objId);
+    props.setSingleObjData(props.objs.find((obj) => obj._id === objId));
     props.history.push('/');
   };
 
   return (
-    <SideBar objects={SearchField.length > 0 ? FilteredObjects : props.objects} handleClick={handleClick}
+    <SideBar objs={SearchField.length > 0 ? FilteredObjs : props.objs} handleClick={handleClick}
              SearchField={SearchField} handleChange={handleChange} SelectedItem={SelectedItem}/>
   );
 };
 
 const mapStateToProps = (state) => ({
-  objects: objectData(state)
+  objs: objData(state)
 });
 const actionCreators = {
-  getObjectsByTag,
-  setSingleObjectData
+  getObjsByTag,
+  setSingleObjData
 };
 
 export default compose(

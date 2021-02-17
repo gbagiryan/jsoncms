@@ -8,10 +8,10 @@ import HeaderContainer from './Components/Header/HeaderContainer';
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { isAuthed } from './Redux/Selectors/AuthSelectors';
-import { fetchObjects } from './Redux/Reducers/ObjectReducer';
+import { fetchObjs } from './Redux/Reducers/ObjReducer';
 import SideBarContainer from './Components/SideBar/SideBarContainer';
-import AddNewPostContainer from './Components/AddNewObject/AddNewObjectContainer';
-import EditObjectContainer from './Components/EditObject/EditObjectContainer';
+import AddNewObjContainer from './Components/AddNewObj/AddNewObjContainer';
+import EditObjContainer from './Components/EditObj/EditObjContainer';
 import { initializeApp } from './Redux/Reducers/AppReducer';
 import { isInitialized } from './Redux/Selectors/AppSelectors';
 
@@ -28,7 +28,7 @@ const App = (props) => {
     props.initializeApp();
   }, []);
   useEffect(() => {
-    props.fetchObjects(props.isAuthed);
+    props.fetchObjs(props.isAuthed);
   }, [props.isAuthed]);
 
   return (
@@ -50,13 +50,13 @@ const App = (props) => {
             <Paper elevation={4} className={classes.paper}>
               <Switch>
                 <Route exact path='/' component={Main}/>
-                <Route exact path='/add_object' component={AddNewPostContainer}/>
+                <Route exact path='/add_obj' component={AddNewObjContainer}/>
                 <Route exact path='/login' component={LoginContainer}/>
                 <Route exact path='/register' component={RegisterContainer}/>
-                <Route exact path='/edit_object'>
+                <Route exact path='/edit_obj'>
                   <Redirect to="/"/>
                 </Route>
-                <Route path='/edit_object/:objectId' component={EditObjectContainer}/>
+                <Route path='/edit_obj/:objId' component={EditObjContainer}/>
               </Switch>
             </Paper>
           </Grid>
@@ -72,6 +72,6 @@ const mapStateToProps = (state) => ({
 });
 const actionCreators = {
   initializeApp,
-  fetchObjects
+  fetchObjs
 };
 export default connect(mapStateToProps, actionCreators)(App);

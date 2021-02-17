@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
     width: 300,
     padding: theme.spacing(2)
   },
-  objectPreview: {
+  objPreview: {
     margin: 'auto'
   },
   buttons: {
@@ -35,8 +35,8 @@ const Main = (props) => {
 
   return (
     <div>
-      {props.object
-        ? <Grid item xs={9} className={classes.objectPreview}>
+      {props.obj
+        ? <Grid item xs={9} className={classes.objPreview}>
           <Card elevation={4}>
             <div className={classes.buttons}>
               <Button onClick={props.handleDeleteObject}
@@ -44,13 +44,13 @@ const Main = (props) => {
                       color="secondary"
                       className={classes.button}
                       endIcon={<DeleteForeverIcon/>}>Delete</Button>
-              <Button component={Link} to={`/edit_object/${props.object._id}`} variant="contained"
+              <Button component={Link} to={`/edit_obj/${props.obj._id}`} variant="contained"
                       color="primary" className={classes.button}
                       endIcon={<EditIcon/>}>Edit</Button>
             </div>
             <Card>
               <CardHeader
-                title={props.object.name}
+                title={props.obj.name}
               />
             </Card>
             <CardContent>
@@ -63,23 +63,23 @@ const Main = (props) => {
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {Object.keys(props.object.fields).map((field, i) =>
-                      <TableRow key={field}>
+                    {Object.keys(props.obj.objs).map((obj, i) =>
+                      <TableRow key={obj}>
                         <TableCell component="th" scope="row">
-                          {field}
+                          {obj}
                         </TableCell>
-                        <TableCell align="right">{props.object.fields[field].fileName ?
+                        <TableCell align="right">{props.obj.objs[obj].fileName ?
                           <div>
-                            {props.object.fields[field].originalName}
+                            {props.obj.objs[obj].originalName}
                             <IconButton
                               component={Link}
-                              to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + props.object.fields[field].fileName }}
+                              to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + props.obj.objs[obj].fileName }}
                               target={'_blank'}
                               color="primary">
                               <ExitToAppIcon/>
                             </IconButton>
                           </div>
-                          : props.object.fields[field].name ? props.object.fields[field].name : Parser(JSON.stringify(props.object.fields[field]))}
+                          : props.obj.objs[obj].name ? props.obj.objs[obj].name : Parser(JSON.stringify(props.obj.objs[obj]))}
                         </TableCell>
                       </TableRow>
                     )}
@@ -90,8 +90,8 @@ const Main = (props) => {
             <CardContent>
               <p>Tags</p>
               <Typography variant="body1" color="primary" component="p">
-                {props.object.tags.map((tag) =>
-                  (props.object.tags.length > 1 ? tag + ', ' : tag)
+                {props.obj.tags.map((tag) =>
+                  (props.obj.tags.length > 1 ? tag + ', ' : tag)
                 )}
               </Typography>
             </CardContent>

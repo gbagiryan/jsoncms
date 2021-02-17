@@ -31,7 +31,7 @@ const SideBar = (props) => {
         <ListItem key={'head'} className={classes.sidebarHead}>
           <ListItemText primary={'My Objects'}/>
         </ListItem>
-        <ListItem button key={'addObject'} component={Link} to={'/add_object'}>
+        <ListItem button key={'addObj'} component={Link} to={'/add_obj'}>
           <ListItemIcon><AddCircleIcon/></ListItemIcon>
           <ListItemText primary={'Add New Object'}/>
         </ListItem>
@@ -40,12 +40,12 @@ const SideBar = (props) => {
                      onChange={props.handleChange}/>
         </ListItem>
         <Divider/>
-        {props.objects
-          ? props.objects.map((object) => (
-            <MenuItem button onClick={() => props.handleClick(object._id)} key={object._id}
-                      selected={props.SelectedItem === object._id}>
+        {props.objs
+          ? props.objs.map((obj) => (
+            <MenuItem button onClick={() => props.handleClick(obj._id)} key={obj._id}
+                      selected={props.SelectedItem === obj._id}>
               <ListItemIcon><EmojiObjectsIcon/></ListItemIcon>
-              <ListItemText primary={object.name}/>
+              <ListItemText primary={obj.name}/>
             </MenuItem>))
           : null}
       </List>

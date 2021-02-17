@@ -4,18 +4,12 @@ import {
   IconButton,
   makeStyles,
   Paper,
-  Table, TableBody, TableCell, TableContainer,
-  TableHead, TableRow,
   TextField
 } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import React from 'react';
-import { maxLength, required } from '../../Common/Validators';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import { Error, Success } from '../../Common/Messages';
-import Parser from 'html-react-parser';
-import { Link } from 'react-router-dom';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import 'react-quill/dist/quill.snow.css';
 import RecursiveForm from './RecursiveForm';
 
@@ -35,9 +29,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const maxLength20 = maxLength(20);
-
-const ObjectForm = (props) => {
+const ObjForm = (props) => {
   const classes = useStyles();
 
   return (
@@ -91,4 +83,4 @@ const ObjectForm = (props) => {
   );
 };
 
-export default ObjectForm;
+export default ObjForm;

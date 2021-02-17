@@ -9,7 +9,7 @@ const validateSignIn = [
     .withMessage('Password must be at least 6 characters long')
 ];
 
-const validateCreateUpdateObject = async (req, res, next) => {
+const validateCreateUpdateObj = async (req, res, next) => {
   if (!req.body.name) {
     return res.status(400).json({ errorMessage: 'Name is required' });
   }
@@ -29,6 +29,6 @@ const isValidated = (req, res, next) => {
 
 module.exports = {
   validateSignIn,
-  validateCreateUpdateObject,
+  validateCreateUpdateObj,
   isValidated
 };

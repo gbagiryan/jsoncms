@@ -40,42 +40,42 @@ const RecursiveForm = (props) => {
     { value: 'rich-text', label: 'rich-text' }
   ];
 
-  const [subObjects, setSubObjects] = useState({});
-  const [subObjectKey, setSubObjectKey] = useState('');
-  const [subObjectValue, setSubObjectValue] = useState('');
+  const [subObjs, setSubObjs] = useState({});
+  const [subObjKey, setSubObjKey] = useState('');
+  const [subObjValue, setSubObjValue] = useState('');
 
   const [type, setType] = useState(inputTypes[0].value);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
     if (props.existingObjs) {
-      setSubObjects(props.existingObjs.fields);
+      setSubObjs(props.existingObjs.objs);
     }
   }, [props.existingObjs]);
 
   useEffect(() => {
-    props.setParentValue(subObjects);
-  }, [subObjects]);
+    props.setParentValue(subObjs);
+  }, [subObjs]);
 
-  const getInnerObjects = (subSubObject) => {
-    setSubObjectValue(subSubObject);
+  const getInnerObjs = (subSubObj) => {
+    setSubObjValue(subSubObj);
   };
 
   const handleChangeKey = (e) => {
     props.clearMessages();
-    setSubObjectKey(e.target.value);
+    setSubObjKey(e.target.value);
   };
   const handleChangeValue = (e) => {
     props.clearMessages();
-    setSubObjectValue(e.target.value);
+    setSubObjValue(e.target.value);
   };
-  const handleAddSubObject = () => {
+  const handleAddSubObj = () => {
     props.clearMessages();
-    if (subObjectKey && subObjectValue) {
-      if (!subObjects.hasOwnProperty(subObjectKey)) {
-        setSubObjects({ ...subObjects, ...{ [subObjectKey]: subObjectValue } });
-        setSubObjectKey('');
-        setSubObjectValue('');
+    if (subObjKey && subObjValue) {
+      if (!subObjs.hasOwnProperty(subObjKey)) {
+        setSubObjs({ ...subObjs, ...{ [subObjKey]: subObjValue } });
+        setSubObjKey('');
+        setSubObjValue('');
       } else {
         props.setErrorMsg('Keys of an object must be unique');
       }
@@ -94,12 +94,12 @@ const RecursiveForm = (props) => {
         setUploadProgress(Math.floor((loaded * 100) / total));
       }
     });
-    setSubObjectValue({ ...uploadedFileName.data, 'type': 'file' });
+    setSubObjValue({ ...uploadedFileName.data, 'type': 'file' });
   };
 
-  const handleDeleteSubObject = (subObjectKey) => {
-    const { [subObjectKey]: tmp, ...rest } = subObjects;
-    setSubObjects(rest);
+  const handleDeleteSubObj = (subObjKey) => {
+    const { [subObjKey]: tmp, ...rest } = subObjs;
+    setSubObjs(rest);
   };
   const handleChangeType = (event) => {
     setType(event.target.value);
@@ -116,25 +116,25 @@ const RecursiveForm = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {Object.keys(subObjects).map((subObject, i) =>
-              <TableRow key={subObject}>
+            {Object.keys(subObjs).map((subObj, i) =>
+              <TableRow key={subObj}>
                 <TableCell component="th" scope="row">
-                  {subObject}
+                  {subObj}
                 </TableCell>
-                <TableCell align="right">{subObjects[subObject].fileName ?
+                <TableCell align="right">{subObjs[subObj].fileName ?
                   <>
-                    {subObjects[subObject].originalName}
+                    {subObjs[subObj].originalName}
                     <IconButton
                       component={Link}
-                      to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + subObjects[subObject].fileName }}
+                      to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + subObjs[subObj].fileName }}
                       target={'_blank'}
                       color="primary">
                       <ExitToAppIcon/>
                     </IconButton>
                   </>
-                  : subObjects[subObject].name ? subObjects[subObject].name : Parser(JSON.stringify(subObjects[subObject]))}
+                  : subObjs[subObj].name ? subObjs[subObj].name : Parser(JSON.stringify(subObjs[subObj]))}
                   <IconButton
-                    onClick={() => handleDeleteSubObject(subObject)}
+                    onClick={() => handleDeleteSubObj(subObj)}
                     color="primary">
                     <HighlightOffIcon/>
                   </IconButton>
@@ -147,7 +147,7 @@ const RecursiveForm = (props) => {
       <Grid container spacing={2}>
         <Grid item xs={8}>
           <TextField fullWidth variant="outlined" placeholder={'Key'} name={'key'} label={'Key'}
-                     value={subObjectKey} onChange={handleChangeKey}/>
+                     value={subObjKey} onChange={handleChangeKey}/>
         </Grid>
         <Grid item xs={2}>
           <TextField
@@ -174,13 +174,13 @@ const RecursiveForm = (props) => {
         &&
         <Grid item xs={12}>
           <TextField fullWidth variant="outlined" placeholder={'Value'} name={'value'} label={'Value'}
-                     value={subObjectValue} onChange={handleChangeValue}/>
+                     value={subObjValue} onChange={handleChangeValue}/>
         </Grid>
         }
         {type === 'rich-text'
         &&
         <Grid item xs={12}>
-          <ReactQuill value={subObjectValue} onChange={html => handleChangeValue({ target: { value: html } })}/>
+          <ReactQuill value={subObjValue} onChange={html => handleChangeValue({ target: { value: html } })}/>
         </Grid>
         }
         {type === 'file'
@@ -196,14 +196,14 @@ const RecursiveForm = (props) => {
         }
         {type === 'object'
         &&
-        <RecursiveForm setParentValue={getInnerObjects}
+        <RecursiveForm setParentValue={getInnerObjs}
                        setErrorMsg={props.setErrorMsg}
                        clearMessages={props.clearMessages}/>
         }
         {type === 'array'
         &&
         <div>
-          <ArrayRecursiveForm setParentValue={getInnerObjects}
+          <ArrayRecursiveForm setParentValue={getInnerObjs}
                               setErrorMsg={props.setErrorMsg}
                               clearMessages={props.clearMessages}/>
         </div>

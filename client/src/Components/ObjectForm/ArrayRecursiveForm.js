@@ -40,29 +40,29 @@ const ArrayRecursiveForm = (props) => {
     { value: 'rich-text', label: 'rich-text' }
   ];
 
-  const [subObjects, setSubObjects] = useState([]);
-  const [subObjectValue, setSubObjectValue] = useState('');
+  const [subObjs, setSubObjs] = useState([]);
+  const [subObjValue, setSubObjValue] = useState('');
 
   const [type, setType] = useState(inputTypes[0].value);
   const [uploadProgress, setUploadProgress] = useState(0);
 
   useEffect(() => {
-    props.setParentValue(subObjects);
-  }, [subObjects]);
+    props.setParentValue(subObjs);
+  }, [subObjs]);
 
-  const getInnerObjects = (subSubObject) => {
-    setSubObjectValue(subSubObject);
+  const getInnerObjs = (subSubObj) => {
+    setSubObjValue(subSubObj);
   };
 
   const handleChangeValue = (e) => {
     props.clearMessages();
-    setSubObjectValue(e.target.value);
+    setSubObjValue(e.target.value);
   };
   const handleAddSubObject = () => {
     props.clearMessages();
-    if (subObjectValue) {
-      setSubObjects([...subObjects, subObjectValue]);
-      setSubObjectValue('');
+    if (subObjValue) {
+      setSubObjs([...subObjs, subObjValue]);
+      setSubObjValue('');
     } else {
       props.setErrorMsg('Value Required');
     }
@@ -78,11 +78,11 @@ const ArrayRecursiveForm = (props) => {
         setUploadProgress(Math.floor((loaded * 100) / total));
       }
     });
-    setSubObjectValue({ ...uploadedFileName.data, 'type': 'file' });
+    setSubObjValue({ ...uploadedFileName.data, 'type': 'file' });
   };
 
   const handleDeleteSubObject = (index) => {
-    setSubObjects([...subObjects.filter((el) => subObjects.indexOf(el) !== index)]);
+    setSubObjs([...subObjs.filter((el) => subObjs.indexOf(el) !== index)]);
   };
   const handleChangeType = (event) => {
     setType(event.target.value);
@@ -98,14 +98,14 @@ const ArrayRecursiveForm = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {subObjects.map((item, i) =>
+            {subObjs.map((item, i) =>
               <TableRow key={item._id}>
                 <TableCell align="right">{item.fileName ?
                   <>
                     {item.originalName}
                     <IconButton
                       component={Link}
-                      to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + subObjects.fileName }}
+                      to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + subObjs.fileName }}
                       target={'_blank'}
                       color="primary">
                       <ExitToAppIcon/>
@@ -113,7 +113,7 @@ const ArrayRecursiveForm = (props) => {
                   </>
                   : item.name ? item.name : Parser(JSON.stringify(item))}
                   <IconButton
-                    onClick={() => handleDeleteSubObject(subObjects.indexOf(item))}
+                    onClick={() => handleDeleteSubObject(subObjs.indexOf(item))}
                     color="primary">
                     <HighlightOffIcon/>
                   </IconButton>
@@ -149,13 +149,13 @@ const ArrayRecursiveForm = (props) => {
         &&
         <Grid item xs={8}>
           <TextField fullWidth variant="outlined" placeholder={'Value'} name={'value'} label={'Value'}
-                     value={subObjectValue} onChange={handleChangeValue}/>
+                     value={subObjValue} onChange={handleChangeValue}/>
         </Grid>
         }
         {type === 'rich-text'
         &&
         <Grid item xs={8}>
-          <ReactQuill value={subObjectValue} onChange={html => handleChangeValue({ target: { value: html } })}/>
+          <ReactQuill value={subObjValue} onChange={html => handleChangeValue({ target: { value: html } })}/>
         </Grid>
         }
         {type === 'file'
@@ -171,14 +171,14 @@ const ArrayRecursiveForm = (props) => {
         }
         {type === 'object'
         &&
-        <RecursiveForm setParentValue={getInnerObjects}
+        <RecursiveForm setParentValue={getInnerObjs}
                        setErrorMsg={props.setErrorMsg}
                        clearMessages={props.clearMessages}/>
         }
         {type === 'array'
         &&
         <div>
-          <ArrayRecursiveForm setParentValue={getInnerObjects}
+          <ArrayRecursiveForm setParentValue={getInnerObjs}
                               setErrorMsg={props.setErrorMsg}
                               clearMessages={props.clearMessages}/>
         </div>

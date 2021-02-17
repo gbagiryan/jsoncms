@@ -1,13 +1,13 @@
 const mongoose = require('mongoose');
 
-const objectSchema = new mongoose.Schema({
+const objsSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
     maxLength: 20,
     unique: true
   },
-  fields: {
+  objs: {
     type: {},
     required: true
   },
@@ -21,4 +21,4 @@ const objectSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Object', objectSchema);
+module.exports = mongoose.model('Objs', objsSchema);

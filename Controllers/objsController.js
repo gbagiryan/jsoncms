@@ -1,9 +1,9 @@
 const logger = require('../logger');
-const objetService = require('../Service/objectService');
+const objService = require('../Service/objService');
 
-const createAnObject = async (req, res) => {
+const createAnObj = async (req, res) => {
   try {
-    await objetService.createObject(req.body, req.app.locals);
+    await objService.createObj(req.body, req.app.locals);
     res.status(200).json({ successMessage: 'new object posted' });
   } catch (err) {
     logger.error(err);
@@ -11,9 +11,9 @@ const createAnObject = async (req, res) => {
   }
 };
 
-const updateObject = async (req, res) => {
+const updateObj = async (req, res) => {
   try {
-    await objetService.updateObject(req.params, req.body, req.files, req.app.locals);
+    await objService.updateObj(req.params, req.body, req.files, req.app.locals);
     return res.status(200).json({ successMessage: 'object updated' });
   } catch (err) {
     logger.error(err);
@@ -21,9 +21,9 @@ const updateObject = async (req, res) => {
   }
 };
 
-const deleteObject = async (req, res) => {
+const deleteObj = async (req, res) => {
   try {
-    await objetService.deleteObject(req.params, req.app.locals);
+    await objService.deleteObj(req.params, req.app.locals);
     return res.status(200).json({ successMessage: 'object removed' });
   } catch (err) {
     logger.error(err);
@@ -31,30 +31,30 @@ const deleteObject = async (req, res) => {
   }
 };
 
-const getObjects = async (req, res) => {
+const getObjs = async (req, res) => {
   try {
-    const objects = await objetService.getObjects(req.app.locals);
-    return res.status(200).json(objects);
+    const objs = await objService.getObjects(req.app.locals);
+    return res.status(200).json(objs);
   } catch (err) {
     logger.error(err);
     res.status(500).json({ errorMessage: 'server error' });
   }
 };
 
-const getObjectsByTag = async (req, res) => {
+const getObjsByTag = async (req, res) => {
   try {
-    const objects = await objetService.getObjectsByTag(req.body, req.app.locals);
-    return res.status(200).json(objects);
+    const objs = await objService.getObjsByTag(req.body, req.app.locals);
+    return res.status(200).json(objs);
   } catch (err) {
     logger.error(err);
     res.status(500).json({ errorMessage: 'server error' });
   }
 };
 
-const getAnObject = async (req, res) => {
+const getAnObj = async (req, res) => {
   try {
-    const object = await objetService.getAnObject(req.params, req.app.locals);
-    return res.status(200).json(object);
+    const obj = await objService.getAnObj(req.params, req.app.locals);
+    return res.status(200).json(obj);
   } catch (err) {
     logger.error(err);
     res.status(500).json({ errorMessage: 'server error' });
@@ -73,11 +73,11 @@ const uploadFile = async (req, res) => {
 };
 
 module.exports = {
-  getObjects,
-  getObjectsByTag,
-  getAnObject,
-  createAnObject,
-  updateObject,
-  deleteObject,
+  getObjs,
+  getObjsByTag,
+  getAnObj,
+  createAnObj,
+  updateObj,
+  deleteObj,
   uploadFile
 };

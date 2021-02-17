@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./Routes/authRoutes');
-const objectsRoutes = require('./Routes/objectsRoutes');
+const objectsRoutes = require('./Routes/objsRoutes');
 const cookieParser = require('cookie-parser');
 const logger = require('./logger');
 

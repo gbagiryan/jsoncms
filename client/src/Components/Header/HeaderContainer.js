@@ -3,14 +3,14 @@ import Header from './Header';
 import { isAuthed } from '../../Redux/Selectors/AuthSelectors';
 import { signOut } from '../../Redux/Reducers/AuthReducer';
 import React from 'react';
-import { setObjectData, setSingleObjectData } from '../../Redux/Reducers/ObjectReducer';
+import { setObjData, setSingleObjData } from '../../Redux/Reducers/ObjReducer';
 
 const HeaderContainer = (props) => {
 
   const handleClick = () => {
     props.signOut();
-    props.setObjectData(null);
-    props.setSingleObjectData(null);
+    props.setObjData(null);
+    props.setSingleObjData(null);
   };
 
   return (
@@ -23,8 +23,8 @@ const mapStateToProps = (state) => ({
 });
 const actionCreators = {
   signOut,
-  setObjectData,
-  setSingleObjectData
+  setObjData,
+  setSingleObjData
 };
 
 export default connect(mapStateToProps, actionCreators)(HeaderContainer);

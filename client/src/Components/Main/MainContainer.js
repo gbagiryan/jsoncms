@@ -3,25 +3,24 @@ import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 import Main from './Main';
 import React from 'react';
 import { connect } from 'react-redux';
-import { singleObjectData } from '../../Redux/Selectors/ObjectSelectors';
-import { deleteObject } from '../../Redux/Reducers/ObjectReducer';
+import { singleObjData } from '../../Redux/Selectors/ObjSelectors';
+import { deleteObj } from '../../Redux/Reducers/ObjReducer';
 
 const MainContainer = (props) => {
 
-  const handleDeleteObject = () => {
-    props.deleteObject(props.object._id);
+  const handleDeleteObj = () => {
+    props.deleteObj(props.obj._id);
   };
-console.log(props.object)
   return (
-    <Main object={props.object} handleDeleteObject={handleDeleteObject}/>
+    <Main obj={props.obj} handleDeleteObj={handleDeleteObj}/>
   );
 };
 
 const mapStateToProps = (state) => ({
-  object: singleObjectData(state)
+  obj: singleObjData(state)
 });
 const actionCreators = {
-  deleteObject
+  deleteObj
 };
 
 export default compose(

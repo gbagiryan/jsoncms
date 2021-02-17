@@ -1,13 +1,13 @@
 import { connect } from 'react-redux';
-import { addNewObject } from '../../Redux/Reducers/ObjectReducer';
+import { addNewObj } from '../../Redux/Reducers/ObjReducer';
 import React, { useEffect, useState } from 'react';
 import { compose } from 'redux';
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
-import ObjectForm from '../ObjectForm/ObjectForm';
+import ObjForm from '../ObjForm/ObjForm';
 
-const AddNewObjectContainer = (props) => {
+const AddNewObjContainer = (props) => {
   const [name, setName] = useState('');
   const [tag, setTag] = useState('');
   const [tagsArr, setTagsArr] = useState([]);
@@ -42,24 +42,24 @@ const AddNewObjectContainer = (props) => {
     setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index));
   };
 
-  const [fields, setFields] = useState({});
+  const [objs, setObjs] = useState({});
 
-  const setBaseObject = (subObjects) => {
-    setFields({ ...subObjects });
+  const setBaseObj = (subObjs) => {
+    setObjs({ ...subObjs });
   };
 
   const handleSubmit = () => {
     props.clearMessages();
-    const newObject = {
+    const newObj = {
+      objs,
       name: name,
-      fields: fields,
       tags: tagsArr
     };
-    props.addNewObject(newObject);
+    props.addNewObj(newObj);
   };
 
   return (
-    <ObjectForm
+    <ObjForm
       errorMsg={props.errorMsg}
       successMsg={props.successMsg}
       setErrorMsg={props.setErrorMsg}
@@ -71,7 +71,7 @@ const AddNewObjectContainer = (props) => {
       name={name}
       handleNameChange={handleNameChange}
       handleDeleteTag={handleDeleteTag}
-      setParentValue={setBaseObject}
+      setParentValue={setBaseObj}
     />
   );
 };
@@ -81,7 +81,7 @@ const mapStateToProps = (state) => ({
   successMsg: getSuccessMsg(state)
 });
 const actionCreators = {
-  addNewObject,
+  addNewObj,
   clearMessages,
   setErrorMsg
 };
@@ -89,4 +89,4 @@ const actionCreators = {
 export default compose(
   connect(mapStateToProps, actionCreators),
   WithAuthRedirect
-)(AddNewObjectContainer);
+)(AddNewObjContainer);

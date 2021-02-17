@@ -1,5 +1,5 @@
-import { singleObjectData } from '../../Redux/Selectors/ObjectSelectors';
-import { fetchAnObject, updateObject } from '../../Redux/Reducers/ObjectReducer';
+import { singleObjData } from '../../Redux/Selectors/ObjSelectors';
+import { fetchAnObj, updateObj } from '../../Redux/Reducers/ObjReducer';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
@@ -7,9 +7,9 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
-import ObjectForm from '../ObjectForm/ObjectForm';
+import ObjForm from '../ObjForm/ObjForm';
 
-const EditObjectContainer = (props) => {
+const EditObjContainer = (props) => {
 
   useEffect(() => {
     return () => {
@@ -18,15 +18,15 @@ const EditObjectContainer = (props) => {
   }, []);
 
   useEffect(() => {
-    const objectId = props.match.params.objectId;
-    props.fetchAnObject(objectId);
+    const objId = props.match.params.objId;
+    props.fetchAnObj(objId);
   }, []);
 
   useEffect(() => {
-    if (props.object) {
-      setTagsArr(props.object.tags);
+    if (props.obj) {
+      setTagsArr(props.obj.tags);
     }
-  }, [props.object]);
+  }, [props.obj]);
 
   const [name, setName] = useState('');
   const [tag, setTag] = useState('');
@@ -55,49 +55,49 @@ const EditObjectContainer = (props) => {
   const handleDeleteTag = (index) => {
     setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index));
   };
-  const [fields, setFields] = useState([]);
+  const [objs, setObjs] = useState([]);
 
-  const setBaseObject = (subObjects) => {
-    setFields({ ...subObjects });
+  const setBaseObj = (subObjs) => {
+    setObjs({ ...subObjs });
   };
 
   const handleSubmit = (formData) => {
     props.clearMessages();
 
-    const updatedObject = {
+    const updatedObj = {
+      objs,
       name: name,
-      fields: fields,
       tags: tagsArr
     };
-    props.updateObject(props.object._id, updatedObject);
+    props.updateObj(props.obj._id, updatedObj);
   };
 
   return (
-    <ObjectForm errorMsg={props.errorMsg}
-                successMsg={props.successMsg}
-                setErrorMsg={props.setErrorMsg}
-                clearMessages={props.clearMessages}
-                handleSubmit={handleSubmit}
-                handleAddTag={handleAddTag}
-                tagsArr={tagsArr}
-                handleTagChange={handleTagChange}
-                name={name}
-                handleNameChange={handleNameChange}
-                handleDeleteTag={handleDeleteTag}
-                setParentValue={setBaseObject}
-                existingObjs={props.object}
+    <ObjForm errorMsg={props.errorMsg}
+             successMsg={props.successMsg}
+             setErrorMsg={props.setErrorMsg}
+             clearMessages={props.clearMessages}
+             handleSubmit={handleSubmit}
+             handleAddTag={handleAddTag}
+             tagsArr={tagsArr}
+             handleTagChange={handleTagChange}
+             name={name}
+             handleNameChange={handleNameChange}
+             handleDeleteTag={handleDeleteTag}
+             setParentValue={setBaseObj}
+             existingObjs={props.obj}
     />
   );
 };
 
 const mapStateToProps = (state) => ({
-  object: singleObjectData(state),
+  obj: singleObjData(state),
   errorMsg: getErrorMsg(state),
   successMsg: getSuccessMsg(state)
 });
 const actionCreators = {
-  updateObject,
-  fetchAnObject,
+  updateObj,
+  fetchAnObj,
   clearMessages,
   setErrorMsg
 };
@@ -106,4 +106,4 @@ export default compose(
   withRouter,
   connect(mapStateToProps, actionCreators),
   WithAuthRedirect
-)(EditObjectContainer);
+)(EditObjContainer);

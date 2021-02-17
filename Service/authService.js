@@ -7,7 +7,7 @@ const signIn = async (body) => {
     const { username, password } = body;
     return await User.comparePasswords(username, password);
   } catch (err) {
-    throw Error(err);
+    throw new Error(err);
   }
 };
 const signUp = async (body) => {
