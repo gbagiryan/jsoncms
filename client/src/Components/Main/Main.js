@@ -39,7 +39,7 @@ const Main = (props) => {
         ? <Grid item xs={9} className={classes.objPreview}>
           <Card elevation={4}>
             <div className={classes.buttons}>
-              <Button onClick={props.handleDeleteObject}
+              <Button onClick={props.handleDeleteObj}
                       variant="contained"
                       color="secondary"
                       className={classes.button}

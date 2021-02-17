@@ -2,7 +2,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./Routes/authRoutes');
-const objectsRoutes = require('./Routes/objsRoutes');
+const objsRoutes = require('./Routes/objsRoutes');
 const cookieParser = require('cookie-parser');
 const logger = require('./logger');
 
@@ -13,7 +13,7 @@ app.use(express.json());
 app.use(cookieParser());
 app.use('/', express.static('uploads'));
 app.use('/api/auth', authRoutes);
-app.use('/api/posts', objectsRoutes);
+app.use('/api/posts', objsRoutes);
 
 (async () => {
   try {

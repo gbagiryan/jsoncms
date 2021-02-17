@@ -33,7 +33,7 @@ const deleteObj = async (req, res) => {
 
 const getObjs = async (req, res) => {
   try {
-    const objs = await objService.getObjects(req.app.locals);
+    const objs = await objService.getObjs(req.app.locals);
     return res.status(200).json(objs);
   } catch (err) {
     logger.error(err);

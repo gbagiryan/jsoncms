@@ -2,12 +2,12 @@ import { applyMiddleware, combineReducers, compose, createStore } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import { reducer as formReducer } from 'redux-form';
 import AuthReducer from './Reducers/AuthReducer';
-import ObjRed from './Reducers/ObjRed';
+import ObjReducer from './Reducers/ObjReducer';
 import AppReducer from './Reducers/AppReducer';
 
 const reducers = combineReducers({
   auth: AuthReducer,
-  obj: ObjRed,
+  obj: ObjReducer,
   app: AppReducer,
   form: formReducer
 });

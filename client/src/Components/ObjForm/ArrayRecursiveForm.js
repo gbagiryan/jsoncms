@@ -58,7 +58,7 @@ const ArrayRecursiveForm = (props) => {
     props.clearMessages();
     setSubObjValue(e.target.value);
   };
-  const handleAddSubObject = () => {
+  const handleAddSubObj = () => {
     props.clearMessages();
     if (subObjValue) {
       setSubObjs([...subObjs, subObjValue]);
@@ -81,7 +81,7 @@ const ArrayRecursiveForm = (props) => {
     setSubObjValue({ ...uploadedFileName.data, 'type': 'file' });
   };
 
-  const handleDeleteSubObject = (index) => {
+  const handleDeleteSubObj = (index) => {
     setSubObjs([...subObjs.filter((el) => subObjs.indexOf(el) !== index)]);
   };
   const handleChangeType = (event) => {
@@ -113,7 +113,7 @@ const ArrayRecursiveForm = (props) => {
                   </>
                   : item.name ? item.name : Parser(JSON.stringify(item))}
                   <IconButton
-                    onClick={() => handleDeleteSubObject(subObjs.indexOf(item))}
+                    onClick={() => handleDeleteSubObj(subObjs.indexOf(item))}
                     color="primary">
                     <HighlightOffIcon/>
                   </IconButton>
@@ -140,7 +140,7 @@ const ArrayRecursiveForm = (props) => {
         </TextField>
       </Grid>
       <Grid item xs={2}>
-        <IconButton onClick={handleAddSubObject} color="primary">
+        <IconButton onClick={handleAddSubObj} color="primary">
           <AddCircleIcon/>
         </IconButton>
       </Grid>

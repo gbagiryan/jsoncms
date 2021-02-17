@@ -166,7 +166,7 @@ const RecursiveForm = (props) => {
           </TextField>
         </Grid>
         <Grid item xs={2}>
-          <IconButton onClick={handleAddSubObject} color="primary">
+          <IconButton onClick={handleAddSubObj} color="primary">
             <AddCircleIcon/>
           </IconButton>
         </Grid>
