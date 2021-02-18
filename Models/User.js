@@ -22,7 +22,7 @@ userSchema.statics.comparePasswords = async function (username, password) {
       return user;
     }
   }
-  throw Error('wrong username or password');
+  throw new Error('wrong username or password');
 };
 
 module.exports = mongoose.model('User', userSchema);

@@ -61,7 +61,7 @@ const ArrayRecursiveForm = (props) => {
   const handleAddSubObj = () => {
     props.clearMessages();
     if (subObjValue) {
-      setSubObjs([...subObjs, subObjValue]);
+      setSubObjs([...subObjs, { subObjValue, type }]);
       setSubObjValue('');
     } else {
       props.setErrorMsg('Value Required');
@@ -78,7 +78,7 @@ const ArrayRecursiveForm = (props) => {
         setUploadProgress(Math.floor((loaded * 100) / total));
       }
     });
-    setSubObjValue({ ...uploadedFileName.data, 'type': 'file' });
+    setSubObjValue({ ...uploadedFileName.data });
   };
 
   const handleDeleteSubObj = (index) => {

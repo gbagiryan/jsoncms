@@ -73,7 +73,7 @@ const RecursiveForm = (props) => {
     props.clearMessages();
     if (subObjKey && subObjValue) {
       if (!subObjs.hasOwnProperty(subObjKey)) {
-        setSubObjs({ ...subObjs, ...{ [subObjKey]: subObjValue } });
+        setSubObjs({ ...subObjs, ...{ [subObjKey]: { subObjValue, type } } });
         setSubObjKey('');
         setSubObjValue('');
       } else {
@@ -94,7 +94,7 @@ const RecursiveForm = (props) => {
         setUploadProgress(Math.floor((loaded * 100) / total));
       }
     });
-    setSubObjValue({ ...uploadedFileName.data, 'type': 'file' });
+    setSubObjValue({ ...uploadedFileName.data });
   };
 
   const handleDeleteSubObj = (subObjKey) => {

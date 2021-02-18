@@ -11,7 +11,8 @@ dotenv.config();
 const port = process.env.port || 5000;
 app.use(express.json());
 app.use(cookieParser());
-app.use('/', express.static('uploads'));
+app.use('/public', express.static('uploadsFinal'));
+app.use('/public', express.static('uploads'));
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', objsRoutes);
 

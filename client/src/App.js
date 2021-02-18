@@ -1,6 +1,6 @@
 import './App.css';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
-import Main from './Components/Main/MainContainer';
+import MainContainer from './Components/Main/MainContainer';
 import { Grid, makeStyles, Paper } from '@material-ui/core';
 import LoginContainer from './Components/Login/LoginContainer';
 import RegisterContainer from './Components/Register/RegisterContainer';
@@ -49,7 +49,7 @@ const App = (props) => {
           <Grid item xs={props.isAuthed ? 10 : 12}>
             <Paper elevation={4} className={classes.paper}>
               <Switch>
-                <Route exact path='/' component={Main}/>
+                <Route exact path='/' component={MainContainer}/>
                 <Route exact path='/add_obj' component={AddNewObjContainer}/>
                 <Route exact path='/login' component={LoginContainer}/>
                 <Route exact path='/register' component={RegisterContainer}/>

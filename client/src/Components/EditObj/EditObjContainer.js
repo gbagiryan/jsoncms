@@ -1,5 +1,5 @@
 import { singleObjData } from '../../Redux/Selectors/ObjSelectors';
-import { fetchAnObj, updateObj } from '../../Redux/Reducers/ObjReducer';
+import { updateObj } from '../../Redux/Reducers/ObjReducer';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
@@ -15,11 +15,6 @@ const EditObjContainer = (props) => {
     return () => {
       props.clearMessages();
     };
-  }, []);
-
-  useEffect(() => {
-    const objId = props.match.params.objId;
-    props.fetchAnObj(objId);
   }, []);
 
   useEffect(() => {
@@ -61,14 +56,16 @@ const EditObjContainer = (props) => {
     setObjs({ ...subObjs });
   };
 
-  const handleSubmit = (formData) => {
+  const handleSubmit = () => {
     props.clearMessages();
+    console.log('props');
 
     const updatedObj = {
       objs,
       name: name,
       tags: tagsArr
     };
+    console.log(props);
     props.updateObj(props.obj._id, updatedObj);
   };
 
@@ -97,7 +94,6 @@ const mapStateToProps = (state) => ({
 });
 const actionCreators = {
   updateObj,
-  fetchAnObj,
   clearMessages,
   setErrorMsg
 };

@@ -13,7 +13,7 @@ const createAnObj = async (req, res) => {
 
 const updateObj = async (req, res) => {
   try {
-    await objService.updateObj(req.params, req.body, req.files, req.app.locals);
+    await objService.updateObj(req.params, req.body, req.app.locals);
     return res.status(200).json({ successMessage: 'object updated' });
   } catch (err) {
     logger.error(err);
@@ -63,7 +63,7 @@ const getAnObj = async (req, res) => {
 const uploadFile = async (req, res) => {
   try {
     res.status(200).json({
-      fileName: `${req.file.filename}`,
+      fileName: `/public/${req.file.filename}`,
       originalName: req.file.originalname
     });
   } catch (err) {

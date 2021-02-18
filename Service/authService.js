@@ -15,7 +15,7 @@ const signUp = async (body) => {
     const { username, password } = body;
     const candidate = await User.findOne({ username });
     if (candidate) {
-      throw Error('username already taken');
+      throw new Error('username already taken');
     }
     const hashedPass = await bcrypt.hash(password, 12);
     const user = new User({
@@ -25,7 +25,7 @@ const signUp = async (body) => {
     await user.save();
     return user;
   } catch (err) {
-    throw Error(err);
+    throw new Error(err);
   }
 };
 
@@ -42,7 +42,7 @@ const verifyAuth = async (cookies) => {
       userId: user._id
     };
   } catch (err) {
-    throw Error(err);
+    throw new Error(err);
   }
 };
 

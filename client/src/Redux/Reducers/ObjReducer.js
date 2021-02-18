@@ -46,17 +46,6 @@ export const fetchObjs = (isAuthed) => async (dispatch) => {
   }
 };
 
-export const fetchAnObj = (objId) => async (dispatch) => {
-  try {
-    const res = await ObjApi.fetchAnObj(objId);
-    dispatch(setSingleObjData(res.data));
-  } catch (err) {
-    console.log(err);
-    dispatch(setSingleObjData(null));
-    dispatch(setErrorMsg(err.response.data.errorMessage));
-  }
-};
-
 export const addNewObj = (newObj) => async (dispatch) => {
   try {
     const res = await ObjApi.addNewObj(newObj);

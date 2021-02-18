@@ -8,7 +8,7 @@ const signToken = (user) => {
       { expiresIn: '1h' }
     );
   } catch (err) {
-    throw Error(err);
+    throw new Error(err);
   }
 };
 
@@ -16,7 +16,7 @@ const verifyToken = async (token) => {
   try {
     return await jwt.verify(token, process.env.JWT_SECRET);
   } catch (err) {
-    throw Error(err);
+    throw new Error(err);
   }
 };
 

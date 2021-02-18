@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const objsSchema = new mongoose.Schema({
+const objSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
@@ -21,4 +21,4 @@ const objsSchema = new mongoose.Schema({
   }
 });
 
-module.exports = mongoose.model('Objs', objsSchema);
+module.exports = mongoose.model('Obj', objSchema);
