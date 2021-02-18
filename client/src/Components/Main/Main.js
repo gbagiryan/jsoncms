@@ -68,18 +68,20 @@ const Main = (props) => {
                         <TableCell component="th" scope="row">
                           {obj}
                         </TableCell>
-                        <TableCell align="right">{props.obj.objs[obj].fileName ?
+                        <TableCell align="right">{props.obj.objs[obj].type === 'file' ?
                           <div>
-                            {props.obj.objs[obj].originalName}
+                            {props.obj.objs[obj].subObjValue.originalName}
                             <IconButton
                               component={Link}
-                              to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + props.obj.objs[obj].fileName }}
+                              to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + props.obj.objs[obj].subObjValue.fileName }}
                               target={'_blank'}
                               color="primary">
                               <ExitToAppIcon/>
                             </IconButton>
                           </div>
-                          : props.obj.objs[obj].name ? props.obj.objs[obj].name : Parser(JSON.stringify(props.obj.objs[obj]))}
+                          : props.obj.objs[obj].type === 'object' ?
+                            <Button color={'secondary'}>Inner Object</Button>
+                          :Parser(JSON.stringify(props.obj.objs[obj].subObjValue))}
                         </TableCell>
                       </TableRow>
                     )}
