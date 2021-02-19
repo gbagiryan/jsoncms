@@ -15,6 +15,7 @@ import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Parser from 'html-react-parser';
 import { Link } from 'react-router-dom';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import RecursiveMain from './RecursiveMain';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -53,42 +54,9 @@ const Main = (props) => {
                 title={props.obj.name}
               />
             </Card>
-            <CardContent>
-              <TableContainer component={Paper}>
-                <Table className={classes.table}>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell>Keys</TableCell>
-                      <TableCell align="right">Values</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {Object.keys(props.obj.objs).map((obj, i) =>
-                      <TableRow key={obj}>
-                        <TableCell component="th" scope="row">
-                          {obj}
-                        </TableCell>
-                        <TableCell align="right">{props.obj.objs[obj].type === 'file' ?
-                          <div>
-                            {props.obj.objs[obj].subObjValue.originalName}
-                            <IconButton
-                              component={Link}
-                              to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + props.obj.objs[obj].subObjValue.fileName }}
-                              target={'_blank'}
-                              color="primary">
-                              <ExitToAppIcon/>
-                            </IconButton>
-                          </div>
-                          : props.obj.objs[obj].type === 'object' ?
-                            <Button color={'secondary'}>Inner Object</Button>
-                          :Parser(JSON.stringify(props.obj.objs[obj].subObjValue))}
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </CardContent>
+
+            <RecursiveMain objs={props.obj.objs}/>
+
             <CardContent>
               <p>Tags</p>
               <Typography variant="body1" color="primary" component="p">
