@@ -1,4 +1,5 @@
 const Obj = require('../Models/Obj');
+const logger = require('../logger');
 const fs = require('fs');
 
 const findObj = (obj, key, value) => {
@@ -90,6 +91,16 @@ const deleteObj = async (params, locals) => {
       throw new Error('object with given id not found');
     }
     await obj.remove();
+
+    const files = findObj(obj, 'type', 'file');
+    files.forEach((file) => {
+      const filename = file.subObjValue.fileName.replace('/public/', '');
+      fs.unlink(`./uploadsFinal/${filename}`, (err) => {
+        if (err) {
+          logger.error(err);
+        }
+      });
+    });
   } catch (err) {
     throw new Error(err);
   }
