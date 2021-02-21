@@ -55,7 +55,7 @@ const Main = (props) => {
               />
             </Card>
 
-            <RecursiveMain objs={props.obj.objs}/>
+            <RecursiveMain setParentState={props.setParentState} objs={props.obj.objs}/>
 
             <CardContent>
               <p>Tags</p>

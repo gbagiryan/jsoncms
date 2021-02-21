@@ -1,13 +1,9 @@
-import {
-  IconButton,
-  makeStyles,
-  MenuItem,
-  TextField
-} from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
+import { IconButton, makeStyles, MenuItem, TextField } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import ReactQuill from 'react-quill';
+import ProgressWithPercentage from '../../Common/ProgressWithPercentage';
 import Axios from 'axios';
 
 const useStyles = makeStyles(theme => ({
@@ -21,7 +17,7 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     width: 400,
     '& .ql-container': {
-      minHeight: 100
+      // minHeight: 100
     }
   },
   fieldIcons: {
@@ -32,7 +28,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RecursiveMain = (props) => {
+const SimpleRecursiveForm = (props) => {
 
   const classes = useStyles();
 
@@ -49,8 +45,32 @@ const RecursiveMain = (props) => {
   const [uploadProgress, setUploadProgress] = useState([]);
 
   useEffect(() => {
+    if (props.initialObjs) {
+      handleAddInitialFields(props.initialObjs);
+    }
+  }, [props.initialObjs]);
+
+  useEffect(() => {
     props.setParentState(objs, props.parentIndex);
   }, [objs]);
+
+  const handleAddInitialFields = (initialObjs) => {
+    Object.keys(initialObjs).map(initObjKey => {
+      if (initialObjs[initObjKey].__type === 'object') {
+        setObjs([...objs,{
+          __key: initialObjs[initObjKey].__key,
+          __value: initialObjs[initObjKey].__value,
+          __type: initialObjs[initObjKey].__type
+        }]);
+      } else {
+        setObjs([...objs,{
+          __key: initialObjs[initObjKey].__key,
+          __value: initialObjs[initObjKey].__value,
+          __type: initialObjs[initObjKey].__type
+        }]);
+      }
+    });
+  };
 
   const handleChangeInput = (event, index) => {
     const values = [...objs];
@@ -99,28 +119,28 @@ const RecursiveMain = (props) => {
   };
 
   return (
-    <div>
-      {Object.keys(props.objs).map((objKey, index) =>
+    <div className={classes.root}>
+      {objs.map((field, index) =>
         <div>
           <TextField
             placeholder={'Key'}
             name={'__key'}
-            value={props.objs[objKey].__key}
+            value={field.__key}
             variant="outlined"
             size="small"
             label={'Key'}
             onChange={(event) => handleChangeInput(event, index)}/>
-          {props.objs[objKey].__type === 'string' &&
+          {field.__type === 'string' &&
           <TextField
             placeholder={'Value'}
             name={'__value'}
-            value={props.objs[objKey].__value}
+            value={field.__value}
             variant="outlined"
             size="small"
             label={'Value'}
             onChange={(event) => handleChangeInput(event, index)}/>
           }
-          {props.objs[objKey].__type === 'file' &&
+          {field.__type === 'file' &&
           <>
             <input type={'file'} name={'upload'} onChange={(event) => handleUpload(event, index)}/>
             {/*{(uploadProgress[index] > 0)*/}
@@ -132,7 +152,7 @@ const RecursiveMain = (props) => {
             id="standard-select"
             select
             name={'__type'}
-            value={props.objs[objKey].__type}
+            value={field.__type}
             onChange={(event) => handleChangeType(event, index)}
           >{inputTypes.map((option) => (
             <MenuItem key={option.value} value={option.value}>
@@ -149,10 +169,10 @@ const RecursiveMain = (props) => {
           </IconButton>
           }
           <div className={classes.innerObj}>
-            {props.objs[objKey].__type === 'object' &&
-            <RecursiveMain setParentState={getInnerState} parentIndex={index} objs={props.objs[objKey].__value}/>}
-            {props.objs[objKey].__type === 'rich-text' &&
-            <ReactQuill className={classes.rtfEditor} value={props.objs[objKey].__value}
+            {field.__type === 'object' &&
+            <SimpleRecursiveForm setParentState={getInnerState} parentIndex={index}/>}
+            {field.__type === 'rich-text' &&
+            <ReactQuill className={classes.rtfEditor} value={field.__value}
                         onChange={html => handleChangeInput({ target: { value: html, name: '__value' } }, index)}/>}
           </div>
         </div>
@@ -161,4 +181,4 @@ const RecursiveMain = (props) => {
   );
 };
 
-export default RecursiveMain;
+export default SimpleRecursiveForm;

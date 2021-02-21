@@ -3,6 +3,10 @@ import { Grid, IconButton, makeStyles, MenuItem, TextField } from '@material-ui/
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import Paper from '@material-ui/core/Paper';
+import ObjTreeForm from './ObjTreeForm';
+import ReactQuill from 'react-quill';
+import ProgressWithPercentage from '../../Common/ProgressWithPercentage';
+import ArrayRecursiveForm from './ArrayRecursiveForm';
 
 const inputTypes = [
   { value: 'string', label: 'string' },
@@ -61,8 +65,40 @@ const RecursiveTreeForm = (props) => {
                      value={objKey} onChange={handleChangeKey}/>
         </Grid>
         <Grid item xs={4}>
-          <TextField fullWidth variant="outlined" placeholder={'Value'} name={'value'} label={'Value'}
-                     value={objValue} onChange={handleChangeValue}/>
+          {type === 'string'
+          &&
+          <Grid item xs={12}>
+            <TextField fullWidth variant="outlined" placeholder={'Value'} name={'value'} label={'Value'}
+                       value={objValue} onChange={handleChangeValue}/>
+          </Grid>
+          }
+          {type === 'rich-text'
+          &&
+          <Grid item xs={12}>
+            <ReactQuill value={objValue} onChange={html => handleChangeValue({ target: { value: html } })}/>
+          </Grid>
+          }
+          {type === 'file'
+          &&
+          <Grid item xs={12}>
+            <div>
+              <input type={'file'} name={'upload'} />
+            </div>
+            {/*{(uploadProgress > 0)*/}
+            {/*&& <ProgressWithPercentage value={uploadProgress}/>*/}
+            {/*}*/}
+          </Grid>
+          }
+          {type === 'object'
+          &&
+          <p>object</p>
+          }
+          {type === 'array'
+          &&
+          <div>
+            <p>array</p>
+          </div>
+          }
         </Grid>
         <Grid item xs={2}>
           <TextField
@@ -86,7 +122,7 @@ const RecursiveTreeForm = (props) => {
           </IconButton>
         </Grid>
         {nextField &&
-        <ObjTreeForm/>
+        <RecursiveTreeForm/>
         }
       </Grid>
     </Paper>

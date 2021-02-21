@@ -55,7 +55,7 @@ const RecursiveForm = (props) => {
 
   useEffect(() => {
     props.setParentValue(subObjs);
-  }, [subObjs]);
+  }, [subObjValue]);
 
   const getInnerObjs = (subSubObj) => {
     setSubObjValue(subSubObj);
