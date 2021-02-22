@@ -13,7 +13,7 @@ const EditForm = (props) => {
 
   return (
     <div>
-      <EditRecursiveForm initialObjs={props.initialObjs}/>
+      <EditRecursiveForm initialObjs={props.initialObjs} handleChangeParent={props.handleChangeParent}/>
       <Button className={classes.submitButton} type={'submit'} variant="contained" color="primary"
               onClick={props.handleSubmit}>Save</Button>
     </div>

@@ -48,6 +48,8 @@ const EditRecursiveForm = (props) => {
     }
   }, [props.initialObjs]);
 
+
+
   const handleAddInitialFields = (initialObjs) => {
     setObjs(Object.values(initialObjs));
   };
@@ -55,6 +57,18 @@ const EditRecursiveForm = (props) => {
   const handleChangeInput = (event, index) => {
     const values = [...objs];
     values[index][event.target.name] = event.target.value;
+    setObjs(values);
+  };
+
+  useEffect(() => {
+    // props.handleChangeParent(objs, props.parentIndex);
+  }, [objs]);
+
+  const handleGetChildObj = (childObjs, index) => {
+    const values = [...objs];
+    values[index].__key = objs[index].__key;
+    values[index].__value = { ...childObjs };
+    values[index].__type = objs[index].__type;
     setObjs(values);
   };
 
@@ -112,7 +126,8 @@ const EditRecursiveForm = (props) => {
           }
           <div className={classes.innerObj}>
             {objs[index].__type === 'object' &&
-            <EditRecursiveForm initialObjs={objs[index].__value}/>}
+            <EditRecursiveForm initialObjs={objs[index].__value} handleChangeParent={handleGetChildObj}
+                               parentIndex={index}/>}
             {objs[index].__type === 'rich-text' &&
             <ReactQuill className={classes.rtfEditor} value={objs[index].__value}
             />}

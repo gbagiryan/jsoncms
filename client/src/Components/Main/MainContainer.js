@@ -39,7 +39,7 @@ const MainContainer = (props) => {
 
   return (
     // <Form/>
-    <EditForm setParentState={setBaseObj}
+    <EditForm handleChangeParent={setBaseObj}
               handleSubmit={handleSubmit}
               initialObjs={initialObjs}
               handleDeleteObj={handleDeleteObj}/>
