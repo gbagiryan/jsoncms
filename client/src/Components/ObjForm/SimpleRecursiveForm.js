@@ -44,33 +44,34 @@ const SimpleRecursiveForm = (props) => {
 
   const [uploadProgress, setUploadProgress] = useState([]);
 
-  useEffect(() => {
-    if (props.initialObjs) {
-      handleAddInitialFields(props.initialObjs);
-    }
-  }, [props.initialObjs]);
+  // useEffect(() => {
+  //   if (props.initialObjs) {
+  //     handleAddInitialFields(props.initialObjs);
+  //   }
+  // }, [props.initialObjs]);
 
   useEffect(() => {
     props.setParentState(objs, props.parentIndex);
   }, [objs]);
 
-  const handleAddInitialFields = (initialObjs) => {
-    Object.keys(initialObjs).map(initObjKey => {
-      if (initialObjs[initObjKey].__type === 'object') {
-        setObjs([...objs,{
-          __key: initialObjs[initObjKey].__key,
-          __value: initialObjs[initObjKey].__value,
-          __type: initialObjs[initObjKey].__type
-        }]);
-      } else {
-        setObjs([...objs,{
-          __key: initialObjs[initObjKey].__key,
-          __value: initialObjs[initObjKey].__value,
-          __type: initialObjs[initObjKey].__type
-        }]);
-      }
-    });
+  const getInnerState = (subObjects, parentIndex) => {
+    const values = [...objs];
+    values[parentIndex].__key = objs[parentIndex].__key;
+    values[parentIndex].__value = { ...subObjects };
+    values[parentIndex].__type = objs[parentIndex].__type;
+    setObjs(values);
   };
+
+  // const handleAddInitialFields = (initialObjs) => {
+  //   setObjs([]);
+  //   Object.keys(initialObjs).map(initObjKey => {
+  //     setObjs([...objs, {
+  //       __key: initialObjs[initObjKey].__key,
+  //       __value: initialObjs[initObjKey].__value,
+  //       __type: initialObjs[initObjKey].__type
+  //     }]);
+  //   });
+  // };
 
   const handleChangeInput = (event, index) => {
     const values = [...objs];
@@ -97,14 +98,6 @@ const SimpleRecursiveForm = (props) => {
     const values = [...objs];
     values[index].__value = '';
     values[index].__type = event.target.value;
-    setObjs(values);
-  };
-
-  const getInnerState = (subObjects, parentIndex) => {
-    const values = [...objs];
-    values[parentIndex].__key = objs[parentIndex].__key;
-    values[parentIndex].__value = { ...subObjects };
-    values[parentIndex].__type = objs[parentIndex].__type;
     setObjs(values);
   };
 
@@ -143,9 +136,9 @@ const SimpleRecursiveForm = (props) => {
           {field.__type === 'file' &&
           <>
             <input type={'file'} name={'upload'} onChange={(event) => handleUpload(event, index)}/>
-            {/*{(uploadProgress[index] > 0)*/}
-            {/*&& <ProgressWithPercentage value={uploadProgress[index]} index={index} file={field.__value}/>*/}
-            {/*}*/}
+            {(uploadProgress[index] > 0)
+            && <ProgressWithPercentage value={uploadProgress[index]} index={index} file={field.__value}/>
+            }
           </>
           }
           <TextField
@@ -170,7 +163,7 @@ const SimpleRecursiveForm = (props) => {
           }
           <div className={classes.innerObj}>
             {field.__type === 'object' &&
-            <SimpleRecursiveForm setParentState={getInnerState} parentIndex={index}/>}
+            <SimpleRecursiveForm setParentState={getInnerState} parentIndex={index} initialObjs={field.__value}/>}
             {field.__type === 'rich-text' &&
             <ReactQuill className={classes.rtfEditor} value={field.__value}
                         onChange={html => handleChangeInput({ target: { value: html, name: '__value' } }, index)}/>}

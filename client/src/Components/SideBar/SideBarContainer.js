@@ -1,6 +1,6 @@
 import SideBar from './SideBar';
 import { connect } from 'react-redux';
-import { objData } from '../../Redux/Selectors/ObjSelectors';
+import { getObjData } from '../../Redux/Selectors/ObjSelectors';
 import React, { useState } from 'react';
 import { getObjsByTag, setSingleObjData } from '../../Redux/Reducers/ObjReducer';
 import { withRouter } from 'react-router-dom';
@@ -31,7 +31,7 @@ const SideBarContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  objs: objData(state)
+  objs: getObjData(state)
 });
 const actionCreators = {
   getObjsByTag,

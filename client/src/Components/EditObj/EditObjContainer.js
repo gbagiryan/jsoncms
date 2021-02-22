@@ -1,4 +1,4 @@
-import { singleObjData } from '../../Redux/Selectors/ObjSelectors';
+import { getSingleObjData } from '../../Redux/Selectors/ObjSelectors';
 import { updateObj } from '../../Redux/Reducers/ObjReducer';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -88,7 +88,7 @@ const EditObjContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  obj: singleObjData(state),
+  obj: getSingleObjData(state),
   errorMsg: getErrorMsg(state),
   successMsg: getSuccessMsg(state)
 });

@@ -3,13 +3,15 @@ import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 import Main from './Main';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
-import { singleObjData } from '../../Redux/Selectors/ObjSelectors';
+import { getSingleObjData } from '../../Redux/Selectors/ObjSelectors';
 import { deleteObj } from '../../Redux/Reducers/ObjReducer';
 import SimpleRecursiveFormContainer from '../ObjForm/SimpleRecursiveFormContainer';
+import EditForm from '../ObjForm/EditForm';
+import Form from '../Form/Form';
 
 const MainContainer = (props) => {
   const handleSubmit = () => {
-    props.clearMessages();
+    // props.clearMessages();
     console.log(objs);
     // const newObj = {
     //   objs,
@@ -36,13 +38,22 @@ const MainContainer = (props) => {
 
 
   return (
+    // <Form/>
+    <EditForm setParentState={setBaseObj}
+              handleSubmit={handleSubmit}
+              initialObjs={initialObjs}
+              handleDeleteObj={handleDeleteObj}/>
     // <Main obj={props.obj} handleDeleteObj={handleDeleteObj} setParentState={setBaseObj}/>
-    <SimpleRecursiveFormContainer setParentState={setBaseObj} handleSubmit={handleSubmit} initialObjs={initialObjs}/>
+    // <SimpleRecursiveFormContainer
+    // setParentState={setBaseObj}
+    // handleSubmit={handleSubmit}
+    // initialObjs={initialObjs}
+    // handleDeleteObj={handleDeleteObj}/>
   );
 };
 
 const mapStateToProps = (state) => ({
-  obj: singleObjData(state)
+  obj: getSingleObjData(state)
 });
 const actionCreators = {
   deleteObj

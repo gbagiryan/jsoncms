@@ -51,14 +51,14 @@ const AddNewObjContainer = (props) => {
   const [objs, setObjs] = useState({});
 
   const handleSubmit = () => {
-    props.clearMessages();
+    // props.clearMessages();
     console.log(objs);
-    const newObj = {
-      objs,
-      name: 'name',
-      tags: ['tagsArr']
-    };
-    props.addNewObj(newObj);
+    // const newObj = {
+    //   objs,
+    //   name: 'name',
+    //   tags: ['tagsArr']
+    // };
+    // props.addNewObj(newObj);
   };
 
 

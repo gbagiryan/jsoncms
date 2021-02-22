@@ -23,7 +23,7 @@ const createObj = async (body, locals) => {
   try {
     const { name, objs, tags } = body;
 
-    const files = findObj(objs, 'type', 'file');
+    const files = findObj(objs, 'type', '__file');
 
     files.forEach((file) => {
       const filename = file.subObjValue.fileName.replace('/public/', '');
@@ -58,7 +58,7 @@ const updateObj = async (params, body, locals) => {
       throw new Error('object with given id not found');
     }
 
-    const files = findObj(objs, 'type', 'file');
+    const files = findObj(objs, 'type', '__file');
 
     files.forEach((file) => {
       const filename = file.fileName.replace('/public/', '');
