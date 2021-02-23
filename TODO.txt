@@ -6,6 +6,7 @@
 6. + Make Object View and Edit components display inner objects recursively according to their type
 7. + Make edit work properly with inner objects
 8. + Rename type to __type
+9. Add Array type
 9. Fix upload's progress bar bug
 10. Frontend object validation
 11. Backend validation and error handling
