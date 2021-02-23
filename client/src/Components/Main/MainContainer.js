@@ -20,14 +20,15 @@ const MainContainer = (props) => {
     // };
     // props.addNewObj(newObj);
   };
-  useEffect(()=>{
-    if(props.obj){
-      setInitialObjs({ ...props.obj.objs })
+  useEffect(() => {
+    if (props.obj) {
+      console.log('inside init obj');
+      setInitialObjs({ ...props.obj.objs });
     }
-  },[props.obj])
+  }, [props.obj]);
 
   const [objs, setObjs] = useState({});
-  const [initialObjs,setInitialObjs] = useState({})
+  const [initialObjs, setInitialObjs] = useState();
 
   const setBaseObj = (subObjs) => {
     setObjs({ ...subObjs });
@@ -36,19 +37,11 @@ const MainContainer = (props) => {
     props.deleteObj(props.obj._id);
   };
 
-
   return (
-    // <Form/>
     <EditForm handleChangeParent={setBaseObj}
               handleSubmit={handleSubmit}
               initialObjs={initialObjs}
               handleDeleteObj={handleDeleteObj}/>
-    // <Main obj={props.obj} handleDeleteObj={handleDeleteObj} setParentState={setBaseObj}/>
-    // <SimpleRecursiveFormContainer
-    // setParentState={setBaseObj}
-    // handleSubmit={handleSubmit}
-    // initialObjs={initialObjs}
-    // handleDeleteObj={handleDeleteObj}/>
   );
 };
 

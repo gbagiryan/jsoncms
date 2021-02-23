@@ -41,14 +41,13 @@ const EditRecursiveForm = (props) => {
   ];
 
   const [objs, setObjs] = useState([{}]);
+  const [hasChanged, setHasChanged] = useState(false);
 
   useEffect(() => {
     if (props.initialObjs) {
       handleAddInitialFields(props.initialObjs);
     }
   }, [props.initialObjs]);
-
-
 
   const handleAddInitialFields = (initialObjs) => {
     setObjs(Object.values(initialObjs));
@@ -58,11 +57,15 @@ const EditRecursiveForm = (props) => {
     const values = [...objs];
     values[index][event.target.name] = event.target.value;
     setObjs(values);
+    setHasChanged(true);
   };
 
   useEffect(() => {
-    // props.handleChangeParent(objs, props.parentIndex);
-  }, [objs]);
+    if (hasChanged) {
+      props.handleChangeParent(objs, props.parentIndex);
+      setHasChanged(false);
+    }
+  }, [hasChanged]);
 
   const handleGetChildObj = (childObjs, index) => {
     const values = [...objs];
@@ -70,6 +73,7 @@ const EditRecursiveForm = (props) => {
     values[index].__value = { ...childObjs };
     values[index].__type = objs[index].__type;
     setObjs(values);
+    setHasChanged(true);
   };
 
   return (
