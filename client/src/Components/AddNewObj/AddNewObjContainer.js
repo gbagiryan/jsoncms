@@ -5,13 +5,8 @@ import { compose } from 'redux';
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
-import ObjForm from '../ObjForm/ObjForm';
-import ObjTreeForm from '../ObjForm/ObjTreeForm';
-import RecursiveTreeForm from '../ObjForm/RecursiveTreeForm';
-import NewRecursiveForm from '../ObjForm/NewRecursiveForm';
-import NewForm from '../ObjForm/NewForm';
 import SimpleRecursiveFormContainer from '../ObjForm/SimpleRecursiveFormContainer';
-import SimpleRecursiveForm from '../ObjForm/SimpleRecursiveForm';
+import AddNewObjForm from './AddNewObjForm';
 
 const AddNewObjContainer = (props) => {
   const [name, setName] = useState('');
@@ -51,39 +46,34 @@ const AddNewObjContainer = (props) => {
   const [objs, setObjs] = useState({});
 
   const handleSubmit = () => {
-    // props.clearMessages();
-    console.log(objs);
-    // const newObj = {
-    //   objs,
-    //   name: 'name',
-    //   tags: ['tagsArr']
-    // };
-    // props.addNewObj(newObj);
+    props.clearMessages();
+    const newObj = {
+      objs,
+      name: name,
+      tags: tagsArr
+    };
+    props.addNewObj(newObj);
   };
-
 
   const setBaseObj = (subObjs) => {
     setObjs({ ...subObjs });
   };
 
-
   return (
-    <SimpleRecursiveFormContainer setParentState={setBaseObj} handleSubmit={handleSubmit}/>
-    // <NewForm setParentValue={setBaseObj} handleSubmit={handleSubmit} tagsArr={tagsArr}/>
-    // <ObjForm
-    //   errorMsg={props.errorMsg}
-    //   successMsg={props.successMsg}
-    //   setErrorMsg={props.setErrorMsg}
-    //   clearMessages={props.clearMessages}
-    //   handleSubmit={handleSubmit}
-    //   handleAddTag={handleAddTag}
-    //   tagsArr={tagsArr}
-    //   handleTagChange={handleTagChange}
-    //   name={name}
-    //   handleNameChange={handleNameChange}
-    //   handleDeleteTag={handleDeleteTag}
-    //   setParentValue={setBaseObj}
-    // />
+    <AddNewObjForm
+      errorMsg={props.errorMsg}
+      successMsg={props.successMsg}
+      setErrorMsg={props.setErrorMsg}
+      clearMessages={props.clearMessages}
+      tagsArr={tagsArr}
+      handleTagChange={handleTagChange}
+      handleAddTag={handleAddTag}
+      handleDeleteTag={handleDeleteTag}
+      name={name}
+      handleNameChange={handleNameChange}
+      handleChangeParent={setBaseObj}
+      handleSubmit={handleSubmit}
+    />
   );
 };
 

@@ -50,6 +50,7 @@ const EditObjContainer = (props) => {
   const handleDeleteTag = (index) => {
     setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index));
   };
+
   const [objs, setObjs] = useState([]);
 
   const setBaseObj = (subObjs) => {
@@ -58,8 +59,6 @@ const EditObjContainer = (props) => {
 
   const handleSubmit = () => {
     props.clearMessages();
-    console.log('props');
-
     const updatedObj = {
       objs,
       name: name,
