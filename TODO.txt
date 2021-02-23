@@ -7,13 +7,13 @@
 7. + Make edit work properly with inner objects
 8. + Rename type to __type
 9. Add Array type
-9. Fix upload's progress bar bug
-10. Frontend object validation
-11. Backend validation and error handling
+10. Fix upload's progress bar bug
+11. Frontend object validation
+12. Backend validation and error handling
 
-12. Create endpoints for outer UI's
-13. Object transformation for outer UI's calls
-14. Object templates
-15. Object sharing between users
-16. Object's GIT versioning
+13. Create endpoints for outer UI's
+14. Object transformation for outer UI's calls
+15. Object templates
+16. Object sharing between users
+17. Object's GIT versioning
 
