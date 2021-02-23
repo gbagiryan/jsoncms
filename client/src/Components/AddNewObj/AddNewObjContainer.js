@@ -5,7 +5,6 @@ import { compose } from 'redux';
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
-import SimpleRecursiveFormContainer from '../ObjForm/SimpleRecursiveFormContainer';
 import AddNewObjForm from './AddNewObjForm';
 
 const AddNewObjContainer = (props) => {

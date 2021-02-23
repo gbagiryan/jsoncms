@@ -3,12 +3,10 @@ import { Button, Grid, IconButton, TextField } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import RecursiveForm from '../RecursiveForm/RecursiveForm';
 import { Error, Success } from '../../Common/Messages';
-import NewRecursiveForm from '../ObjForm/NewRecursiveForm';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import { Link } from 'react-router-dom';
-import EditIcon from '@material-ui/icons/Edit';
+import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -20,17 +18,14 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto'
   },
   buttons: {
-    textAlign: 'right'
-  },
-  submitButton: {
     margin: theme.spacing(1)
-  },
+  }
 }));
 const EditObjForm = (props) => {
   const classes = useStyles();
 
   return (
-    <div>
+    <Container>
       {props.initialObjs ?
         <Grid container spacing={2}>
           {props.errorMsg &&
@@ -43,16 +38,19 @@ const EditObjForm = (props) => {
             <Success successMsg={props.successMsg}/>
           </Grid>
           }
-          <div className={classes.buttons}>
-            <Button onClick={props.handleDeleteObj}
-                    variant="contained"
-                    color="secondary"
-                    className={classes.button}
-                    endIcon={<DeleteForeverIcon/>}>Delete</Button>
-          </div>
+          <Button onClick={props.handleDeleteObj}
+                  variant="contained"
+                  color="secondary"
+                  className={classes.buttons}
+                  endIcon={<DeleteForeverIcon/>}>Delete</Button>
           <Grid item xs={12}>
-            <TextField variant="outlined" placeholder={'Name'} name={'Name'} label={'Name'}
-                       value={props.Name} onChange={props.handleNameChange}/>
+            <TextField variant="outlined"
+                       size="small"
+                       placeholder={'Name'}
+                       name={'name'}
+                       label={'Name'}
+                       value={props.name}
+                       onChange={props.handleNameChange}/>
           </Grid>
 
           <RecursiveForm initialObjs={props.initialObjs} handleChangeParent={props.handleChangeParent}/>
@@ -70,21 +68,28 @@ const EditObjForm = (props) => {
             )}
           </Grid>
           <Grid item xs={12}>
-            <TextField variant="outlined" placeholder={'Tag'} name={'tag'} label={'Tag'}
-                       value={props.tag} onChange={props.handleTagChange}/>
+            <TextField variant="outlined"
+                       size="small"
+                       placeholder={'Tag'}
+                       name={'tag'}
+                       label={'Tag'}
+                       value={props.tag}
+                       onChange={props.handleTagChange}/>
             <IconButton onClick={props.handleAddTag} color="primary">
               <AddCircleIcon/>
             </IconButton>
           </Grid>
-          <Button type={'submit'} variant="contained" color="primary"
-                  className={classes.button} onClick={props.handleSubmit}>Save</Button>
+          <Button type={'submit'}
+                  variant="contained"
+                  color="primary"
+                  className={classes.buttons}
+                  onClick={props.handleSubmit}>Save</Button>
         </Grid>
         : <h2>
           Choose an object to display
         </h2>
       }
-
-    </div>
+    </Container>
   );
 };
 

@@ -23,7 +23,7 @@ const createObj = async (body, locals) => {
   try {
     const { name, objs, tags } = body;
 
-    const files = findObj(objs, 'type', '__file');
+    const files = findObj(objs, '__type', '__file');
 
     files.forEach((file) => {
       const filename = file.subObjValue.fileName.replace('/public/', '');

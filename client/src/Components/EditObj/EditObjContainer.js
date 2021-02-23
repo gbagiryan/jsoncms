@@ -7,7 +7,6 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
-import ObjForm from '../ObjForm/ObjForm';
 
 const EditObjContainer = (props) => {
 
@@ -69,20 +68,7 @@ const EditObjContainer = (props) => {
   };
 
   return (
-    <ObjForm errorMsg={props.errorMsg}
-             successMsg={props.successMsg}
-             setErrorMsg={props.setErrorMsg}
-             clearMessages={props.clearMessages}
-             handleSubmit={handleSubmit}
-             handleAddTag={handleAddTag}
-             tagsArr={tagsArr}
-             handleTagChange={handleTagChange}
-             name={name}
-             handleNameChange={handleNameChange}
-             handleDeleteTag={handleDeleteTag}
-             setParentValue={setBaseObj}
-             existingObjs={props.obj}
-    />
+    <div></div>
   );
 };
 

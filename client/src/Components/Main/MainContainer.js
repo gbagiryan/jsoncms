@@ -13,6 +13,8 @@ const MainContainer = (props) => {
   useEffect(() => {
     if (props.obj) {
       setInitialObjs({ ...props.obj.objs });
+      setName(props.obj.name)
+      setTagsArr(props.obj.tags)
     }
     return () => {
       props.clearMessages();
