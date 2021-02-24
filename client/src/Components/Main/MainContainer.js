@@ -4,17 +4,18 @@ import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getSingleObjData } from '../../Redux/Selectors/ObjSelectors';
 import { deleteObj, updateObj } from '../../Redux/Reducers/ObjReducer';
-import EditObjForm from '../EditObj/EditObjForm';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
+import Main from './Main';
 
 const MainContainer = (props) => {
 
   useEffect(() => {
     if (props.obj) {
       setInitialObjs({ ...props.obj.objs });
-      setName(props.obj.name)
-      setTagsArr(props.obj.tags)
+      setName(props.obj.name);
+      setTagsArr(props.obj.tags);
+      setObjId(props.obj._id);
     }
     return () => {
       props.clearMessages();
@@ -22,70 +23,30 @@ const MainContainer = (props) => {
   }, [props.obj]);
 
   const [name, setName] = useState('');
-  const [tag, setTag] = useState('');
   const [tagsArr, setTagsArr] = useState([]);
+  const [objId, setObjId] = useState([]);
 
-  const [objs, setObjs] = useState({});
   const [initialObjs, setInitialObjs] = useState();
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
 
-  const handleTagChange = (e) => {
-    props.clearMessages();
-    setTag(e.target.value);
-  };
-  const handleNameChange = (e) => {
-    props.clearMessages();
-    setName(e.target.value);
-  };
-
-  const handleAddTag = () => {
-    if (tag) {
-      if (!tagsArr.includes(tag)) {
-        setTagsArr([...tagsArr, tag]);
-      } else {
-        props.setErrorMsg('Tags must be unique');
-      }
-    } else {
-      props.setErrorMsg('Tag can\'t be empty');
-    }
-  };
-  const handleDeleteTag = (index) => {
-    setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index));
-  };
-
-  const handleDeleteObj = () => {
-    props.deleteObj(props.obj._id);
-  };
-
-  const setBaseObj = (subObjs) => {
-    setObjs({ ...subObjs });
-  };
-
-  const handleSubmit = () => {
-    props.clearMessages();
-    const updatedObj = {
-      objs,
-      name: name,
-      tags: tagsArr
-    };
-    props.updateObj(props.obj._id, updatedObj);
+  const handleDeleteObj = (objId) => {
+    props.deleteObj(objId);
+    setConfirmDialog({...confirmDialog, isOpen: false})
   };
 
   return (
-    <EditObjForm
+    <Main
       errorMsg={props.errorMsg}
       successMsg={props.successMsg}
       setErrorMsg={props.setErrorMsg}
       clearMessages={props.clearMessages}
-      handleChangeParent={setBaseObj}
-      handleSubmit={handleSubmit}
       initialObjs={initialObjs}
+      objId={objId}
       handleDeleteObj={handleDeleteObj}
       tagsArr={tagsArr}
-      handleAddTag={handleAddTag}
-      handleTagChange={handleTagChange}
       name={name}
-      handleNameChange={handleNameChange}
-      handleDeleteTag={handleDeleteTag}
+      confirmDialog={confirmDialog}
+      setConfirmDialog={setConfirmDialog}
     />
   );
 };
@@ -96,7 +57,6 @@ const mapStateToProps = (state) => ({
   obj: getSingleObjData(state)
 });
 const actionCreators = {
-  updateObj,
   deleteObj,
   clearMessages,
   setErrorMsg

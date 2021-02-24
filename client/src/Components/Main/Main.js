@@ -1,23 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
-  Card,
-  CardContent,
-  CardHeader,
-  Grid, IconButton,
-  makeStyles,
-  Paper, Table, TableBody, TableCell,
-  TableContainer, TableHead, TableRow,
-  Typography
+  Grid,
+  makeStyles, TextField
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import Parser from 'html-react-parser';
 import { Link } from 'react-router-dom';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import RecursiveMain from './RecursiveMain';
+import Container from '@material-ui/core/Container';
+import { Error, Success } from '../../Common/Messages';
+import ConfirmDialog from '../../Common/ConfirmDialog';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(4)
+  },
   paper: {
     minHeight: 200,
     width: 300,
@@ -27,51 +25,80 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto'
   },
   buttons: {
-    textAlign: 'right'
+    margin: theme.spacing(1),
+  },
+  tags: {
+    border: '1px solid '
   }
 }));
 
 const Main = (props) => {
+
   const classes = useStyles();
 
   return (
-    <div>
-      {props.obj
-        ? <Grid item xs={9} className={classes.objPreview}>
-          <Card elevation={4}>
-            <div className={classes.buttons}>
-              <Button onClick={props.handleDeleteObj}
-                      variant="contained"
-                      color="secondary"
-                      className={classes.button}
-                      endIcon={<DeleteForeverIcon/>}>Delete</Button>
-              <Button component={Link} to={`/edit_obj/${props.obj._id}`} variant="contained"
-                      color="primary" className={classes.button}
-                      endIcon={<EditIcon/>}>Edit</Button>
-            </div>
-            <Card>
-              <CardHeader
-                title={props.obj.name}
+    <Container className={classes.root}>
+      {props.initialObjs ?
+        <Grid container spacing={2}>
+          {props.errorMsg &&
+          <Grid item xs={12}>
+            <Error errorMsg={props.errorMsg}/>
+          </Grid>
+          }
+          {props.successMsg &&
+          <Grid item xs={12}>
+            <Success successMsg={props.successMsg}/>
+          </Grid>
+          }
+
+          <Grid container>
+            <Grid item xs={8}>
+              <TextField variant="outlined"
+                         size="small"
+                         placeholder={'Name'}
+                         name={'name'}
+                         label={'Name'}
+                         value={props.name}
               />
-            </Card>
-
-            <RecursiveMain setParentState={props.setParentState} objs={props.obj.objs}/>
-
-            <CardContent>
-              <p>Tags</p>
-              <Typography variant="body1" color="primary" component="p">
-                {props.obj.tags.map((tag) =>
-                  (props.obj.tags.length > 1 ? tag + ', ' : tag)
-                )}
-              </Typography>
-            </CardContent>
-          </Card>
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                onClick={() => {
+                  props.setConfirmDialog({
+                    isOpen: true,
+                    title: `Deleting ${props.name}`,
+                    subTitle: `Are you sure you want to completely delete this object`,
+                    onConfirm: () => props.handleDeleteObj(props.objId)
+                  });
+                }}
+                variant="contained"
+                color="secondary"
+                className={classes.buttons}
+                endIcon={<DeleteForeverIcon/>}>Delete</Button>
+              <Button component={Link} to={`/edit_obj/${props.objId}`}
+                      variant="contained"
+                      color="primary"
+                      className={classes.buttons}
+                      endIcon={<EditIcon/>}>Edit</Button>
+            </Grid>
+          </Grid>
+          <RecursiveMain initialObjs={props.initialObjs}/>
+          {props.tagsArr.length > 0 &&
+          <Grid item xs={7} className={classes.tags}>
+            {props.tagsArr.map((tag) =>
+              <>
+                {tag},
+              </>
+            )}
+          </Grid>
+          }
+          <ConfirmDialog confirmDialog={props.confirmDialog} setConfirmDialog={props.setConfirmDialog}/>
         </Grid>
-        : <div>
-          Chose an Object to display
-        </div>
+        : <h2>
+          Choose an object to display
+        </h2>
       }
-    </div>
+    </Container>
   );
 };
 

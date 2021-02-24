@@ -1,5 +1,5 @@
 import { getSingleObjData } from '../../Redux/Selectors/ObjSelectors';
-import { updateObj } from '../../Redux/Reducers/ObjReducer';
+import { deleteObj, updateObj } from '../../Redux/Reducers/ObjReducer';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
@@ -7,24 +7,30 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
+import EditObjForm from './EditObjForm';
+import Main from '../Main/Main';
 
 const EditObjContainer = (props) => {
 
-  useEffect(() => {
-    return () => {
-      props.clearMessages();
-    };
-  }, []);
 
   useEffect(() => {
     if (props.obj) {
-      setTagsArr(props.obj.tags);
+      setInitialObjs({ ...props.obj.objs });
+      setName(props.obj.name)
+      setTagsArr(props.obj.tags)
     }
+    return () => {
+      props.clearMessages();
+    };
   }, [props.obj]);
 
   const [name, setName] = useState('');
   const [tag, setTag] = useState('');
   const [tagsArr, setTagsArr] = useState([]);
+
+  const [objs, setObjs] = useState({});
+  const [initialObjs, setInitialObjs] = useState();
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
 
   const handleTagChange = (e) => {
     props.clearMessages();
@@ -34,6 +40,7 @@ const EditObjContainer = (props) => {
     props.clearMessages();
     setName(e.target.value);
   };
+
   const handleAddTag = () => {
     if (tag) {
       if (!tagsArr.includes(tag)) {
@@ -45,12 +52,14 @@ const EditObjContainer = (props) => {
       props.setErrorMsg('Tag can\'t be empty');
     }
   };
-
   const handleDeleteTag = (index) => {
     setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index));
   };
 
-  const [objs, setObjs] = useState([]);
+  const handleDeleteObj = () => {
+    props.deleteObj(props.obj._id);
+    setConfirmDialog({...confirmDialog, isOpen: false})
+  };
 
   const setBaseObj = (subObjs) => {
     setObjs({ ...subObjs });
@@ -63,12 +72,28 @@ const EditObjContainer = (props) => {
       name: name,
       tags: tagsArr
     };
-    console.log(props);
     props.updateObj(props.obj._id, updatedObj);
   };
 
   return (
-    <div></div>
+    <EditObjForm
+      errorMsg={props.errorMsg}
+      successMsg={props.successMsg}
+      setErrorMsg={props.setErrorMsg}
+      clearMessages={props.clearMessages}
+      handleChangeParent={setBaseObj}
+      handleSubmit={handleSubmit}
+      initialObjs={initialObjs}
+      handleDeleteObj={handleDeleteObj}
+      tagsArr={tagsArr}
+      handleAddTag={handleAddTag}
+      handleTagChange={handleTagChange}
+      name={name}
+      handleNameChange={handleNameChange}
+      handleDeleteTag={handleDeleteTag}
+      confirmDialog={confirmDialog}
+      setConfirmDialog={setConfirmDialog}
+    />
   );
 };
 
@@ -79,6 +104,7 @@ const mapStateToProps = (state) => ({
 });
 const actionCreators = {
   updateObj,
+  deleteObj,
   clearMessages,
   setErrorMsg
 };

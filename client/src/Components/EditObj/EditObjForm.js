@@ -7,8 +7,12 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import Container from '@material-ui/core/Container';
+import ConfirmDialog from '../../Common/ConfirmDialog';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(4)
+  },
   paper: {
     minHeight: 200,
     width: 300,
@@ -25,7 +29,7 @@ const EditObjForm = (props) => {
   const classes = useStyles();
 
   return (
-    <Container>
+    <Container className={classes.root}>
       {props.initialObjs ?
         <Grid container spacing={2}>
           {props.errorMsg &&
@@ -38,19 +42,33 @@ const EditObjForm = (props) => {
             <Success successMsg={props.successMsg}/>
           </Grid>
           }
-          <Button onClick={props.handleDeleteObj}
-                  variant="contained"
-                  color="secondary"
-                  className={classes.buttons}
-                  endIcon={<DeleteForeverIcon/>}>Delete</Button>
-          <Grid item xs={12}>
-            <TextField variant="outlined"
-                       size="small"
-                       placeholder={'Name'}
-                       name={'name'}
-                       label={'Name'}
-                       value={props.name}
-                       onChange={props.handleNameChange}/>
+
+          <Grid container>
+            <Grid item xs={8}>
+              <TextField variant="outlined"
+                         size="small"
+                         placeholder={'Name'}
+                         name={'name'}
+                         label={'Name'}
+                         value={props.name}
+                         onChange={props.handleNameChange}/>
+            </Grid>
+            <Grid item xs={4}>
+              <Button
+                onClick={() => {
+                  props.setConfirmDialog({
+                    isOpen: true,
+                    title: `Deleting ${props.name}`,
+                    subTitle: `Are you sure you want to completely delete this object`,
+                    onConfirm: () => props.handleDeleteObj(props.objId)
+                  });
+                }}
+                variant="contained"
+                color="secondary"
+                className={classes.buttons}
+                endIcon={<DeleteForeverIcon/>}>Delete</Button>
+            </Grid>
+            <ConfirmDialog confirmDialog={props.confirmDialog} setConfirmDialog={props.setConfirmDialog}/>
           </Grid>
 
           <RecursiveForm initialObjs={props.initialObjs} handleChangeParent={props.handleChangeParent}/>

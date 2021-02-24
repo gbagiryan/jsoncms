@@ -4,7 +4,9 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import ReactQuill from 'react-quill';
 import ProgressWithPercentage from '../../Common/ProgressWithPercentage';
+import 'react-quill/dist/quill.snow.css';
 import Axios from 'axios';
+import ConfirmDialog from '../../Common/ConfirmDialog';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -43,6 +45,7 @@ const RecursiveForm = (props) => {
   const [objs, setObjs] = useState([{ __key: '', __value: '', __type: inputTypes[0].value }]);
   const [hasChanged, setHasChanged] = useState(false);
   const [uploadProgress, setUploadProgress] = useState([]);
+  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
 
   useEffect(() => {
     if (props.initialObjs) {
@@ -110,6 +113,7 @@ const RecursiveForm = (props) => {
     const values = [...objs];
     values.splice(index, 1);
     setObjs(values);
+    setConfirmDialog({ ...confirmDialog, isOpen: false });
   };
 
   return (
@@ -160,7 +164,18 @@ const RecursiveForm = (props) => {
             <AddCircleIcon/>
           </IconButton>
           {objs.length > 1 &&
-          <IconButton color="secondary" className={classes.fieldIcons} onClick={() => handleRemoveField(index)}>
+          <IconButton color="secondary"
+                      className={classes.fieldIcons}
+                      onClick={() => {
+                        objs[index].__key || objs[index].__value ?
+                          setConfirmDialog({
+                            isOpen: true,
+                            title: `Deleting filled field`,
+                            subTitle: `Are you sure you want to delete this field?`,
+                            onConfirm: () => handleRemoveField(index)
+                          })
+                          : handleRemoveField(index);
+                      }}>
             <RemoveCircleIcon/>
           </IconButton>
           }
@@ -172,6 +187,7 @@ const RecursiveForm = (props) => {
             <ReactQuill className={classes.rtfEditor} value={objs[index].__value}
                         onChange={html => handleChangeInput({ target: { value: html, name: '__value' } }, index)}/>}
           </div>
+          <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog}/>
         </div>
       )}
     </div>
