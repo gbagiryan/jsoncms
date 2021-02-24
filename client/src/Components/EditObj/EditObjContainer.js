@@ -12,12 +12,11 @@ import Main from '../Main/Main';
 
 const EditObjContainer = (props) => {
 
-
   useEffect(() => {
     if (props.obj) {
       setInitialObjs({ ...props.obj.objs });
-      setName(props.obj.name)
-      setTagsArr(props.obj.tags)
+      setName(props.obj.name);
+      setTagsArr(props.obj.tags);
     }
     return () => {
       props.clearMessages();
@@ -58,7 +57,7 @@ const EditObjContainer = (props) => {
 
   const handleDeleteObj = () => {
     props.deleteObj(props.obj._id);
-    setConfirmDialog({...confirmDialog, isOpen: false})
+    setConfirmDialog({ ...confirmDialog, isOpen: false });
   };
 
   const setBaseObj = (subObjs) => {
@@ -76,24 +75,31 @@ const EditObjContainer = (props) => {
   };
 
   return (
-    <EditObjForm
-      errorMsg={props.errorMsg}
-      successMsg={props.successMsg}
-      setErrorMsg={props.setErrorMsg}
-      clearMessages={props.clearMessages}
-      handleChangeParent={setBaseObj}
-      handleSubmit={handleSubmit}
-      initialObjs={initialObjs}
-      handleDeleteObj={handleDeleteObj}
-      tagsArr={tagsArr}
-      handleAddTag={handleAddTag}
-      handleTagChange={handleTagChange}
-      name={name}
-      handleNameChange={handleNameChange}
-      handleDeleteTag={handleDeleteTag}
-      confirmDialog={confirmDialog}
-      setConfirmDialog={setConfirmDialog}
-    />
+    <div>
+      {props.obj ?
+        <EditObjForm
+          errorMsg={props.errorMsg}
+          successMsg={props.successMsg}
+          setErrorMsg={props.setErrorMsg}
+          clearMessages={props.clearMessages}
+          handleChangeParent={setBaseObj}
+          handleSubmit={handleSubmit}
+          initialObjs={initialObjs}
+          handleDeleteObj={handleDeleteObj}
+          tagsArr={tagsArr}
+          handleAddTag={handleAddTag}
+          handleTagChange={handleTagChange}
+          name={name}
+          handleNameChange={handleNameChange}
+          handleDeleteTag={handleDeleteTag}
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
+        : <h2>
+          Choose an object to display
+        </h2>
+      }
+    </div>
   );
 };
 

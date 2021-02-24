@@ -46,6 +46,14 @@ const RecursiveForm = (props) => {
   const [hasChanged, setHasChanged] = useState(false);
   const [uploadProgress, setUploadProgress] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
+  const [addClicked, setAddClicked] = useState(false);
+
+  useEffect(() => {
+    if (props.addClicked) {
+      handleAddField();
+      props.setAddClicked(false);
+    }
+  }, [props.addClicked]);
 
   useEffect(() => {
     if (props.initialObjs) {
@@ -64,6 +72,14 @@ const RecursiveForm = (props) => {
     const values = [...objs];
     values[index].__key = objs[index].__key;
     values[index].__value = { ...childObjs };
+    values[index].__type = objs[index].__type;
+    setObjs(values);
+    setHasChanged(true);
+  };
+  const handleGetChildArr = (childObjs, index) => {
+    const values = [...objs];
+    values[index].__key = objs[index].__key;
+    values[index].__value = [...Object.values(childObjs)];
     values[index].__type = objs[index].__type;
     setObjs(values);
     setHasChanged(true);
@@ -120,6 +136,7 @@ const RecursiveForm = (props) => {
     <div className={classes.root}>
       {objs.map((fieldKey, index) =>
         <div>
+          {!props.isArray &&
           <TextField
             placeholder={'Key'}
             name={'__key'}
@@ -129,6 +146,7 @@ const RecursiveForm = (props) => {
             label={'Key'}
             onChange={(event) => handleChangeInput(event, index)}
           />
+          }
           {objs[index].__type === 'string' &&
           <TextField
             placeholder={'Value'}
@@ -160,9 +178,11 @@ const RecursiveForm = (props) => {
             </MenuItem>
           ))}
           </TextField>
-          <IconButton color="primary" className={classes.fieldIcons} onClick={handleAddField}>
+          {(objs[index].__type === 'object' || objs[index].__type === 'array') &&
+          <IconButton color="primary" className={classes.fieldIcons} onClick={() => setAddClicked(true)}>
             <AddCircleIcon/>
           </IconButton>
+          }
           {objs.length > 1 &&
           <IconButton color="secondary"
                       className={classes.fieldIcons}
@@ -182,7 +202,10 @@ const RecursiveForm = (props) => {
           <div className={classes.innerObj}>
             {objs[index].__type === 'object' &&
             <RecursiveForm initialObjs={objs[index].__value} handleChangeParent={handleGetChildObj}
-                           parentIndex={index}/>}
+                           parentIndex={index} addClicked={addClicked} setAddClicked={setAddClicked}/>}
+            {objs[index].__type === 'array' &&
+            <RecursiveForm initialObjs={objs[index].__value} handleChangeParent={handleGetChildArr} isArray={true}
+                           parentIndex={index} addClicked={addClicked} setAddClicked={setAddClicked}/>}
             {objs[index].__type === 'rich-text' &&
             <ReactQuill className={classes.rtfEditor} value={objs[index].__value}
                         onChange={html => handleChangeInput({ target: { value: html, name: '__value' } }, index)}/>}

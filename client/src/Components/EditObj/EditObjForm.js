@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Grid, IconButton, TextField } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import RecursiveForm from '../RecursiveForm/RecursiveForm';
@@ -26,7 +26,10 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 const EditObjForm = (props) => {
+
   const classes = useStyles();
+
+  const [addClicked, setAddClicked] = useState(false);
 
   return (
     <Container className={classes.root}>
@@ -52,6 +55,12 @@ const EditObjForm = (props) => {
                          label={'Name'}
                          value={props.name}
                          onChange={props.handleNameChange}/>
+              <IconButton color="primary"
+                          className={classes.fieldIcons}
+                          onClick={() => setAddClicked(true)}
+              >
+                <AddCircleIcon/>
+              </IconButton>
             </Grid>
             <Grid item xs={4}>
               <Button
@@ -71,7 +80,8 @@ const EditObjForm = (props) => {
             <ConfirmDialog confirmDialog={props.confirmDialog} setConfirmDialog={props.setConfirmDialog}/>
           </Grid>
 
-          <RecursiveForm initialObjs={props.initialObjs} handleChangeParent={props.handleChangeParent}/>
+          <RecursiveForm initialObjs={props.initialObjs} handleChangeParent={props.handleChangeParent}
+                         addClicked={addClicked} setAddClicked={setAddClicked}/>
 
           <Grid item xs={12}>
             {props.tagsArr.map((tag) =>

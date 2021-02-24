@@ -31,23 +31,31 @@ const MainContainer = (props) => {
 
   const handleDeleteObj = (objId) => {
     props.deleteObj(objId);
-    setConfirmDialog({...confirmDialog, isOpen: false})
+    setConfirmDialog({ ...confirmDialog, isOpen: false });
   };
 
   return (
-    <Main
-      errorMsg={props.errorMsg}
-      successMsg={props.successMsg}
-      setErrorMsg={props.setErrorMsg}
-      clearMessages={props.clearMessages}
-      initialObjs={initialObjs}
-      objId={objId}
-      handleDeleteObj={handleDeleteObj}
-      tagsArr={tagsArr}
-      name={name}
-      confirmDialog={confirmDialog}
-      setConfirmDialog={setConfirmDialog}
-    />
+    <div>
+      {props.obj ?
+        <Main
+          errorMsg={props.errorMsg}
+          successMsg={props.successMsg}
+          setErrorMsg={props.setErrorMsg}
+          clearMessages={props.clearMessages}
+          initialObjs={initialObjs}
+          objId={objId}
+          handleDeleteObj={handleDeleteObj}
+          tagsArr={tagsArr}
+          name={name}
+          confirmDialog={confirmDialog}
+          setConfirmDialog={setConfirmDialog}
+        />
+
+        : <h2>
+          Choose an object to display
+        </h2>
+      }
+    </div>
   );
 };
 

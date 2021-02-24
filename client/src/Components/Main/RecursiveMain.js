@@ -63,6 +63,7 @@ const RecursiveMain = (props) => {
     <div className={classes.root}>
       {objs.map((fieldKey, index) =>
         <div>
+          {!props.isArray &&
           <TextField
             placeholder={'Key'}
             name={'__key'}
@@ -71,6 +72,7 @@ const RecursiveMain = (props) => {
             size="small"
             label={'Key'}
           />
+          }
           {objs[index].__type === 'string' &&
           <TextField
             placeholder={'Value'}
@@ -105,6 +107,8 @@ const RecursiveMain = (props) => {
           <div className={classes.innerObj}>
             {objs[index].__type === 'object' &&
             <RecursiveMain initialObjs={objs[index].__value}/>}
+            {objs[index].__type === 'array' &&
+            <RecursiveMain initialObjs={objs[index].__value} isArray={true}/>}
             {objs[index].__type === 'rich-text' &&
             <ReactQuill className={classes.rtfEditor} value={objs[index].__value}/>}
           </div>

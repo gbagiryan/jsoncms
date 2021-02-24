@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, Grid, IconButton, TextField } from '@material-ui/core';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import RecursiveForm from '../RecursiveForm/RecursiveForm';
@@ -8,6 +8,15 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import Container from '@material-ui/core/Container';
 
 const useStyles = makeStyles(theme => ({
+  root: {
+    '& .MuiTextField-root': {
+      margin: theme.spacing(1),
+      marginTop: theme.spacing(3)
+    }
+  },
+  fieldIcons: {
+    marginTop: theme.spacing(2)
+  },
   button: {
     margin: theme.spacing(1)
   },
@@ -16,8 +25,10 @@ const useStyles = makeStyles(theme => ({
 const AddNewObjForm = (props) => {
   const classes = useStyles();
 
+  const [addClicked, setAddClicked] = useState(false);
+
   return (
-    <Container>
+    <Container className={classes.root}>
       <Grid container spacing={2}>
         {props.errorMsg &&
         <Grid item xs={12}>
@@ -38,9 +49,16 @@ const AddNewObjForm = (props) => {
             label={'Name'}
             value={props.Name}
             onChange={props.handleNameChange}/>
+          <IconButton color="primary"
+                      className={classes.fieldIcons}
+                      onClick={() => setAddClicked(true)}
+          >
+            <AddCircleIcon/>
+          </IconButton>
         </Grid>
 
-        <RecursiveForm handleChangeParent={props.handleChangeParent}/>
+        <RecursiveForm handleChangeParent={props.handleChangeParent} addClicked={addClicked}
+                       setAddClicked={setAddClicked}/>
 
         <Grid item xs={12}>
           {props.tagsArr.map((tag) =>
@@ -62,7 +80,7 @@ const AddNewObjForm = (props) => {
                      label={'Tag'}
                      value={props.tag}
                      onChange={props.handleTagChange}/>
-          <IconButton onClick={props.handleAddTag} color="primary">
+          <IconButton className={classes.fieldIcons} onClick={props.handleAddTag} color="primary">
             <AddCircleIcon/>
           </IconButton>
         </Grid>
