@@ -6,6 +6,7 @@ import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
 import AddNewObjForm from './AddNewObjForm';
+import AddObjForm from './AddObjForm';
 
 const AddNewObjContainer = (props) => {
   const [name, setName] = useState('');
@@ -59,7 +60,7 @@ const AddNewObjContainer = (props) => {
   };
 
   return (
-    <AddNewObjForm
+    <AddObjForm
       errorMsg={props.errorMsg}
       successMsg={props.successMsg}
       setErrorMsg={props.setErrorMsg}
@@ -73,6 +74,20 @@ const AddNewObjContainer = (props) => {
       handleChangeParent={setBaseObj}
       handleSubmit={handleSubmit}
     />
+    // <AddNewObjForm
+    //   errorMsg={props.errorMsg}
+    //   successMsg={props.successMsg}
+    //   setErrorMsg={props.setErrorMsg}
+    //   clearMessages={props.clearMessages}
+    //   tagsArr={tagsArr}
+    //   handleTagChange={handleTagChange}
+    //   handleAddTag={handleAddTag}
+    //   handleDeleteTag={handleDeleteTag}
+    //   name={name}
+    //   handleNameChange={handleNameChange}
+    //   handleChangeParent={setBaseObj}
+    //   handleSubmit={handleSubmit}
+    // />
   );
 };
 
