@@ -30,7 +30,8 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const RecursiveForm = (props) => {
+const
+  RecursiveForm = (props) => {
 
   const classes = useStyles();
 
@@ -47,6 +48,8 @@ const RecursiveForm = (props) => {
   const [uploadProgress, setUploadProgress] = useState([]);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
   const [addClicked, setAddClicked] = useState(false);
+
+  console.log(objs)
 
   useEffect(() => {
     if (props.addClicked) {
