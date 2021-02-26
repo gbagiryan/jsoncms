@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const dotenv = require('dotenv');
 const authRoutes = require('./Routes/authRoutes');
 const objsRoutes = require('./Routes/objsRoutes');
+const cmsRoutes = require('./Routes/cmsRoutes');
 const cookieParser = require('cookie-parser');
 const logger = require('./logger');
 
@@ -15,6 +16,7 @@ app.use('/public', express.static('uploadsFinal'));
 app.use('/public', express.static('uploads'));
 app.use('/api/auth', authRoutes);
 app.use('/api/posts', objsRoutes);
+app.use('/api/cms', cmsRoutes);
 
 (async () => {
   try {

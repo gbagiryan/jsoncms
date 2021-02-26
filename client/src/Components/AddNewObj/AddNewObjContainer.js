@@ -60,21 +60,7 @@ const AddNewObjContainer = (props) => {
   };
 
   return (
-    <AddObjForm
-      errorMsg={props.errorMsg}
-      successMsg={props.successMsg}
-      setErrorMsg={props.setErrorMsg}
-      clearMessages={props.clearMessages}
-      tagsArr={tagsArr}
-      handleTagChange={handleTagChange}
-      handleAddTag={handleAddTag}
-      handleDeleteTag={handleDeleteTag}
-      name={name}
-      handleNameChange={handleNameChange}
-      handleChangeParent={setBaseObj}
-      handleSubmit={handleSubmit}
-    />
-    // <AddNewObjForm
+    // <AddObjForm
     //   errorMsg={props.errorMsg}
     //   successMsg={props.successMsg}
     //   setErrorMsg={props.setErrorMsg}
@@ -88,6 +74,20 @@ const AddNewObjContainer = (props) => {
     //   handleChangeParent={setBaseObj}
     //   handleSubmit={handleSubmit}
     // />
+    <AddNewObjForm
+      errorMsg={props.errorMsg}
+      successMsg={props.successMsg}
+      setErrorMsg={props.setErrorMsg}
+      clearMessages={props.clearMessages}
+      tagsArr={tagsArr}
+      handleTagChange={handleTagChange}
+      handleAddTag={handleAddTag}
+      handleDeleteTag={handleDeleteTag}
+      name={name}
+      handleNameChange={handleNameChange}
+      handleChangeParent={setBaseObj}
+      handleSubmit={handleSubmit}
+    />
   );
 };
 

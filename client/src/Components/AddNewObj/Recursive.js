@@ -34,46 +34,69 @@ const Recursive = (props) => {
 
   const classes = useStyles();
 
-  return (
-    <div className={classes.root}>
-      <TextField
-        placeholder={'Key'}
-        name={'__key'}
-        value={props.obj.__key}
-        variant="outlined"
-        size="small"
-        label={'Key'}
-        onChange={(event) => props.handleChangeInput(event, props.index)}
-      />
-      {props.obj.__type === 'string' &&
-      <TextField
-        placeholder={'Value'}
-        name={'__value'}
-        value={props.obj.__value}
-        variant="outlined"
-        size="small"
-        label={'Value'}
-        onChange={(event) => props.handleChangeInput(event, props.index)}
-      />
+  useEffect(() => {
+    if (Array.isArray(props.obj)) {
+      if (props.obj[0].__type === 'object') {
+        props.addInner(props.index);
       }
-      <TextField
-        id="standard-select"
-        select
-        name={'__type'}
-        value={props.obj.__type}
-        onChange={(event) => props.handleChangeType(event, props.index)}
-      >{props.inputTypes.map((option) => (
-        <MenuItem key={option.value} value={option.value}>
-          {option.label}
-        </MenuItem>
-      ))}
-      </TextField>
+    } else {
+      if (props.obj.__type === 'object') {
+        props.addInner(props.index);
+      }
+    }
+  }, [props.obj]);
 
-      <div className={classes.innerObj}>
-        {props.obj.__type === 'object' &&
-        props.addInner(props.index)
+  return (
+    <div>
+      {props.obj &&
+      <div className={classes.root}>
+        <TextField
+          placeholder={'Key'}
+          name={'__key'}
+          value={props.obj.__key}
+          variant="outlined"
+          size="small"
+          label={'Key'}
+          onChange={(event) => props.handleChangeInput(event, props.index)}
+        />
+        {props.obj.__type === 'string' &&
+        <TextField
+          placeholder={'Value'}
+          name={'__value'}
+          value={props.obj.__value}
+          variant="outlined"
+          size="small"
+          label={'Value'}
+          onChange={(event) => props.handleChangeInput(event, props.index)}
+        />
         }
+        <TextField
+          id="standard-select"
+          select
+          name={'__type'}
+          value={props.obj.__type}
+          onChange={(event) => props.handleChangeType(event, props.index)}
+        >{props.inputTypes.map((option) => (
+          <MenuItem key={option.value} value={option.value}>
+            {option.label}
+          </MenuItem>
+        ))}
+        </TextField>
+
+        <div className={classes.innerObj}>
+          {props.obj.__type === 'object' &&
+          <Recursive
+            inputTypes={props.inputTypes}
+            obj={Array.isArray(props.obj) ? props.obj.__value[0] : props.obj.__value}
+            handleChangeInput={(event) => props.handleChangeInput(event, props.index)}
+            handleChangeType={(event) => props.handleChangeType(event, props.index)}
+            index={props.index}
+            addInner={() => props.addInner(props.index)}
+          />
+          }
+        </div>
       </div>
+      }
     </div>
   );
 };
