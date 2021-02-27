@@ -10,13 +10,13 @@ const formatObj = (objs) => {
       result = { ...result, ...innerObj };
     } else if (objs[k].__type === 'array') {
       const key = objs[k].__key;
-      // const forArr = objs[k].__value.map((arrItem) => arrItem.__type === 'string' ? arrItem.__value : formatObj(arrItem.__value));
-      // const arr = formatArr(objs[k].__value);
       const arr = [];
       objs[k].__value.forEach((arrItem) => {
         console.log(arrItem);
-        if (arrItem.__type === 'object' || arrItem.__type === 'array') {
-          formatObj(arrItem.__value);
+        if (arrItem.__type === 'object') {
+          arr.push(formatObj(arrItem.__value));
+        } else if (arrItem.__type === 'array') {
+          arr.push(Object.values(formatObj(arrItem.__value)));
         } else {
           arr.push(arrItem.__value);
         }
@@ -28,22 +28,8 @@ const formatObj = (objs) => {
       result = { ...result, ...{ [key]: val } };
     }
   });
-  return { ...result };
+  return result;
 };
-
-// const formatArr = (arr) => {
-//   const result = [];
-//   arr.forEach((arrItem) => {
-//     if (arrItem.__type === 'object') {
-//       formatObj(arrItem.__value);
-//     } else if (arrItem.__type === 'array') {
-//       formatArr(arrItem.__value);
-//     } else {
-//       result.push(arrItem.__value);
-//     }
-//   });
-//   return result;
-// };
 
 const getObj = async (objId) => {
   try {
