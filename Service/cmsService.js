@@ -6,26 +6,23 @@ const formatObj = (objs) => {
     if (objs[k].__type === 'object') {
       const key = objs[k].__key;
       const val = formatObj(objs[k].__value);
-      const innerObj = { [key]: val };
-      result = { ...result, ...innerObj };
+      result = { ...result, ...{ [key]: val } };
     } else if (objs[k].__type === 'array') {
       const key = objs[k].__key;
-      const arr = [];
-      objs[k].__value.forEach((arrItem) => {
-        console.log(arrItem);
-        if (arrItem.__type === 'object') {
-          arr.push(formatObj(arrItem.__value));
-        } else if (arrItem.__type === 'array') {
-          arr.push(Object.values(formatObj(arrItem.__value)));
-        } else {
-          arr.push(arrItem.__value);
-        }
-      });
-      result = { ...result, ...{ [key]: arr } };
+      const arr = Object.values(formatObj(objs[k].__value));
+      if (key && key !== '') {
+        result = { ...result, ...{ [key]: arr } };
+      } else {
+        result = [...Object.values(result), arr];
+      }
     } else {
       const key = objs[k].__key;
       const val = objs[k].__value;
-      result = { ...result, ...{ [key]: val } };
+      if (key && key !== '') {
+        result = { ...result, ...{ [key]: val } };
+      } else {
+        result = [...Object.values(result), val];
+      }
     }
   });
   return result;
