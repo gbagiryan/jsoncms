@@ -7,13 +7,13 @@ const RecursiveForm = (props) => {
       {props.objs.map((obj, index) => (
         <div style={{ marginLeft: '30px' }}>
           <input key={'Key'} placeholder={'Key'} name={'__key'} type="text" value={obj.__key}
-                 onChange={(event) => props.handleChildInput(event, `${props.index}${index}`)}/>
+                 onChange={(event) => props.handleChildInput(event, `${props.index}.${index}`)}/>
           <input key={'Value'} placeholder={'Value'} name={'__value'} type="text" value={obj.__value}
-                 onChange={(event) => props.handleChildInput(event, `${props.index}${index}`)}/>
-          <button onClick={props.handleAdd}>+</button>
-          <button onClick={() => props.handleRemove(`${props.index}${index}`)}>-</button>
+                 onChange={(event) => props.handleChildInput(event, `${props.index}.${index}`)}/>
+          <button onClick={() => props.handleAdd(props.index)}>+</button>
+          <button onClick={() => props.handleRemove(props.index)}>-</button>
           <select name={'__type'}
-                  onChange={(event) => props.handleChangeChildType(event, `${props.index}${index}`)}
+                  onChange={(event) => props.handleChangeChildType(event, `${props.index}.${index}`)}
                   value={obj.__type}>
             {props.inputTypes.map((option) => (
               <option value={option.value}>
@@ -27,7 +27,7 @@ const RecursiveForm = (props) => {
                          handleChangeChildType={props.handleChangeChildType}
                          handleAdd={props.handleAdd}
                          handleRemove={props.handleRemove}
-                         index={`${props.index}${index}`}
+                         index={`${props.index}.${index}`}
                          inputTypes={props.inputTypes}
           />}
         </div>

@@ -10,14 +10,27 @@ const FormContainer = (props) => {
     { value: 'file', label: 'file' },
     { value: 'rich-text', label: 'rich-text' }
   ];
-
   const [objs, setObjs] = useState([{ __key: '', __value: '', __type: inputTypes[0].value }]);
 
+  const changeItemByIndex = (strIndex, cb) => {
+    const str = strIndex.split('.');
+    let objAtIndex = objs;
+
+    for (let i = 0; i < str.length; i++) {
+      if (i === str.length - 1) {
+        console.log(objAtIndex[str[i]])
+        // objAtIndex[str[i]] = cb(objAtIndex[str[i]]);
+      }
+      objAtIndex = objAtIndex[str[i]];
+    }
+  };
+
   const handleChildInput = (event, strIndex) => {
-    const index = parseInt(strIndex);
-    const values = [...objs];
-    values[index][event.target.name] = event.target.value;
-    setObjs(values);
+    changeItemByIndex('0', (o)=>({ __key: '', __value: 'changed', __type: inputTypes[0].value }))
+    // const index = parseInt(strIndex);
+    // const values = [...objs];
+    // values[index][event.target.name] = event.target.value;
+    // setObjs(values);
   };
   const handleChangeChildType = (event, strIndex) => {
     const index = parseInt(strIndex);
@@ -29,11 +42,10 @@ const FormContainer = (props) => {
 
   console.log(objs);
 
-  const handleAdd = () => {
+  const handleAdd = (index) => {
     setObjs([...objs, { __key: '', __value: '', __type: inputTypes[0].value }]);
   };
-  const handleRemove = (strIndex) => {
-    const index = parseInt(strIndex);
+  const handleRemove = (index) => {
     const values = [...objs];
     values.splice(index, 1);
     setObjs(values);
