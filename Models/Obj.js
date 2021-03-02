@@ -4,8 +4,7 @@ const objSchema = new mongoose.Schema({
   name: {
     type: String,
     required: true,
-    maxLength: 20,
-    unique: true
+    maxLength: 20
   },
   objs: {
     type: {},
@@ -19,6 +18,6 @@ const objSchema = new mongoose.Schema({
     ref: 'User',
     required: true
   }
-});
+},{ timestamps: true });
 
 module.exports = mongoose.model('Obj', objSchema);

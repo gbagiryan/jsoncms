@@ -17,21 +17,21 @@ export const AuthApi = {
 
 export const ObjApi = {
   async fetchObjs () {
-    return await Axios.get('/api/posts/getObjs');
+    return await Axios.get('/api/backoffice/getObjs');
   },
   async fetchAnObj (objId) {
-    return await Axios.get(`/api/posts/getAnObj/${objId}`);
+    return await Axios.get(`/api/backoffice/getAnObj/${objId}`);
   },
   async addNewObj (newObj) {
-    return await Axios.post('/api/posts/createAnObj', newObj);
+    return await Axios.post('/api/backoffice/createAnObj', newObj);
   },
   async updateObj (objId, updatedObj) {
-    return await Axios.patch(`/api/posts/updateObj/${objId}`, updatedObj);
+    return await Axios.patch(`/api/backoffice/updateObj/${objId}`, updatedObj);
   },
   async deleteObj (objId) {
-    return await Axios.delete(`/api/posts/deleteObj/${objId}`);
+    return await Axios.delete(`/api/backoffice/deleteObj/${objId}`);
   },
   async getObjByTag (tags) {
-    return await Axios.post(`/api/posts/getObjsByTag`, tags);
+    return await Axios.post(`/api/backoffice/getObjsByTag`, tags);
   }
 };

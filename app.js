@@ -15,7 +15,7 @@ app.use(cookieParser());
 app.use('/public', express.static('uploadsFinal'));
 app.use('/public', express.static('uploads'));
 app.use('/api/auth', authRoutes);
-app.use('/api/posts', objsRoutes);
+app.use('/api/backoffice', objsRoutes);
 app.use('/api/cms', cmsRoutes);
 
 (async () => {

@@ -28,13 +28,27 @@ const formatObj = (objs) => {
   return result;
 };
 
-const getObj = async (objId) => {
+const getObj = async (query) => {
   try {
-    const obj = await Obj.findById(objId);
-    if (!obj) {
-      throw new Error('object with given id not found');
+    const createdBy = query.accountId;
+    const name = query.objectName;
+
+    let formattedObj;
+    if (name === undefined) {
+      const objs = await Obj.find({ createdBy });
+      if (!objs) {
+        throw new Error('object not found check user and object name');
+      }
+      console.log('arr');
+      formattedObj = objs.map(obj => formatObj(obj.objs));
+    } else {
+      const obj = await Obj.findOne({ createdBy, name });
+      if (!obj) {
+        throw new Error('object not found check user and object name');
+      }
+      console.log('single');
+      formattedObj = formatObj(obj.objs);
     }
-    const formattedObj = formatObj(obj.objs);
     return formattedObj;
   } catch (err) {
     throw new Error(err);

@@ -3,7 +3,7 @@ const logger = require('../logger');
 
 const getObj = async (req, res) => {
   try {
-    const obj = await cmsService.getObj(req.params.objId);
+    const obj = await cmsService.getObj(req.query);
     return res.status(200).json(obj);
   } catch (err) {
     logger.error(err);

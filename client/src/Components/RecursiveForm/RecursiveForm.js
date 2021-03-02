@@ -110,7 +110,7 @@ const
   const handleUpload = async (event, index) => {
     const formData = new FormData();
     formData.append('uploadedFile', event.target.files[0]);
-    const uploadedFileName = await Axios.post('/api/posts/uploadFile', formData, {
+    const uploadedFileName = await Axios.post('/api/backoffice/uploadFile', formData, {
       onUploadProgress: progressEvent => {
         const { loaded, total } = progressEvent;
         const uploads = [...uploadProgress];

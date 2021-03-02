@@ -22,7 +22,10 @@ const findObj = (obj, key, value) => {
 const createObj = async (body, locals) => {
   try {
     const { name, objs, tags } = body;
-
+    const nameExists = await Obj.findOne({ createdBy: locals.user._id, name });
+    if (nameExists) {
+      throw new Error(`Object with ${name} name already exists`);
+    }
     const files = findObj(objs, '__type', '__file');
 
     files.forEach((file) => {
@@ -52,6 +55,11 @@ const updateObj = async (params, body, locals) => {
   try {
     const { name, objs, tags } = body;
     const objId = params.objId;
+
+    const nameExists = await Obj.findOne({ createdBy: locals.user._id, name });
+    if (nameExists) {
+      throw new Error(`Object with ${name} name already exists`);
+    }
 
     const obj = await Obj.findOne({ createdBy: locals.user._id, _id: objId });
     if (!obj) {

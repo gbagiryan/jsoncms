@@ -3,6 +3,6 @@ const cmsController = require('../Controllers/cmsController');
 
 const router = express.Router();
 
-router.get('/getObj/:objId', cmsController.getObj);
+router.get('/getObj', cmsController.getObj);
 
 module.exports = router;
