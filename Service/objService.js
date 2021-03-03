@@ -57,7 +57,7 @@ const updateObj = async (params, body, locals) => {
     const objId = params.objId;
 
     const nameExists = await Obj.findOne({ createdBy: locals.user._id, name });
-    if (nameExists) {
+    if (nameExists && JSON.stringify(objId) !== JSON.stringify(nameExists._id)) {
       throw new Error(`Object with ${name} name already exists`);
     }
 

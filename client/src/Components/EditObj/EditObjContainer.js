@@ -8,7 +8,6 @@ import { withRouter } from 'react-router-dom';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
 import EditObjForm from './EditObjForm';
-import Main from '../Main/Main';
 
 const EditObjContainer = (props) => {
 

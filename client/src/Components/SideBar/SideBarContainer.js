@@ -14,8 +14,10 @@ const SideBarContainer = (props) => {
 
   const handleChange = (e) => {
     SetSearchField(e.target.value);
-    const filteredObjs = props.objs.filter((obj) => obj.tags.includes(e.target.value));
-    SetFilteredObjs(filteredObjs);
+    if (props.objs) {
+      const filteredObjs = props.objs.filter((obj) => obj.tags.includes(e.target.value));
+      SetFilteredObjs(filteredObjs);
+    }
   };
 
   const handleClick = (objId) => {

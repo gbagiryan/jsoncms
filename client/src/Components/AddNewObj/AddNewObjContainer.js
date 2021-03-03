@@ -5,8 +5,6 @@ import { compose } from 'redux';
 import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
-import AddNewObjForm from './AddNewObjForm';
-import AddObjForm from './AddObjForm';
 import FormContainer from '../simpleRecursiveForm/FormContainer';
 
 const AddNewObjContainer = (props) => {
@@ -44,9 +42,7 @@ const AddNewObjContainer = (props) => {
     setTagsArr(tagsArr.filter((tag) => tagsArr.indexOf(tag) !== index));
   };
 
-  const [objs, setObjs] = useState({});
-
-  const handleSubmit = () => {
+  const handleSubmit = (objs) => {
     props.clearMessages();
     const newObj = {
       objs,
@@ -56,12 +52,20 @@ const AddNewObjContainer = (props) => {
     props.addNewObj(newObj);
   };
 
-  const setBaseObj = (subObjs) => {
-    setObjs({ ...subObjs });
-  };
-
   return (
-    <FormContainer/>
+    <FormContainer
+      errorMsg={props.errorMsg}
+      successMsg={props.successMsg}
+      setErrorMsg={props.setErrorMsg}
+      clearMessages={props.clearMessages}
+      tagsArr={tagsArr}
+      handleTagChange={handleTagChange}
+      handleAddTag={handleAddTag}
+      handleDeleteTag={handleDeleteTag}
+      name={name}
+      handleNameChange={handleNameChange}
+      handleSubmit={handleSubmit}
+    />
     // <AddObjForm
     //   errorMsg={props.errorMsg}
     //   successMsg={props.successMsg}
