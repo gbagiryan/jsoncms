@@ -21,10 +21,14 @@ app.use('/api/cms', cmsRoutes);
 (async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI, {
-      useCreateIndex: true,
+      readPreference: 'primary',
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useFindAndModify: false
+      useCreateIndex: true,
+      useFindAndModify: false,
+      socketTimeoutMS: 90000,
+      keepAlive: 10000,
+      connectTimeoutMS: 30000
     });
     app.listen(port, () => logger.info(`app started at port ${port}`));
   } catch (error) {

@@ -26,13 +26,15 @@ const useStyles = makeStyles(theme => ({
   innerObj: {
     marginLeft: theme.spacing(10)
   },
-  uploadButton:{
+  uploadButton: {
     margin: theme.spacing(1),
     marginTop: theme.spacing(3)
   }
 }));
 
 const RecursiveForm = (props) => {
+
+  console.log('INNER RENDER')
 
   const classes = useStyles();
 
@@ -67,10 +69,10 @@ const RecursiveForm = (props) => {
           {obj.__type === 'file' &&
           <>
             <input className={classes.uploadButton} type={'file'} name={'upload'}
-                   // onChange={(event) => props.handleUpload(event, index)}
+                   onChange={(event) => props.handleUpload(event, props.index ? `${props.index}.${index}` : `${index}`)}
             />
-            {/*{(uploadProgress[index] > 0)*/}
-            {/*&& <ProgressWithPercentage value={uploadProgress[index]} index={index} file={objs[index].__value}/>*/}
+            {/*{(obj.uploadProgress && obj.uploadProgress > 0)*/}
+            {/*&& <ProgressWithPercentage value={obj.uploadProgress} index={index} file={obj.__value}/>*/}
             {/*}*/}
           </>
           }
@@ -120,6 +122,7 @@ const RecursiveForm = (props) => {
                            inputTypes={props.inputTypes}
                            setConfirmDialog={props.setConfirmDialog}
                            handleUpload={props.handleUpload}
+                           uploadProgress={props.uploadProgress}
             />
           </div>}
           {obj.__type === 'array' &&
@@ -134,6 +137,7 @@ const RecursiveForm = (props) => {
                            inputTypes={props.inputTypes}
                            setConfirmDialog={props.setConfirmDialog}
                            handleUpload={props.handleUpload}
+                           uploadProgress={props.uploadProgress}
             />
           </div>}
           {obj.__type === 'rich-text' &&

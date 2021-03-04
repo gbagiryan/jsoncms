@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import RecursiveForm from './RecursiveForm';
 import makeStyles from '@material-ui/core/styles/makeStyles';
 import Container from '@material-ui/core/Container';
@@ -36,6 +36,20 @@ const FormContainer = (props) => {
   ];
   const [objs, setObjs] = useState([{ __key: '', __value: '', __type: inputTypes[0].value }]);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
+
+  useEffect(() => {
+    if (props.initialObjs) {
+      handleAddInitialFields(props.initialObjs);
+    }
+  }, [props.initialObjs]);
+
+  const handleAddInitialFields = (initialObjs) => {
+    setObjs(Object.values(initialObjs));
+  };
+
+  console.log('RENDER');
+
+  const [uploadProgress, setUploadProgress] = useState([]);
 
   const changeItemByIndex = (strIndex, cb) => {
     if (!strIndex) {
@@ -97,21 +111,23 @@ const FormContainer = (props) => {
     setConfirmDialog({ ...confirmDialog, isOpen: false });
   };
 
-  const handleUpload = async (event, index) => {
-  //   const formData = new FormData();
-  //   formData.append('uploadedFile', event.target.files[0]);
-  //   const uploadedFileName = await Axios.post('/api/backoffice/uploadFile', formData, {
-  //     onUploadProgress: progressEvent => {
-  //       const { loaded, total } = progressEvent;
-  //       const uploads = [...uploadProgress];
-  //       uploads[index] = (Math.floor((loaded * 100) / total));
-  //       setUploadProgress(uploads);
-  //     }
-  //   });
-  //   const values = [...objs];
-  //   values[index][event.target.name] = event.target.value;
-  //   values[index].__value = uploadedFileName.data;
-  //   setObjs(values);
+  const handleUpload = async (event, strIndex) => {
+    const formData = new FormData();
+    formData.append('uploadedFile', event.target.files[0]);
+    const uploadedFileName = await Axios.post('/api/backoffice/uploadFile', formData, {
+      onUploadProgress: progressEvent => {
+        const { loaded, total } = progressEvent;
+        changeItemByIndex(strIndex, (obj) => {
+          obj.uploadProgress = (Math.floor((loaded * 100) / total));
+          return obj;
+        });
+      }
+    });
+    changeItemByIndex(strIndex, (obj) => {
+      obj[event.target.name] = event.target.value;
+      obj.__value = uploadedFileName.data;
+      return obj;
+    });
   };
 
   return (
@@ -150,6 +166,7 @@ const FormContainer = (props) => {
                        inputTypes={inputTypes}
                        setConfirmDialog={setConfirmDialog}
                        handleUpload={handleUpload}
+                       uploadProgress={uploadProgress}
         />
         <Grid item xs={12}>
           {props.tagsArr.map((tag) =>
@@ -176,7 +193,7 @@ const FormContainer = (props) => {
           </IconButton>
         </Grid>
         <Button type={'submit'} variant="contained" color="primary"
-                className={classes.button} onClick={()=>props.handleSubmit(objs)}>Save</Button>
+                className={classes.button} onClick={() => props.handleSubmit(objs)}>Save</Button>
       </Grid>
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog}/>
     </Container>

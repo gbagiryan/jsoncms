@@ -29,12 +29,6 @@ const ProgressWithPercentage = (props) => {
       >
         {props.value < 100 ?
           <Typography variant="caption" component="div">{props.value}</Typography>
-          // <Typography variant="caption" component="div"
-          //             color="textSecondary">{props.value}%
-          //   <>
-          //     {props.file.originalName}
-          //   </>
-          // </Typography>
           : <IconButton
             component={Link}
             to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + props.file.fileName }}

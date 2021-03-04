@@ -7,6 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
+import FormContainer from '../simpleRecursiveForm/FormContainer';
 import EditObjForm from './EditObjForm';
 
 const EditObjContainer = (props) => {
@@ -76,23 +77,19 @@ const EditObjContainer = (props) => {
   return (
     <div>
       {props.obj ?
-        <EditObjForm
+        <FormContainer
           errorMsg={props.errorMsg}
           successMsg={props.successMsg}
           setErrorMsg={props.setErrorMsg}
           clearMessages={props.clearMessages}
-          handleChangeParent={setBaseObj}
-          handleSubmit={handleSubmit}
-          initialObjs={initialObjs}
-          handleDeleteObj={handleDeleteObj}
           tagsArr={tagsArr}
-          handleAddTag={handleAddTag}
           handleTagChange={handleTagChange}
+          handleAddTag={handleAddTag}
+          handleDeleteTag={handleDeleteTag}
           name={name}
           handleNameChange={handleNameChange}
-          handleDeleteTag={handleDeleteTag}
-          confirmDialog={confirmDialog}
-          setConfirmDialog={setConfirmDialog}
+          handleSubmit={handleSubmit}
+          initialObjs={initialObjs}
         />
         : <h2>
           Choose an object to display
