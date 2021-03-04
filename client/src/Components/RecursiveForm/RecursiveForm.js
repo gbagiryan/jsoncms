@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { IconButton, makeStyles, MenuItem, TextField } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import ReactQuill from 'react-quill';
-import ProgressWithPercentage from '../../Common/ProgressWithPercentage';
 import 'react-quill/dist/quill.snow.css';
-import Axios from 'axios';
-import ConfirmDialog from '../../Common/ConfirmDialog';
+import ProgressWithPercentage from '../../Common/ProgressWithPercentage';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -27,195 +25,133 @@ const useStyles = makeStyles(theme => ({
   },
   innerObj: {
     marginLeft: theme.spacing(10)
+  },
+  uploadButton: {
+    margin: theme.spacing(1),
+    marginTop: theme.spacing(3)
   }
 }));
 
-const
-  RecursiveForm = (props) => {
+const RecursiveForm = (props) => {
 
   const classes = useStyles();
 
-  const inputTypes = [
-    { value: 'string', label: 'string' },
-    { value: 'array', label: 'array' },
-    { value: 'object', label: 'object' },
-    { value: 'file', label: 'file' },
-    { value: 'rich-text', label: 'rich-text' }
-  ];
-
-  const [objs, setObjs] = useState([{ __key: '', __value: '', __type: inputTypes[0].value }]);
-  const [hasChanged, setHasChanged] = useState(false);
-  const [uploadProgress, setUploadProgress] = useState([]);
-  const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
-  const [addClicked, setAddClicked] = useState(false);
-
-  console.log(objs)
-
-  useEffect(() => {
-    if (props.addClicked) {
-      handleAddField();
-      props.setAddClicked(false);
-    }
-  }, [props.addClicked]);
-
-  useEffect(() => {
-    if (props.initialObjs) {
-      handleAddInitialFields(props.initialObjs);
-    }
-  }, [props.initialObjs]);
-
-  useEffect(() => {
-    if (hasChanged) {
-      props.handleChangeParent(objs, props.parentIndex);
-      setHasChanged(false);
-    }
-  }, [hasChanged]);
-
-  const handleGetChildObj = (childObjs, index) => {
-    const values = [...objs];
-    values[index].__key = objs[index].__key;
-    values[index].__value = { ...childObjs };
-    values[index].__type = objs[index].__type;
-    setObjs(values);
-    setHasChanged(true);
-  };
-  const handleGetChildArr = (childObjs, index) => {
-    const values = [...objs];
-    values[index].__key = objs[index].__key;
-    values[index].__value = [...Object.values(childObjs)];
-    values[index].__type = objs[index].__type;
-    setObjs(values);
-    setHasChanged(true);
-  };
-
-  const handleAddInitialFields = (initialObjs) => {
-    setObjs(Object.values(initialObjs));
-  };
-
-  const handleChangeInput = (event, index) => {
-    const values = [...objs];
-    values[index][event.target.name] = event.target.value;
-    setObjs(values);
-    setHasChanged(true);
-  };
-
-  const handleChangeType = (event, index) => {
-    const values = [...objs];
-    values[index].__type = event.target.value;
-    values[index].__value = '';
-    setObjs(values);
-    setHasChanged(true);
-  };
-
-  const handleUpload = async (event, index) => {
-    const formData = new FormData();
-    formData.append('uploadedFile', event.target.files[0]);
-    const uploadedFileName = await Axios.post('/api/backoffice/uploadFile', formData, {
-      onUploadProgress: progressEvent => {
-        const { loaded, total } = progressEvent;
-        const uploads = [...uploadProgress];
-        uploads[index] = (Math.floor((loaded * 100) / total));
-        setUploadProgress(uploads);
-      }
-    });
-    const values = [...objs];
-    values[index][event.target.name] = event.target.value;
-    values[index].__value = uploadedFileName.data;
-    setObjs(values);
-  };
-
-  const handleAddField = () => {
-    setObjs([...objs, { __key: '', __value: '', __type: inputTypes[0].value }]);
-  };
-
-  const handleRemoveField = (index) => {
-    const values = [...objs];
-    values.splice(index, 1);
-    setObjs(values);
-    setConfirmDialog({ ...confirmDialog, isOpen: false });
-  };
-
   return (
     <div className={classes.root}>
-      {objs.map((fieldKey, index) =>
+      {props.objs.map((obj, index) => (
         <div>
           {!props.isArray &&
           <TextField
+            key={'Key'}
             placeholder={'Key'}
             name={'__key'}
-            value={objs[index].__key}
+            value={obj.__key}
             variant="outlined"
             size="small"
             label={'Key'}
-            onChange={(event) => handleChangeInput(event, index)}
+            onChange={(event) => props.handleChildInput(event, props.index ? `${props.index}.${index}` : `${index}`)}
           />
           }
-          {objs[index].__type === 'string' &&
+          {obj.__type === 'string' &&
           <TextField
+            key={'Value'}
             placeholder={'Value'}
             name={'__value'}
-            value={objs[index].__value}
+            value={obj.__value}
             variant="outlined"
             size="small"
             label={'Value'}
-            onChange={(event) => handleChangeInput(event, index)}
+            onChange={(event) => props.handleChildInput(event, props.index ? `${props.index}.${index}` : `${index}`)}
           />
           }
-          {objs[index].__type === 'file' &&
+          {obj.__type === 'file' &&
           <>
-            <input type={'file'} name={'upload'} onChange={(event) => handleUpload(event, index)}/>
-            {(uploadProgress[index] > 0)
-            && <ProgressWithPercentage value={uploadProgress[index]} index={index} file={objs[index].__value}/>
-            }
+            <input className={classes.uploadButton} type={'file'} name={'upload'}
+                   onChange={(event) => props.handleUpload(event, props.index ? `${props.index}.${index}` : `${index}`)}
+            />
+            {/*{(obj.uploadProgress && obj.uploadProgress > 0)*/}
+            {/*&& <ProgressWithPercentage value={obj.uploadProgress} index={index} file={obj.__value}/>*/}
+            {/*}*/}
           </>
           }
           <TextField
             id="standard-select"
             select
             name={'__type'}
-            value={objs[index].__type}
-            onChange={(event) => handleChangeType(event, index)}
-          >{inputTypes.map((option) => (
+            value={obj.__type}
+            onChange={(event) => props.handleChangeChildType(event, props.index ? `${props.index}.${index}` : `${index}`)}
+          >{props.inputTypes.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>
           ))}
           </TextField>
-          {(objs[index].__type === 'object' || objs[index].__type === 'array') &&
-          <IconButton color="primary" className={classes.fieldIcons} onClick={() => setAddClicked(true)}>
+          {(obj.__type === 'object' || obj.__type === 'array') &&
+          <IconButton color="primary"
+                      className={classes.fieldIcons}
+                      onClick={() => props.handleAdd(props.index ? `${props.index}.${index}` : `${index}`)}>
             <AddCircleIcon/>
           </IconButton>
           }
-          {objs.length > 1 &&
+          {props.objs.length > 1 &&
           <IconButton color="secondary"
                       className={classes.fieldIcons}
                       onClick={() => {
-                        objs[index].__key || objs[index].__value ?
-                          setConfirmDialog({
+                        obj.__key || obj.__value ?
+                          props.setConfirmDialog({
                             isOpen: true,
                             title: `Deleting filled field`,
                             subTitle: `Are you sure you want to delete this field?`,
-                            onConfirm: () => handleRemoveField(index)
+                            onConfirm: () => props.handleRemove(props.index ? `${props.index}` : null, index)
                           })
-                          : handleRemoveField(index);
+                          : props.handleRemove(props.index ? `${props.index}` : null, index);
                       }}>
             <RemoveCircleIcon/>
           </IconButton>
           }
+          {obj.__type === 'object' &&
           <div className={classes.innerObj}>
-            {objs[index].__type === 'object' &&
-            <RecursiveForm initialObjs={objs[index].__value} handleChangeParent={handleGetChildObj}
-                           parentIndex={index} addClicked={addClicked} setAddClicked={setAddClicked}/>}
-            {objs[index].__type === 'array' &&
-            <RecursiveForm initialObjs={objs[index].__value} handleChangeParent={handleGetChildArr} isArray={true}
-                           parentIndex={index} addClicked={addClicked} setAddClicked={setAddClicked}/>}
-            {objs[index].__type === 'rich-text' &&
-            <ReactQuill className={classes.rtfEditor} value={objs[index].__value}
-                        onChange={html => handleChangeInput({ target: { value: html, name: '__value' } }, index)}/>}
-          </div>
-          <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog}/>
+            <RecursiveForm objs={obj.__value}
+                           handleChildInput={props.handleChildInput}
+                           handleChangeChildType={props.handleChangeChildType}
+                           handleAdd={props.handleAdd}
+                           handleRemove={props.handleRemove}
+                           index={props.index ? `${props.index}.${index}` : `${index}`}
+                           inputTypes={props.inputTypes}
+                           setConfirmDialog={props.setConfirmDialog}
+                           handleUpload={props.handleUpload}
+                           uploadProgress={props.uploadProgress}
+            />
+          </div>}
+          {obj.__type === 'array' &&
+          <div className={classes.innerObj}>
+            <RecursiveForm isArray={true}
+                           objs={obj.__value}
+                           handleChildInput={props.handleChildInput}
+                           handleChangeChildType={props.handleChangeChildType}
+                           handleAdd={props.handleAdd}
+                           handleRemove={props.handleRemove}
+                           index={props.index ? `${props.index}.${index}` : `${index}`}
+                           inputTypes={props.inputTypes}
+                           setConfirmDialog={props.setConfirmDialog}
+                           handleUpload={props.handleUpload}
+                           uploadProgress={props.uploadProgress}
+            />
+          </div>}
+          {obj.__type === 'rich-text' &&
+          <div className={classes.innerObj}>
+            <ReactQuill className={classes.rtfEditor}
+                        value={obj.__value}
+                        onChange={(html) => props.handleChildInput({
+                          target: {
+                            value: html,
+                            name: '__value'
+                          }
+                        }, props.index ? `${props.index}.${index}` : `${index}`)}
+            />
+          </div>}
         </div>
-      )}
+      ))}
     </div>
   );
 };

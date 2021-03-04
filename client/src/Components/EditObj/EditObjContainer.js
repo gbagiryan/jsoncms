@@ -7,8 +7,7 @@ import React, { useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
-import FormContainer from '../simpleRecursiveForm/FormContainer';
-import EditObjForm from './EditObjForm';
+import FormContainer from '../RecursiveForm/FormContainer';
 
 const EditObjContainer = (props) => {
 
@@ -27,7 +26,6 @@ const EditObjContainer = (props) => {
   const [tag, setTag] = useState('');
   const [tagsArr, setTagsArr] = useState([]);
 
-  const [objs, setObjs] = useState({});
   const [initialObjs, setInitialObjs] = useState();
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
 
@@ -60,11 +58,7 @@ const EditObjContainer = (props) => {
     setConfirmDialog({ ...confirmDialog, isOpen: false });
   };
 
-  const setBaseObj = (subObjs) => {
-    setObjs({ ...subObjs });
-  };
-
-  const handleSubmit = () => {
+  const handleSubmit = (objs) => {
     props.clearMessages();
     const updatedObj = {
       objs,
@@ -90,6 +84,8 @@ const EditObjContainer = (props) => {
           handleNameChange={handleNameChange}
           handleSubmit={handleSubmit}
           initialObjs={initialObjs}
+          handleDeleteObj={handleDeleteObj}
+          handleDeleteTag={handleDeleteTag}
         />
         : <h2>
           Choose an object to display
