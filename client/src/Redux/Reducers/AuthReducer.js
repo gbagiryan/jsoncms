@@ -38,7 +38,11 @@ export const signIn = (username, password) => async (dispatch) => {
     dispatch(setIsAuthed(true));
   } catch (err) {
     console.log(err);
-    dispatch(setErrorMsg(err.response.data.errorMessage));
+    if (!err.response) {
+      dispatch(setErrorMsg('Something went wrong...try again'));
+    } else {
+      dispatch(setErrorMsg(err.response.data.errorMessage));
+    }
   }
 };
 export const signOut = () => async (dispatch) => {
@@ -58,7 +62,11 @@ export const signUp = (username, password) => async (dispatch) => {
     dispatch(setIsAuthed(true));
   } catch (err) {
     console.log(err);
-    dispatch(setErrorMsg(err.response.data.errorMessage));
+    if (!err.response) {
+      dispatch(setErrorMsg('Something went wrong...try again'));
+    } else {
+      dispatch(setErrorMsg(err.response.data.errorMessage));
+    }
   }
 };
 export const verifyAuth = () => async (dispatch) => {

@@ -8,6 +8,7 @@ import AddCircleIcon from '@material-ui/icons/AddCircle';
 import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import ConfirmDialog from '../../Common/ConfirmDialog';
 import Axios from 'axios';
+import { requiredField } from '../../Common/Validators';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -68,7 +69,15 @@ const FormContainer = (props) => {
 
   const handleChildInput = (event, strIndex) => {
     changeItemByIndex(strIndex, (obj) => {
+      obj.validErr = { ...obj.validErr, [event.target.name]: '' };
       obj[event.target.name] = event.target.value;
+      return obj;
+    });
+  };
+
+  const validate = (name, strIndex, fieldName) => {
+    changeItemByIndex(strIndex, (obj) => {
+      obj.validErr = { ...obj.validErr, [fieldName]: requiredField(name, obj.__value) };
       return obj;
     });
   };
@@ -165,6 +174,7 @@ const FormContainer = (props) => {
                        setConfirmDialog={setConfirmDialog}
                        handleUpload={handleUpload}
                        uploadProgress={uploadProgress}
+                       validate={validate}
         />
         <Grid item xs={12}>
           {props.tagsArr.map((tag) =>

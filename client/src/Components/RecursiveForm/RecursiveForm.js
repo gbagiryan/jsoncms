@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { IconButton, makeStyles, MenuItem, TextField } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
@@ -47,6 +47,9 @@ const RecursiveForm = (props) => {
             name={'__key'}
             value={obj.__key}
             variant="outlined"
+            error={obj.validErr && obj.validErr['__key']}
+            helperText={obj.validErr && obj.validErr['__key']}
+            onBlur={() => props.validate('Key', props.index ? `${props.index}.${index}` : `${index}`, '__key')}
             size="small"
             label={'Key'}
             onChange={(event) => props.handleChildInput(event, props.index ? `${props.index}.${index}` : `${index}`)}
@@ -59,6 +62,9 @@ const RecursiveForm = (props) => {
             name={'__value'}
             value={obj.__value}
             variant="outlined"
+            error={obj.validErr && obj.validErr['__value']}
+            helperText={obj.validErr && obj.validErr['__value']}
+            onBlur={() => props.validate('Value', props.index ? `${props.index}.${index}` : `${index}`, '__value')}
             size="small"
             label={'Value'}
             onChange={(event) => props.handleChildInput(event, props.index ? `${props.index}.${index}` : `${index}`)}
@@ -121,6 +127,7 @@ const RecursiveForm = (props) => {
                            setConfirmDialog={props.setConfirmDialog}
                            handleUpload={props.handleUpload}
                            uploadProgress={props.uploadProgress}
+                           validate={props.validate}
             />
           </div>}
           {obj.__type === 'array' &&
@@ -136,6 +143,7 @@ const RecursiveForm = (props) => {
                            setConfirmDialog={props.setConfirmDialog}
                            handleUpload={props.handleUpload}
                            uploadProgress={props.uploadProgress}
+                           validate={props.validate}
             />
           </div>}
           {obj.__type === 'rich-text' &&

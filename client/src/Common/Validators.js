@@ -1,3 +1,7 @@
+export const requiredField = (fieldName, fieldValue) => {
+  return fieldValue.length > 0 ? '' : `${fieldName} is required`;
+};
+
 export const required = (value) => {
   return value ? undefined : 'Field is required';
 };

@@ -42,7 +42,11 @@ export const fetchObjs = (isAuthed) => async (dispatch) => {
   } catch (err) {
     console.log(err);
     dispatch(setObjData(null));
-    dispatch(setErrorMsg(err.response.data.errorMessage));
+    if (!err.response) {
+      dispatch(setErrorMsg('Something went wrong...try again'));
+    } else {
+      dispatch(setErrorMsg(err.response.data.errorMessage));
+    }
   }
 };
 
@@ -53,7 +57,11 @@ export const addNewObj = (newObj) => async (dispatch) => {
     dispatch(setSuccessMsg(res.data.successMessage));
   } catch (err) {
     console.log(err);
-    dispatch(setErrorMsg(err.response.data.errorMessage));
+    if (!err.response) {
+      dispatch(setErrorMsg('Something went wrong...try again'));
+    } else {
+      dispatch(setErrorMsg(err.response.data.errorMessage));
+    }
   }
 };
 
@@ -64,7 +72,11 @@ export const updateObj = (objId, updatedObj) => async (dispatch) => {
     dispatch(setSuccessMsg(res.data.successMessage));
   } catch (err) {
     console.log(err);
-    dispatch(setErrorMsg(err.response.data.errorMessage));
+    if (!err.response) {
+      dispatch(setErrorMsg('Something went wrong...try again'));
+    } else {
+      dispatch(setErrorMsg(err.response.data.errorMessage));
+    }
   }
 };
 export const deleteObj = (objId) => async (dispatch) => {
@@ -74,7 +86,11 @@ export const deleteObj = (objId) => async (dispatch) => {
     dispatch(fetchObjs(true));
   } catch (err) {
     console.log(err);
-    dispatch(setErrorMsg(err.response.data.errorMessage));
+    if (!err.response) {
+      dispatch(setErrorMsg('Something went wrong...try again'));
+    } else {
+      dispatch(setErrorMsg(err.response.data.errorMessage));
+    }
   }
 };
 export const getObjsByTag = (tags) => async (dispatch) => {
@@ -83,7 +99,11 @@ export const getObjsByTag = (tags) => async (dispatch) => {
     dispatch(setObjData(res.data));
   } catch (err) {
     console.log(err);
-    dispatch(setErrorMsg(err.response.data.errorMessage));
+    if (!err.response) {
+      dispatch(setErrorMsg('Something went wrong...try again'));
+    } else {
+      dispatch(setErrorMsg(err.response.data.errorMessage));
+    }
   }
 };
 

@@ -6,12 +6,14 @@ const objsRoutes = require('./Routes/objsRoutes');
 const cmsRoutes = require('./Routes/cmsRoutes');
 const cookieParser = require('cookie-parser');
 const logger = require('./logger');
+const cors = require('cors');
 
 const app = express();
 dotenv.config();
 const port = process.env.port || 5000;
 app.use(express.json());
 app.use(cookieParser());
+app.use(cors());
 app.use('/public', express.static('uploadsFinal'));
 app.use('/public', express.static('uploads'));
 app.use('/api/auth', authRoutes);
