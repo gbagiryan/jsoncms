@@ -1,49 +1,38 @@
 const User = require('../Models/User');
 const bcrypt = require('bcrypt');
 const jwtService = require('./jwtService');
+const CustomError = require('../ErrorHandling/customErrors');
 
 const signIn = async (body) => {
-  try {
-    const { username, password } = body;
-    return await User.comparePasswords(username, password);
-  } catch (err) {
-    throw new Error(err);
-  }
+  const { username, password } = body;
+  return await User.comparePasswords(username, password);
 };
 const signUp = async (body) => {
-  try {
-    const { username, password } = body;
-    const candidate = await User.findOne({ username });
-    if (candidate) {
-      throw new Error('username already taken');
-    }
-    const hashedPass = await bcrypt.hash(password, 12);
-    const user = new User({
-      username,
-      password: hashedPass
-    });
-    await user.save();
-    return user;
-  } catch (err) {
-    throw new Error(err);
+  const { username, password } = body;
+  const candidate = await User.findOne({ username });
+  if (candidate) {
+    throw new CustomError('username already taken');
   }
+  const hashedPass = await bcrypt.hash(password, 12);
+  const user = new User({
+    username,
+    password: hashedPass
+  });
+  await user.save();
+  return user;
 };
 
 const verifyAuth = async (cookies) => {
-  try {
-    const token = cookies.jwt;
-    if (!token) {
-      return false;
-    }
-    const decodedToken = await jwtService.verifyToken(token);
-    const user = await User.findOne({ _id: decodedToken.userId });
-    return {
-      username: user.username,
-      userId: user._id
-    };
-  } catch (err) {
-    throw new Error(err);
+  const token = cookies.jwt;
+  if (!token) {
+    return false;
   }
+  const decodedToken = await jwtService.verifyToken(token);
+  const user = await User.findOne({ _id: decodedToken.userId });
+  return {
+    username: user.username,
+    userId: user._id
+  };
 };
 
 module.exports = {

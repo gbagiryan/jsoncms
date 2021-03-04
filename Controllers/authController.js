@@ -1,6 +1,7 @@
 const jwtService = require('../Service/jwtService');
 const logger = require('../logger');
 const authService = require('../Service/authService');
+const CustomError = require('../ErrorHandling/customErrors');
 
 const signIn = async (req, res) => {
   try {
@@ -18,7 +19,11 @@ const signIn = async (req, res) => {
     });
   } catch (err) {
     logger.error(err);
-    return res.status(500).json({ errorMessage: 'server error' });
+    if (err instanceof CustomError) {
+      return res.status(500).json({ errorMessage: err.message });
+    } else {
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
   }
 };
 const signUp = async (req, res) => {
@@ -37,7 +42,11 @@ const signUp = async (req, res) => {
     });
   } catch (err) {
     logger.error(err);
-    return res.status(500).json({ errorMessage: 'server error' });
+    if (err instanceof CustomError) {
+      return res.status(500).json({ errorMessage: err.message });
+    } else {
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
   }
 };
 

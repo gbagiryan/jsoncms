@@ -1,5 +1,6 @@
 const logger = require('../logger');
 const objService = require('../Service/objService');
+const CustomError = require('../ErrorHandling/customErrors');
 
 const createAnObj = async (req, res) => {
   try {
@@ -7,7 +8,11 @@ const createAnObj = async (req, res) => {
     res.status(200).json({ successMessage: 'new object posted' });
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ errorMessage: 'server error' });
+    if (err instanceof CustomError) {
+      return res.status(500).json({ errorMessage: err.message });
+    } else {
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
   }
 };
 
@@ -17,7 +22,11 @@ const updateObj = async (req, res) => {
     return res.status(200).json({ successMessage: 'object updated' });
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ errorMessage: 'server error' });
+    if (err instanceof CustomError) {
+      return res.status(500).json({ errorMessage: err.message });
+    } else {
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
   }
 };
 
@@ -27,7 +36,11 @@ const deleteObj = async (req, res) => {
     return res.status(200).json({ successMessage: 'object removed' });
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ errorMessage: 'server error' });
+    if (err instanceof CustomError) {
+      return res.status(500).json({ errorMessage: err.message });
+    } else {
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
   }
 };
 
@@ -37,7 +50,11 @@ const getObjs = async (req, res) => {
     return res.status(200).json(objs);
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ errorMessage: 'server error' });
+    if (err instanceof CustomError) {
+      return res.status(500).json({ errorMessage: err.message });
+    } else {
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
   }
 };
 
@@ -47,7 +64,11 @@ const getObjsByTag = async (req, res) => {
     return res.status(200).json(objs);
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ errorMessage: 'server error' });
+    if (err instanceof CustomError) {
+      return res.status(500).json({ errorMessage: err.message });
+    } else {
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
   }
 };
 
@@ -57,7 +78,11 @@ const getAnObj = async (req, res) => {
     return res.status(200).json(obj);
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ errorMessage: 'server error' });
+    if (err instanceof CustomError) {
+      return res.status(500).json({ errorMessage: err.message });
+    } else {
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
   }
 };
 const uploadFile = async (req, res) => {

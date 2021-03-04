@@ -14,7 +14,6 @@ import AddNewObjContainer from './Components/AddNewObj/AddNewObjContainer';
 import EditObjContainer from './Components/EditObj/EditObjContainer';
 import { initializeApp } from './Redux/Reducers/AppReducer';
 import { isInitialized } from './Redux/Selectors/AppSelectors';
-import CreateObjContainer from './Components/CreateObj/CreateObjContainer';
 
 const useStyles = makeStyles({
   paper: {

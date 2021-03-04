@@ -112,7 +112,7 @@ const FormContainer = (props) => {
   const handleUpload = async (event, strIndex) => {
     const formData = new FormData();
     formData.append('uploadedFile', event.target.files[0]);
-    const uploadedFileName = await Axios.post('/api/backoffice/uploadFile', formData, {
+    const uploadedFileName = await Axios.post(`${process.env.REACT_APP_SERVER_BASE_URL}/api/backoffice/uploadFile`, formData, {
       onUploadProgress: progressEvent => {
         const { loaded, total } = progressEvent;
         changeItemByIndex(strIndex, (obj) => {

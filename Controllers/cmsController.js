@@ -1,5 +1,6 @@
 const cmsService = require('../Service/cmsService');
 const logger = require('../logger');
+const CustomError = require('../ErrorHandling/customErrors');
 
 const getObj = async (req, res) => {
   try {
@@ -7,7 +8,11 @@ const getObj = async (req, res) => {
     return res.status(200).json(obj);
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ errorMessage: 'server error' });
+    if (err instanceof CustomError) {
+      return res.status(500).json({ errorMessage: err.message });
+    } else {
+      return res.status(500).json({ errorMessage: 'server error' });
+    }
   }
 };
 

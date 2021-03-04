@@ -1,4 +1,5 @@
 const Obj = require('../Models/Obj');
+const CustomError = require('../ErrorHandling/customErrors');
 
 const formatObj = (objs) => {
   let result = {};
@@ -29,30 +30,26 @@ const formatObj = (objs) => {
 };
 
 const getObj = async (query) => {
-  try {
-    const createdBy = query.accountId;
-    const name = query.objectName;
+  const createdBy = query.accountId;
+  const name = query.objectName;
 
-    let formattedObj;
-    if (name === undefined) {
-      const objs = await Obj.find({ createdBy });
-      if (!objs) {
-        throw new Error('object not found check user and object name');
-      }
-      console.log('arr');
-      formattedObj = objs.map(obj => formatObj(obj.objs));
-    } else {
-      const obj = await Obj.findOne({ createdBy, name });
-      if (!obj) {
-        throw new Error('object not found check user and object name');
-      }
-      console.log('single');
-      formattedObj = formatObj(obj.objs);
+  let formattedObj;
+  if (name === undefined) {
+    const objs = await Obj.find({ createdBy });
+    if (!objs) {
+      throw new CustomError('object not found check user and object name');
     }
-    return formattedObj;
-  } catch (err) {
-    throw new Error(err);
+    console.log('arr');
+    formattedObj = objs.map(obj => formatObj(obj.objs));
+  } else {
+    const obj = await Obj.findOne({ createdBy, name });
+    if (!obj) {
+      throw new Error('object not found check user and object name');
+    }
+    console.log('single');
+    formattedObj = formatObj(obj.objs);
   }
+  return formattedObj;
 };
 
 module.exports = {

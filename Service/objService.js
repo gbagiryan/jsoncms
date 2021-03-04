@@ -1,6 +1,7 @@
 const Obj = require('../Models/Obj');
 const logger = require('../logger');
 const fs = require('fs');
+const CustomError = require('../ErrorHandling/customErrors');
 
 const findObj = (obj, key, value) => {
   const result = [];
@@ -20,133 +21,116 @@ const findObj = (obj, key, value) => {
 };
 
 const createObj = async (body, locals) => {
-  try {
-    const { name, objs, tags } = body;
-    const nameExists = await Obj.findOne({ createdBy: locals.user._id, name });
-    if (nameExists) {
-      throw new Error(`Object with ${name} name already exists`);
-    }
-    const files = findObj(objs, '__type', '__file');
+  const { name, objs, tags } = body;
 
-    files.forEach((file) => {
-      const filename = file.subObjValue.fileName.replace('/public/', '');
-      if (fs.existsSync(`./uploads/${filename}`)) {
-        fs.rename(`./uploads/${filename}`, `./uploadsFinal/${filename}`, function (err) {
-          if (err) {
-            throw new Error(err);
-          }
-        });
-      }
-    });
-
-    const obj = new Obj({
-      name,
-      objs,
-      tags,
-      createdBy: locals.user._id
-    });
-    await obj.save();
-  } catch (err) {
-    throw new Error(err);
+  if (!name) {
+    throw new CustomError('Object name is required');
   }
+  if (!objs || objs.length < 1) {
+    throw new CustomError('Object must have at least 1 key-value pair');
+  }
+
+  const nameExists = await Obj.findOne({ createdBy: locals.user._id, name });
+  if (nameExists) {
+    throw new CustomError(`Object with ${name} name already exists`);
+  }
+  const files = findObj(objs, '__type', '__file');
+
+  files.forEach((file) => {
+    const filename = file.subObjValue.fileName.replace('/public/', '');
+    if (fs.existsSync(`./uploads/${filename}`)) {
+      fs.rename(`./uploads/${filename}`, `./uploadsFinal/${filename}`, function (err) {
+        if (err) {
+          throw new Error(err);
+        }
+      });
+    }
+  });
+
+  const obj = new Obj({
+    name,
+    objs,
+    tags,
+    createdBy: locals.user._id
+  });
+  await obj.save();
 };
 
 const updateObj = async (params, body, locals) => {
-  try {
-    const { name, objs, tags } = body;
-    const objId = params.objId;
+  const { name, objs, tags } = body;
+  const objId = params.objId;
 
-    const nameExists = await Obj.findOne({ createdBy: locals.user._id, name });
-    if (nameExists && JSON.stringify(objId) !== JSON.stringify(nameExists._id)) {
-      throw new Error(`Object with ${name} name already exists`);
-    }
-
-    const obj = await Obj.findOne({ createdBy: locals.user._id, _id: objId });
-    if (!obj) {
-      throw new Error('object with given id not found');
-    }
-
-    const files = findObj(objs, 'type', '__file');
-
-    files.forEach((file) => {
-      const filename = file.fileName.replace('/public/', '');
-      if (fs.existsSync(`./uploads/${filename}`)) {
-        fs.rename(`./uploads/${filename}`, `./uploadsFinal/${filename}`, function (err) {
-          if (err) {
-            throw new Error(err);
-          }
-          ;
-        });
-      }
-    });
-
-    await Obj.findOneAndUpdate({ _id: objId }, {
-      name,
-      objs,
-      tags,
-      createdBy: locals.user._id
-    });
-  } catch (err) {
-    throw new Error(err);
+  const nameExists = await Obj.findOne({ createdBy: locals.user._id, name });
+  if (nameExists && JSON.stringify(objId) !== JSON.stringify(nameExists._id)) {
+    throw new CustomError(`Object with ${name} name already exists`);
   }
+
+  const obj = await Obj.findOne({ createdBy: locals.user._id, _id: objId });
+  if (!obj) {
+    throw new CustomError('object with given id not found');
+  }
+
+  const files = findObj(objs, 'type', '__file');
+
+  files.forEach((file) => {
+    const filename = file.fileName.replace('/public/', '');
+    if (fs.existsSync(`./uploads/${filename}`)) {
+      fs.rename(`./uploads/${filename}`, `./uploadsFinal/${filename}`, function (err) {
+        if (err) {
+          throw new Error(err);
+        }
+      });
+    }
+  });
+
+  await Obj.findOneAndUpdate({ _id: objId }, {
+    name,
+    objs,
+    tags,
+    createdBy: locals.user._id
+  });
 };
 
 const deleteObj = async (params, locals) => {
-  try {
-    const objId = params.objId;
-    const obj = await Obj.findOne({ createdBy: locals.user._id, _id: objId });
-    if (!obj) {
-      throw new Error('object with given id not found');
-    }
-    await obj.remove();
-
-    const files = findObj(obj, 'type', 'file');
-    files.forEach((file) => {
-      const filename = file.subObjValue.fileName.replace('/public/', '');
-      fs.unlink(`./uploadsFinal/${filename}`, (err) => {
-        if (err) {
-          logger.error(err);
-        }
-      });
-    });
-  } catch (err) {
-    throw new Error(err);
+  const objId = params.objId;
+  const obj = await Obj.findOne({ createdBy: locals.user._id, _id: objId });
+  if (!obj) {
+    throw new CustomError('object with given id not found');
   }
+  await obj.remove();
+
+  const files = findObj(obj, 'type', 'file');
+  files.forEach((file) => {
+    const filename = file.subObjValue.fileName.replace('/public/', '');
+    fs.unlink(`./uploadsFinal/${filename}`, (err) => {
+      if (err) {
+        logger.error(err);
+      }
+    });
+  });
 };
 
 const getObjs = async (locals) => {
-  try {
-    const objs = await Obj.find({ createdBy: locals.user._id });
-    if (!objs) {
-      throw new Error('objects don\'t exist');
-    }
-    return objs;
-  } catch (err) {
-    throw new Error(err);
+  const objs = await Obj.find({ createdBy: locals.user._id });
+  if (!objs) {
+    throw new CustomError('objects don\'t exist');
   }
+  return objs;
 };
 
 const getObjsByTag = async (body, locals) => {
-  try {
-    const { tags } = body;
-    const objs = await Obj.find({ createdBy: locals.user._id, tags: { $in: tags } });
-    if (!objs) {
-      throw new Error('objects don\'t exist');
-    }
-  } catch (err) {
-    throw new Error(err);
+  const { tags } = body;
+  const objs = await Obj.find({ createdBy: locals.user._id, tags: { $in: tags } });
+  if (!objs) {
+    throw new CustomError('objects don\'t exist');
   }
 };
 
 const getAnObj = async (params, locals) => {
-  try {
-    const objId = params.objId;
-    const obj = await Obj.findOne({ createdBy: locals.user._id, _id: objId });
-    if (!obj) {
-      throw new Error('object with given id not found');
-    }
-  } catch (err) {
-    throw new Error(err);
+  const objId = params.objId;
+  const obj = await Obj.findOne({ createdBy: locals.user._id, _id: objId });
+  if (!obj) {
+    throw new CustomError('object with given id not found');
   }
 };
 
