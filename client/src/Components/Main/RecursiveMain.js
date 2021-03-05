@@ -10,6 +10,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import IconButton from '@material-ui/core/IconButton';
+import RichTextDialog from '../../RichTextDialog/RichTextDialog';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -22,19 +23,29 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     width: 400,
     '& .ql-container': {
+      overflow: 'hidden'
       // minHeight: 100
+    },
+    '& .ql-toolbar.ql-snow': {
+      display: 'none'
+    },
+    '& .ql-editor': {
+      height: 100,
+      overflow: 'hidden'
     }
   },
   fields: {
     border: '1px solid rgba(0, 0, 0, 0.3)',
     display: 'block',
     borderRadius: 5,
-    padding: 10.5,
+    padding: 8,
     marginTop: theme.spacing(3),
     position: 'relative',
     width: 'fit-content',
     blockSize: 'fit-content',
-    minWidth: '200px'
+    minWidth: '200px',
+    minHeight: '25px',
+    marginRight: theme.spacing(1)
   },
   label: {
     fontSize: '0.9rem',
@@ -119,9 +130,12 @@ const RecursiveMain = (props) => {
             {objs[index].__type === 'array' &&
             <RecursiveMain initialObjs={objs[index].__value} isArray={true}/>}
             {objs[index].__type === 'rich-text' &&
-            <Typography>
+            <div className={classes.innerObj}>
+              <RichTextDialog readOnly={true} value={objs[index].__value}
+                              handleChildInput={props.handleChildInput}
+                              index={props.index ? `${props.index}.${index}` : `${index}`}/>
               <ReactQuill className={classes.rtfEditor} readOnly={true} value={objs[index].__value}/>
-            </Typography>
+            </div>
             }
           </div>
         </>

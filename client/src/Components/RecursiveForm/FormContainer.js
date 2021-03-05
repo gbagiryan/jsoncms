@@ -55,14 +55,14 @@ const FormContainer = (props) => {
       setObjs(draft => (cb(objs)));
     } else {
       const str = strIndex.split('.');
-      setObjs(draft =>{
+      setObjs(draft => {
         for (let i = 0; i < str.length; i++) {
           if (i === str.length - 1) {
-            draft[str[i]] = cb(draft[str[i]])
+            draft[str[i]] = cb(draft[str[i]]);
           }
           draft = draft[str[i]].__value;
         }
-      })
+      });
     }
   };
 
@@ -76,7 +76,7 @@ const FormContainer = (props) => {
 
   const validate = (name, strIndex, fieldName) => {
     changeItemByIndex(strIndex, (obj) => {
-      obj.validErr = { ...obj.validErr, [fieldName]: requiredField(name, obj.__value) };
+      obj.validErr = { ...obj.validErr, [fieldName]: requiredField(name, obj[fieldName]) };
       return obj;
     });
   };

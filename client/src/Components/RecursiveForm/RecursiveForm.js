@@ -5,6 +5,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ProgressWithPercentage from '../../Common/ProgressWithPercentage';
+import RichTextDialog from '../../RichTextDialog/RichTextDialog';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -17,7 +18,14 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     width: 400,
     '& .ql-container': {
+      overflow: 'hidden'
       // minHeight: 100
+    },
+    '& .ql-toolbar.ql-snow': {
+      display: 'none'
+    },
+    '& .ql-editor': {
+      overflow: 'hidden'
     }
   },
   fieldIcons: {
@@ -75,9 +83,9 @@ const RecursiveForm = (props) => {
             <input className={classes.uploadButton} type={'file'} name={'upload'}
                    onChange={(event) => props.handleUpload(event, props.index ? `${props.index}.${index}` : `${index}`)}
             />
-            {/*{(obj.uploadProgress && obj.uploadProgress > 0)*/}
-            {/*&& <ProgressWithPercentage value={obj.uploadProgress} index={index} file={obj.__value}/>*/}
-            {/*}*/}
+            {(obj.uploadProgress && obj.uploadProgress > 0)
+            && <ProgressWithPercentage value={obj.uploadProgress} index={index} file={obj.__value}/>
+            }
           </>
           }
           <TextField
@@ -148,15 +156,10 @@ const RecursiveForm = (props) => {
           </div>}
           {obj.__type === 'rich-text' &&
           <div className={classes.innerObj}>
-            <ReactQuill className={classes.rtfEditor}
-                        value={obj.__value}
-                        onChange={(html) => props.handleChildInput({
-                          target: {
-                            value: html,
-                            name: '__value'
-                          }
-                        }, props.index ? `${props.index}.${index}` : `${index}`)}
-            />
+            <RichTextDialog readOnly={false} value={obj.__value}
+                            handleChildInput={props.handleChildInput}
+                            index={props.index ? `${props.index}.${index}` : `${index}`}/>
+            <ReactQuill className={classes.rtfEditor} readOnly={true} value={obj.__value}/>
           </div>}
         </div>
       ))}

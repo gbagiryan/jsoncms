@@ -7,12 +7,8 @@ import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
 
-const useStyles = makeStyles(theme => ({
-}));
 
 const ProgressWithPercentage = (props) => {
-
-  const classes = useStyles();
 
   return (
     <Box position="relative" display="inline-flex">

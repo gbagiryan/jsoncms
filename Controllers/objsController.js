@@ -50,7 +50,7 @@ const deleteObj = async (req, res) => {
 const getObjs = async (req, res) => {
   try {
     const objs = await objService.getObjs(req.app.locals);
-    logger.info(`Successful ${objs} response`);
+    logger.info('Successful get all objects response');
     return res.status(200).json(objs);
   } catch (err) {
     logger.error(err);
@@ -65,7 +65,7 @@ const getObjs = async (req, res) => {
 const getObjsByTag = async (req, res) => {
   try {
     const objs = await objService.getObjsByTag(req.body, req.app.locals);
-    logger.info(`Successful ${objs} response`);
+    logger.info(`Successful get object by tags response`);
     return res.status(200).json(objs);
   } catch (err) {
     logger.error(err);
@@ -80,7 +80,7 @@ const getObjsByTag = async (req, res) => {
 const getAnObj = async (req, res) => {
   try {
     const obj = await objService.getAnObj(req.params, req.app.locals);
-    logger.info(`Successful ${obj} response`);
+    logger.info(`Successful get single object response`);
     return res.status(200).json(obj);
   } catch (err) {
     logger.error(err);

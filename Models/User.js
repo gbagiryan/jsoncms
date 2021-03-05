@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
+const CustomError = require('../ErrorHandling/customErrors');
 
 const userSchema = new mongoose.Schema({
   username: {
@@ -22,7 +23,7 @@ userSchema.statics.comparePasswords = async function (username, password) {
       return user;
     }
   }
-  throw new Error('wrong username or password');
+  throw new CustomError('wrong username or password');
 };
 
 module.exports = mongoose.model('User', userSchema);
