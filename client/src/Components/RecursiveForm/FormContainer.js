@@ -9,6 +9,7 @@ import HighlightOffIcon from '@material-ui/icons/HighlightOff';
 import ConfirmDialog from '../../Common/ConfirmDialog';
 import Axios from 'axios';
 import { requiredField } from '../../Common/Validators';
+import { useImmer } from 'use-immer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -35,8 +36,9 @@ const FormContainer = (props) => {
     { value: 'file', label: 'file' },
     { value: 'rich-text', label: 'rich-text' }
   ];
-  const [objs, setObjs] = useState([{ __key: '', __value: '', __type: inputTypes[0].value }]);
+  const [objs, setObjs] = useImmer([{ __key: '', __value: '', __type: inputTypes[0].value }]);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
+  const [uploadProgress, setUploadProgress] = useState([]);
 
   useEffect(() => {
     if (props.initialObjs) {
@@ -45,25 +47,22 @@ const FormContainer = (props) => {
   }, [props.initialObjs]);
 
   const handleAddInitialFields = (initialObjs) => {
-    setObjs(Object.values(initialObjs));
+    setObjs(draft => (Object.values(initialObjs)));
   };
-
-  const [uploadProgress, setUploadProgress] = useState([]);
 
   const changeItemByIndex = (strIndex, cb) => {
     if (!strIndex) {
-      setObjs(cb(objs));
+      setObjs(draft => (cb(objs)));
     } else {
-      const updatedObjs = JSON.parse(JSON.stringify(objs));
       const str = strIndex.split('.');
-      let objAtIndex = updatedObjs;
-      for (let i = 0; i < str.length; i++) {
-        if (i === str.length - 1) {
-          objAtIndex[str[i]] = cb(objAtIndex[str[i]]);
+      setObjs(draft =>{
+        for (let i = 0; i < str.length; i++) {
+          if (i === str.length - 1) {
+            draft[str[i]] = cb(draft[str[i]])
+          }
+          draft = draft[str[i]].__value;
         }
-        objAtIndex = objAtIndex[str[i]].__value;
-      }
-      setObjs(updatedObjs);
+      })
     }
   };
 

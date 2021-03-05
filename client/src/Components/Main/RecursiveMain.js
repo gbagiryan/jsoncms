@@ -1,17 +1,15 @@
 import {
-  IconButton,
   makeStyles,
-  MenuItem,
-  TextField
 } from '@material-ui/core';
 import React, { useEffect, useState } from 'react';
-import AddCircleIcon from '@material-ui/icons/AddCircle';
-import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import ReactQuill from 'react-quill';
-import Axios from 'axios';
-import ProgressWithPercentage from '../../Common/ProgressWithPercentage';
 import { Link } from 'react-router-dom';
+import Grid from '@material-ui/core/Grid';
+import Typography from '@material-ui/core/Typography';
+import parse from 'html-react-parser';
+import ReactQuill from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import IconButton from '@material-ui/core/IconButton';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -26,6 +24,23 @@ const useStyles = makeStyles(theme => ({
     '& .ql-container': {
       // minHeight: 100
     }
+  },
+  fields: {
+    border: '1px solid rgba(0, 0, 0, 0.3)',
+    display: 'block',
+    borderRadius: 5,
+    padding: 10.5,
+    marginTop: theme.spacing(3),
+    position: 'relative',
+    width: 'fit-content',
+    blockSize: 'fit-content',
+    minWidth: '200px'
+  },
+  label: {
+    fontSize: '0.9rem',
+    color: '#3f51b5',
+    position: 'absolute',
+    top: -20,
   },
   fieldIcons: {
     marginTop: theme.spacing(2)
@@ -62,57 +77,54 @@ const RecursiveMain = (props) => {
   return (
     <div className={classes.root}>
       {objs.map((fieldKey, index) =>
-        <div>
-          {!props.isArray &&
-          <TextField
-            placeholder={'Key'}
-            name={'__key'}
-            value={objs[index].__key}
-            variant="outlined"
-            size="small"
-            label={'Key'}
-          />
-          }
-          {objs[index].__type === 'string' &&
-          <TextField
-            placeholder={'Value'}
-            name={'__value'}
-            value={objs[index].__value}
-            variant="outlined"
-            size="small"
-            label={'Value'}
-          />
-          }
-          {objs[index].__type === 'file' &&
-          <>
-            <IconButton
-              component={Link}
-              to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + objs[index].__value.fileName }}
-              target={'_blank'}
-              color="primary">
-              <ExitToAppIcon/>
-            </IconButton>
-          </>
-          }
-          <TextField
-            id="standard-select"
-            select
-            name={'__type'}
-            value={objs[index].__type}
-          >
-            <MenuItem value={objs[index].__type}>
-              {objs[index].__type}
-            </MenuItem>
-          </TextField>
+        <>
+          <Grid container xs={12}>
+            {!props.isArray &&
+            <Grid xs={4}>
+              <Typography className={classes.fields}>
+                <label className={classes.label}>Key</label>
+                {objs[index].__key}
+              </Typography>
+            </Grid>
+            }
+            {objs[index].__type === 'string' &&
+            <Grid xs={4}>
+              <Typography className={classes.fields}>
+                <label className={classes.label}>Value</label>
+                {objs[index].__value}
+              </Typography>
+            </Grid>
+            }
+            {objs[index].__type === 'file' &&
+            <Grid xs={4}>
+              <IconButton
+                component={Link}
+                to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + objs[index].__value.fileName }}
+                target={'_blank'}
+                color="primary">
+                <ExitToAppIcon/>
+              </IconButton>
+            </Grid>
+            }
+            <Grid xs={2}>
+              <Typography className={classes.fields}>
+                <label className={classes.label}>Type</label>
+                {objs[index].__type}
+              </Typography>
+            </Grid>
+          </Grid>
           <div className={classes.innerObj}>
             {objs[index].__type === 'object' &&
             <RecursiveMain initialObjs={objs[index].__value}/>}
             {objs[index].__type === 'array' &&
             <RecursiveMain initialObjs={objs[index].__value} isArray={true}/>}
             {objs[index].__type === 'rich-text' &&
-            <ReactQuill className={classes.rtfEditor} value={objs[index].__value}/>}
+            <Typography>
+              <ReactQuill className={classes.rtfEditor} readOnly={true} value={objs[index].__value}/>
+            </Typography>
+            }
           </div>
-        </div>
+        </>
       )}
     </div>
   );

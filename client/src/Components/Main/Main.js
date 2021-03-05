@@ -11,6 +11,7 @@ import RecursiveMain from './RecursiveMain';
 import Container from '@material-ui/core/Container';
 import { Error, Success } from '../../Common/Messages';
 import ConfirmDialog from '../../Common/ConfirmDialog';
+import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,11 +26,25 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto'
   },
   buttons: {
-    margin: theme.spacing(1),
+    marginTop: theme.spacing(3),
   },
-  tags: {
-    border: '1px solid '
-  }
+  fields: {
+    border: '1px solid rgba(0, 0, 0, 0.3)',
+    display: 'block',
+    borderRadius: 5,
+    padding: 10.5,
+    marginTop: theme.spacing(3),
+    position: 'relative',
+    width: 'fit-content',
+    blockSize: 'fit-content',
+    minWidth: '25%'
+  },
+  label: {
+    fontSize: '0.9rem',
+    color: '#3f51b5',
+    position: 'absolute',
+    top: -20,
+  },
 }));
 
 const Main = (props) => {
@@ -53,46 +68,47 @@ const Main = (props) => {
 
           <Grid container>
             <Grid item xs={8}>
-              <TextField variant="outlined"
-                         size="small"
-                         placeholder={'Name'}
-                         name={'name'}
-                         label={'Name'}
-                         value={props.name}
-              />
+              <Typography className={classes.fields}>
+                <label className={classes.label}>Name</label>
+                {props.name}
+              </Typography>
             </Grid>
             <Grid item xs={4}>
-              <Button
-                onClick={() => {
-                  props.setConfirmDialog({
-                    isOpen: true,
-                    title: `Deleting ${props.name}`,
-                    subTitle: `Are you sure you want to completely delete this object`,
-                    onConfirm: () => props.handleDeleteObj(props.objId)
-                  });
-                }}
-                variant="contained"
-                color="secondary"
-                className={classes.buttons}
-                endIcon={<DeleteForeverIcon/>}>Delete</Button>
-              <Button component={Link} to={`/edit_obj/${props.objId}`}
+              <Button className={classes.buttons}
+                      onClick={() => {
+                        props.setConfirmDialog({
+                          isOpen: true,
+                          title: `Deleting ${props.name}`,
+                          subTitle: `Are you sure you want to completely delete this object`,
+                          onConfirm: () => props.handleDeleteObj(props.objId)
+                        });
+                      }}
+                      variant="contained"
+                      color="secondary"
+                      endIcon={<DeleteForeverIcon/>}>Delete</Button>
+              <Button className={classes.buttons}
+                      component={Link} to={`/edit_obj/${props.objId}`}
                       variant="contained"
                       color="primary"
-                      className={classes.buttons}
                       endIcon={<EditIcon/>}>Edit</Button>
             </Grid>
+
+            <RecursiveMain initialObjs={props.initialObjs}/>
+
+            {props.tagsArr.length > 0 &&
+            <Grid item xs={7}>
+              <Typography className={classes.fields}>
+                <label className={classes.label}>Tags</label>
+                {props.tagsArr.map((tag) =>
+                  <>
+                    {tag},
+                  </>
+                )}
+              </Typography>
+            </Grid>
+            }
+            <ConfirmDialog confirmDialog={props.confirmDialog} setConfirmDialog={props.setConfirmDialog}/>
           </Grid>
-          <RecursiveMain initialObjs={props.initialObjs}/>
-          {props.tagsArr.length > 0 &&
-          <Grid item xs={7} className={classes.tags}>
-            {props.tagsArr.map((tag) =>
-              <>
-                {tag},
-              </>
-            )}
-          </Grid>
-          }
-          <ConfirmDialog confirmDialog={props.confirmDialog} setConfirmDialog={props.setConfirmDialog}/>
         </Grid>
         : <h2>
           Choose an object to display
