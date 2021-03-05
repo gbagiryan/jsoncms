@@ -6,13 +6,13 @@ const CustomError = require('../ErrorHandling/customErrors');
 const signIn = async (req, res) => {
   try {
     const user = await authService.signIn(req.body);
-
     const token = jwtService.signToken(user);
 
     res.cookie('jwt', token, {
       httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000
     });
 
+    logger.info(`${req.body.username} login success`);
     return res.status(200).json({
       username: user.username,
       userId: user._id
@@ -36,6 +36,7 @@ const signUp = async (req, res) => {
       httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000
     });
 
+    logger.info(`${req.body.username} signup success`);
     return res.status(200).json({
       username: user.username,
       userId: user._id
@@ -53,6 +54,7 @@ const signUp = async (req, res) => {
 const signOut = (req, res) => {
   try {
     res.clearCookie('jwt');
+    logger.info('logout success');
     res.status(200).json();
   } catch (err) {
     logger.error(err);

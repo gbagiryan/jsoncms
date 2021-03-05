@@ -5,6 +5,7 @@ const CustomError = require('../ErrorHandling/customErrors');
 const createAnObj = async (req, res) => {
   try {
     await objService.createObj(req.body, req.app.locals);
+    logger.info('Successful object creation');
     res.status(200).json({ successMessage: 'new object posted' });
   } catch (err) {
     logger.error(err);
@@ -19,6 +20,7 @@ const createAnObj = async (req, res) => {
 const updateObj = async (req, res) => {
   try {
     await objService.updateObj(req.params, req.body, req.app.locals);
+    logger.info('Successful object update');
     return res.status(200).json({ successMessage: 'object updated' });
   } catch (err) {
     logger.error(err);
@@ -33,6 +35,7 @@ const updateObj = async (req, res) => {
 const deleteObj = async (req, res) => {
   try {
     await objService.deleteObj(req.params, req.app.locals);
+    logger.info('Successful object delete');
     return res.status(200).json({ successMessage: 'object removed' });
   } catch (err) {
     logger.error(err);
@@ -47,6 +50,7 @@ const deleteObj = async (req, res) => {
 const getObjs = async (req, res) => {
   try {
     const objs = await objService.getObjs(req.app.locals);
+    logger.info(`Successful ${objs} response`);
     return res.status(200).json(objs);
   } catch (err) {
     logger.error(err);
@@ -61,6 +65,7 @@ const getObjs = async (req, res) => {
 const getObjsByTag = async (req, res) => {
   try {
     const objs = await objService.getObjsByTag(req.body, req.app.locals);
+    logger.info(`Successful ${objs} response`);
     return res.status(200).json(objs);
   } catch (err) {
     logger.error(err);
@@ -75,6 +80,7 @@ const getObjsByTag = async (req, res) => {
 const getAnObj = async (req, res) => {
   try {
     const obj = await objService.getAnObj(req.params, req.app.locals);
+    logger.info(`Successful ${obj} response`);
     return res.status(200).json(obj);
   } catch (err) {
     logger.error(err);
@@ -87,6 +93,7 @@ const getAnObj = async (req, res) => {
 };
 const uploadFile = async (req, res) => {
   try {
+    logger.info(`Uploading ${req.file.filename} file`);
     res.status(200).json({
       fileName: `/public/${req.file.filename}`,
       originalName: req.file.originalname

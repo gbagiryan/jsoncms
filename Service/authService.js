@@ -2,13 +2,16 @@ const User = require('../Models/User');
 const bcrypt = require('bcrypt');
 const jwtService = require('./jwtService');
 const CustomError = require('../ErrorHandling/customErrors');
+const logger = require('../logger');
 
 const signIn = async (body) => {
   const { username, password } = body;
+  logger.info(`${username} login attempt`);
   return await User.comparePasswords(username, password);
 };
 const signUp = async (body) => {
   const { username, password } = body;
+  logger.info(`${username} signup attempt`);
   const candidate = await User.findOne({ username });
   if (candidate) {
     throw new CustomError('username already taken');

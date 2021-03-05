@@ -1,5 +1,6 @@
 const Obj = require('../Models/Obj');
 const CustomError = require('../ErrorHandling/customErrors');
+const logger = require('../logger');
 
 const formatObj = (objs) => {
   let result = {};
@@ -33,13 +34,16 @@ const getObj = async (query) => {
   const createdBy = query.accountId;
   const name = query.objectName;
 
+  logger.info(`Client get object request for ${query}`);
+
   let formattedObj;
+  logger.info(`Formatting ${query} query object`);
+
   if (name === undefined) {
     const objs = await Obj.find({ createdBy });
     if (!objs) {
       throw new CustomError('object not found check user and object name');
     }
-    console.log('arr');
     formattedObj = objs.map(obj => formatObj(obj.objs));
   } else {
     const obj = await Obj.findOne({ createdBy, name });

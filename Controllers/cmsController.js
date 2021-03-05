@@ -5,6 +5,7 @@ const CustomError = require('../ErrorHandling/customErrors');
 const getObj = async (req, res) => {
   try {
     const obj = await cmsService.getObj(req.query);
+    logger.info(`Successful ${obj} response`);
     return res.status(200).json(obj);
   } catch (err) {
     logger.error(err);
