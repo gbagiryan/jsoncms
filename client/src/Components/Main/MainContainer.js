@@ -3,7 +3,7 @@ import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { getSingleObjData } from '../../Redux/Selectors/ObjSelectors';
-import { deleteObj, updateObj } from '../../Redux/Reducers/ObjReducer';
+import { deleteObj} from '../../Redux/Reducers/ObjReducer';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import Main from './Main';
@@ -50,10 +50,11 @@ const MainContainer = (props) => {
           confirmDialog={confirmDialog}
           setConfirmDialog={setConfirmDialog}
         />
-
-        : <h2>
-          Choose an object to display
-        </h2>
+        : <div>
+          <h2>
+            Choose an object to display
+          </h2>
+        </div>
       }
     </div>
   );

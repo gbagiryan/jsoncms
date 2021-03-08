@@ -11,6 +11,9 @@ const signIn = async (body) => {
 };
 const signUp = async (body) => {
   const { username, password } = body;
+  if (!username || !password) {
+    throw new CustomError('username and password required');
+  }
   logger.info(`${username} signup attempt`);
   const candidate = await User.findOne({ username });
   if (candidate) {

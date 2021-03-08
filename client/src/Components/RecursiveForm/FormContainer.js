@@ -13,9 +13,10 @@ import { useImmer } from 'use-immer';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    padding: theme.spacing(4),
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      marginTop: theme.spacing(3)
+      marginTop: theme.spacing(3),
     }
   },
   fieldIcons: {
@@ -38,6 +39,7 @@ const FormContainer = (props) => {
   ];
   const [objs, setObjs] = useImmer([{ __key: '', __value: '', __type: inputTypes[0].value }]);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
+  const [invalidObjs, setInvalidObjs] = useState({});
   const [uploadProgress, setUploadProgress] = useState([]);
 
   useEffect(() => {
@@ -68,22 +70,25 @@ const FormContainer = (props) => {
 
   const handleChildInput = (event, strIndex) => {
     changeItemByIndex(strIndex, (obj) => {
-      obj.validErr = { ...obj.validErr, [event.target.name]: '' };
+      setInvalidObjs({ ...invalidObjs, [`${strIndex}${event.target.name}`]: '' });
       obj[event.target.name] = event.target.value;
       return obj;
     });
   };
 
-  const validate = (name, strIndex, fieldName) => {
-    changeItemByIndex(strIndex, (obj) => {
-      obj.validErr = { ...obj.validErr, [fieldName]: requiredField(name, obj[fieldName]) };
-      return obj;
+  const validate = (event, strIndex) => {
+    setInvalidObjs({
+      ...invalidObjs,
+      [`${strIndex}${event.target.name}`]: requiredField(event.target.placeholder, event.target.value)
     });
   };
 
   const handleChangeChildType = (event, strIndex) => {
+    setInvalidObjs({ ...invalidObjs, [`${strIndex}__value`]: '' });
+    setInvalidObjs({ ...invalidObjs, [`${strIndex}__key`]: '' });
     changeItemByIndex(strIndex, (obj) => {
       obj.__type = event.target.value;
+      obj.__value = '';
       if (event.target.value === 'object' || event.target.value === 'array') {
         obj.__value = [{ __key: '', __value: '', __type: inputTypes[0].value }];
       }
@@ -136,6 +141,15 @@ const FormContainer = (props) => {
     });
   };
 
+  const handleSubmit = () => {
+    const hasErrors = Object.values(invalidObjs).filter(val => val !== '');
+    if (hasErrors.length > 0) {
+      props.setErrorMsg('No empty fields allowed. Fill the blanks or remove them');
+    } else {
+      props.handleSubmit(objs);
+    }
+  };
+
   return (
     <Container className={classes.root}>
       <Grid container spacing={2}>
@@ -174,6 +188,7 @@ const FormContainer = (props) => {
                        handleUpload={handleUpload}
                        uploadProgress={uploadProgress}
                        validate={validate}
+                       invalidObjs={invalidObjs}
         />
         <Grid item xs={12}>
           {props.tagsArr.map((tag) =>
@@ -200,7 +215,7 @@ const FormContainer = (props) => {
           </IconButton>
         </Grid>
         <Button type={'submit'} variant="contained" color="primary"
-                className={classes.button} onClick={() => props.handleSubmit(objs)}>Save</Button>
+                className={classes.button} onClick={handleSubmit}>Save</Button>
       </Grid>
       <ConfirmDialog confirmDialog={confirmDialog} setConfirmDialog={setConfirmDialog}/>
     </Container>

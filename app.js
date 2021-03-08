@@ -13,7 +13,10 @@ dotenv.config();
 const port = process.env.port || 5000;
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URI,
+  credentials: true
+}));
 app.use('/public', express.static('uploadsFinal'));
 app.use('/public', express.static('uploads'));
 app.use('/api/auth', authRoutes);

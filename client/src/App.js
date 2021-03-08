@@ -14,12 +14,16 @@ import AddNewObjContainer from './Components/AddNewObj/AddNewObjContainer';
 import EditObjContainer from './Components/EditObj/EditObjContainer';
 import { initializeApp } from './Redux/Reducers/AppReducer';
 import { isInitialized } from './Redux/Selectors/AppSelectors';
+import axios from 'axios';
 
-const useStyles = makeStyles({
+axios.defaults.withCredentials = true;
+
+const useStyles = makeStyles(theme => ({
   paper: {
-    minHeight: '100vh'
+    minHeight: '100vh',
+    padding: theme.spacing(4)
   }
-});
+}));
 
 const App = (props) => {
   const classes = useStyles();

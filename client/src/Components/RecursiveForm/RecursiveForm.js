@@ -5,7 +5,7 @@ import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ProgressWithPercentage from '../../Common/ProgressWithPercentage';
-import RichTextDialog from '../../RichTextDialog/RichTextDialog';
+import RichTextDialog from '../RichTextDialog/RichTextDialog';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -15,7 +15,6 @@ const useStyles = makeStyles(theme => ({
     }
   },
   rtfEditor: {
-    margin: theme.spacing(1),
     width: 400,
     '& .ql-container': {
       overflow: 'hidden'
@@ -25,6 +24,7 @@ const useStyles = makeStyles(theme => ({
       display: 'none'
     },
     '& .ql-editor': {
+      height: 100,
       overflow: 'hidden'
     }
   },
@@ -55,9 +55,11 @@ const RecursiveForm = (props) => {
             name={'__key'}
             value={obj.__key}
             variant="outlined"
-            error={obj.validErr && obj.validErr['__key']}
-            helperText={obj.validErr && obj.validErr['__key']}
-            onBlur={() => props.validate('Key', props.index ? `${props.index}.${index}` : `${index}`, '__key')}
+            error={props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]
+            && props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]}
+            helperText={props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]
+            && props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]}
+            onBlur={(event) => props.validate(event, props.index ? `${props.index}.${index}` : `${index}`)}
             size="small"
             label={'Key'}
             onChange={(event) => props.handleChildInput(event, props.index ? `${props.index}.${index}` : `${index}`)}
@@ -70,9 +72,11 @@ const RecursiveForm = (props) => {
             name={'__value'}
             value={obj.__value}
             variant="outlined"
-            error={obj.validErr && obj.validErr['__value']}
-            helperText={obj.validErr && obj.validErr['__value']}
-            onBlur={() => props.validate('Value', props.index ? `${props.index}.${index}` : `${index}`, '__value')}
+            error={props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]
+            && props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]}
+            helperText={props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]
+            && props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]}
+            onBlur={(event) => props.validate(event, props.index ? `${props.index}.${index}` : `${index}`)}
             size="small"
             label={'Value'}
             onChange={(event) => props.handleChildInput(event, props.index ? `${props.index}.${index}` : `${index}`)}
@@ -136,6 +140,7 @@ const RecursiveForm = (props) => {
                            handleUpload={props.handleUpload}
                            uploadProgress={props.uploadProgress}
                            validate={props.validate}
+                           invalidObjs={props.invalidObjs}
             />
           </div>}
           {obj.__type === 'array' &&
@@ -152,6 +157,7 @@ const RecursiveForm = (props) => {
                            handleUpload={props.handleUpload}
                            uploadProgress={props.uploadProgress}
                            validate={props.validate}
+                           invalidObjs={props.invalidObjs}
             />
           </div>}
           {obj.__type === 'rich-text' &&

@@ -10,7 +10,7 @@ import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import IconButton from '@material-ui/core/IconButton';
-import RichTextDialog from '../../RichTextDialog/RichTextDialog';
+import RichTextDialog from '../RichTextDialog/RichTextDialog';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -20,7 +20,6 @@ const useStyles = makeStyles(theme => ({
     }
   },
   rtfEditor: {
-    margin: theme.spacing(1),
     width: 400,
     '& .ql-container': {
       overflow: 'hidden'
@@ -91,7 +90,7 @@ const RecursiveMain = (props) => {
         <>
           <Grid container xs={12}>
             {!props.isArray &&
-            <Grid xs={4}>
+            <Grid>
               <Typography className={classes.fields}>
                 <label className={classes.label}>Key</label>
                 {objs[index].__key}
@@ -99,7 +98,7 @@ const RecursiveMain = (props) => {
             </Grid>
             }
             {objs[index].__type === 'string' &&
-            <Grid xs={4}>
+            <Grid>
               <Typography className={classes.fields}>
                 <label className={classes.label}>Value</label>
                 {objs[index].__value}
@@ -107,7 +106,7 @@ const RecursiveMain = (props) => {
             </Grid>
             }
             {objs[index].__type === 'file' &&
-            <Grid xs={4}>
+            <Grid>
               <IconButton
                 component={Link}
                 to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + objs[index].__value.fileName }}
@@ -117,7 +116,7 @@ const RecursiveMain = (props) => {
               </IconButton>
             </Grid>
             }
-            <Grid xs={2}>
+            <Grid>
               <Typography className={classes.fields}>
                 <label className={classes.label}>Type</label>
                 {objs[index].__type}

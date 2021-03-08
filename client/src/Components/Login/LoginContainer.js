@@ -1,13 +1,16 @@
-import { LoginReduxForm } from './Login';
+import Login from './Login';
 import { connect } from 'react-redux';
 import { signIn } from '../../Redux/Reducers/AuthReducer';
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import { isAuthed } from '../../Redux/Selectors/AuthSelectors';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
-import { clearMessages } from '../../Redux/Reducers/AppReducer';
+import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
+import Register from '../Register/Register';
 
 const LoginContainer = (props) => {
+
+  const [inputs, setInputs] = useState({ username: '', password: '' });
 
   useEffect(() => {
     return () => {
@@ -15,15 +18,25 @@ const LoginContainer = (props) => {
     };
   }, []);
 
-  const handleSubmit = (formData) => {
-    props.clearMessages();
-    props.signIn(formData.username, formData.password);
+  const handleInput = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
   };
+
+  const handleSubmit = () => {
+    props.clearMessages();
+      props.signIn(inputs.username, inputs.password);
+  };
+
   if (props.isAuthed) {
     return <Redirect to={'/'}/>;
   }
   return (
-    <LoginReduxForm onSubmit={handleSubmit} errorMsg={props.errorMsg} successMsg={props.successMsg}/>
+    <Login errorMsg={props.errorMsg}
+           successMsg={props.successMsg}
+           handleInput={handleInput}
+           handleSubmit={handleSubmit}
+           inputs={inputs}
+    />
   );
 };
 
@@ -34,7 +47,8 @@ const mapStateToProps = (state) => ({
 });
 const actionCreators = {
   signIn,
-  clearMessages
+  clearMessages,
+  setErrorMsg
 };
 
 export default connect(mapStateToProps, actionCreators)(LoginContainer);

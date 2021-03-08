@@ -1,9 +1,7 @@
-import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import { Field, reduxForm } from 'redux-form';
-import { renderTextField } from '../../Common/RenderTextFields';
+import { Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import React from 'react';
-import { minLength, passwordsMatch, required } from '../../Common/Validators';
 import { Error, Success } from '../../Common/Messages';
+import { minLength, passwordsMatch, requiredField } from '../../Common/Validators';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -21,15 +19,13 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const minLength6 = minLength(6);
-
 const Register = (props) => {
   const classes = useStyles();
 
   return (
     <Paper className={classes.paperStyle} elevation={8}>
       <Typography>Register</Typography>
-      <form className={classes.form} onSubmit={props.handleSubmit}>
+      <div className={classes.form}>
         <Grid container spacing={2}>
           {props.errorMsg &&
           <Grid item xs={12}>
@@ -42,26 +38,52 @@ const Register = (props) => {
           </Grid>
           }
           <Grid item xs={12}>
-            <Field fullWidth placeholder={'Username'} name={'username'} component={renderTextField}
-                   label={'Username'}
-                   type="username" validate={[required]}/>
+            <TextField fullWidth
+                       variant="outlined"
+                       placeholder={'Username'}
+                       name={'username'}
+                       label={'Username'}
+                       value={props.inputs.username}
+                       error={props.invalidFields.username && props.invalidFields.username[0]}
+                       helperText={props.invalidFields.username && props.invalidFields.username[0]}
+                       onBlur={(event) => props.validate(event, 'Username', [requiredField])}
+                       onChange={props.handleInput}/>
           </Grid>
           <Grid item xs={12}>
-            <Field fullWidth placeholder={'Password'} name={'password'} component={renderTextField}
-                   label={'Password'}
-                   type="password" validate={[required, minLength6]}/>
+            <TextField fullWidth
+                       variant="outlined"
+                       placeholder={'Password'}
+                       name={'password'}
+                       label={'Password'}
+                       type="password"
+                       value={props.inputs.password}
+                       error={props.invalidFields.password && props.invalidFields.password[0]}
+                       helperText={props.invalidFields.password && props.invalidFields.password[0]}
+                       onBlur={(event) => props.validate(event, 'Password', [requiredField, minLength])}
+                       onChange={props.handleInput}/>
           </Grid>
           <Grid item xs={12}>
-            <Field fullWidth placeholder={'Confirm Password'} name={'password2'} component={renderTextField}
-                   label={'Confirm Password'}
-                   type="password" validate={[required, passwordsMatch]}/>
+            <TextField fullWidth
+                       variant="outlined"
+                       placeholder={'Confirm Password'}
+                       name={'password2'}
+                       label={'Confirm Password'}
+                       type="password"
+                       value={props.inputs.password2}
+                       error={props.invalidFields > 0 && props.invalidFields[0]}
+                       helperText={props.invalidFields > 0 && props.invalidFields[0]}
+                       onBlur={(event) => props.validate(event, 'Confirm Password', [requiredField])}
+                       onChange={props.handleInput}/>
           </Grid>
-          <Button fullWidth type={'submit'} variant="contained" color="primary"
+          <Button fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={props.handleSubmit}
                   className={classes.button}>Register</Button>
         </Grid>
-      </form>
+      </div>
     </Paper>
   );
 };
 
-export const RegisterReduxForm = reduxForm({ form: 'register' })(Register);
+export default Register;

@@ -39,19 +39,20 @@ const getObj = async (query) => {
   let formattedObj;
   logger.info(`Formatting ${query} query object`);
 
-  if (name === undefined) {
+  if (!name) {
     const objs = await Obj.find({ createdBy });
     if (!objs) {
       throw new CustomError('object not found check user and object name');
     }
-    formattedObj = objs.map(obj => formatObj(obj.objs));
+    objs.objs = objs.map(obj => formatObj(obj.objs));
+    formattedObj = objs;
   } else {
     const obj = await Obj.findOne({ createdBy, name });
     if (!obj) {
-      throw new Error('object not found check user and object name');
+      throw new CustomError('object not found check user and object name');
     }
-    console.log('single');
-    formattedObj = formatObj(obj.objs);
+    obj.objs = formatObj(obj.objs);
+    formattedObj = obj;
   }
   return formattedObj;
 };

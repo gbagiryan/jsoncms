@@ -1,9 +1,7 @@
-import { Button, Grid, makeStyles, Paper, Typography } from '@material-ui/core';
-import { Field, reduxForm } from 'redux-form';
-import { renderTextField } from '../../Common/RenderTextFields';
+import { Button, Grid, makeStyles, Paper, TextField, Typography } from '@material-ui/core';
 import React from 'react';
-import { required } from '../../Common/Validators';
 import { Error, Success } from '../../Common/Messages';
+import { minLength, requiredField } from '../../Common/Validators';
 
 const useStyles = makeStyles(theme => ({
   form: {
@@ -26,7 +24,7 @@ const Login = (props) => {
   return (
     <Paper className={classes.paperStyle} elevation={8}>
       <Typography>Login</Typography>
-      <form className={classes.form} onSubmit={props.handleSubmit}>
+      <div className={classes.form}>
         {props.errorMsg &&
         <Grid item xs={12}>
           <Error errorMsg={props.errorMsg}/>
@@ -39,21 +37,33 @@ const Login = (props) => {
         }
         <Grid container spacing={2}>
           <Grid item xs={12}>
-            <Field fullWidth placeholder={'Username'} name={'username'} component={renderTextField}
-                   label={'Username'}
-                   type="username" validate={[required]}/>
+            <TextField fullWidth
+                       variant="outlined"
+                       placeholder={'Username'}
+                       name={'username'}
+                       label={'Username'}
+                       value={props.inputs.username}
+                       onChange={props.handleInput}/>
           </Grid>
           <Grid item xs={12}>
-            <Field fullWidth placeholder={'Password'} name={'password'} component={renderTextField}
-                   label={'Password'}
-                   type="password" validate={[required]}/>
+            <TextField fullWidth
+                       variant="outlined"
+                       placeholder={'Password'}
+                       name={'password'}
+                       label={'Password'}
+                       type="password"
+                       value={props.inputs.password}
+                       onChange={props.handleInput}/>
           </Grid>
-          <Button fullWidth type={'submit'} variant="contained" color="primary"
-                  className={classes.button}>Login</Button>
+          <Button fullWidth
+                  variant="contained"
+                  color="primary"
+                  onClick={props.handleSubmit}
+                  className={classes.button}>Log in</Button>
         </Grid>
-      </form>
+      </div>
     </Paper>
   );
 };
 
-export const LoginReduxForm = reduxForm({ form: 'login' })(Login);
+export default Login;
