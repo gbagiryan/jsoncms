@@ -17,8 +17,8 @@ app.use(cors({
   origin: process.env.CLIENT_URI,
   credentials: true
 }));
-app.use('/public', express.static('uploadsFinal'));
-app.use('/public', express.static('uploads'));
+app.use('/public', express.static(process.env.FINAL_UPLOAD_DIR));
+app.use('/public', express.static(process.env.TEMP_UPLOAD_DIR));
 app.use('/api/auth', authRoutes);
 app.use('/api/backoffice', objsRoutes);
 app.use('/api/cms', cmsRoutes);

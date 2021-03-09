@@ -81,8 +81,8 @@ const updateObj = async (params, body, locals) => {
 
   files.forEach((file) => {
     const filename = file.fileName.replace('/public/', '');
-    if (fs.existsSync(`./uploads/${filename}`)) {
-      fs.rename(`./uploads/${filename}`, `./uploadsFinal/${filename}`, function (err) {
+    if (fs.existsSync(`${process.env.TEMP_UPLOAD_DIR}${filename}`)) {
+      fs.rename(`./uploads/${filename}`, `${process.env.FINAL_UPLOAD_DIR}${filename}`, function (err) {
         if (err) {
           throw new Error(err);
         }
@@ -111,7 +111,7 @@ const deleteObj = async (params, locals) => {
   const files = findObj(obj, 'type', 'file');
   files.forEach((file) => {
     const filename = file.subObjValue.fileName.replace('/public/', '');
-    fs.unlink(`./uploadsFinal/${filename}`, (err) => {
+    fs.unlink(`${process.env.TEMP_UPLOAD_DIR}${filename}`, (err) => {
       if (err) {
         logger.error(err);
       }
