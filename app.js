@@ -14,7 +14,7 @@ const port = process.env.port || 5000;
 app.use(express.json());
 app.use(cookieParser());
 app.use(cors({
-  origin: process.env.CLIENT_URI,
+  origin: true,
   credentials: true
 }));
 app.use('/public', express.static(process.env.FINAL_UPLOAD_DIR));

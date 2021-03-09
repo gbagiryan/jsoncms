@@ -55,11 +55,11 @@ const RecursiveForm = (props) => {
             name={'__key'}
             value={obj.__key}
             variant="outlined"
-            error={props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]
-            && props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]}
-            helperText={props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]
-            && props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]}
-            onBlur={(event) => props.validate(event, props.index ? `${props.index}.${index}` : `${index}`)}
+            // error={props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]
+            // && props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]}
+            // helperText={props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]
+            // && props.invalidObjs[props.index ? `${props.index}.${index}__key` : `${index}__key`]}
+            // onBlur={(event) => props.validate(event, props.index ? `${props.index}.${index}` : `${index}`)}
             size="small"
             label={'Key'}
             onChange={(event) => props.handleChildInput(event, props.index ? `${props.index}.${index}` : `${index}`)}
@@ -72,11 +72,11 @@ const RecursiveForm = (props) => {
             name={'__value'}
             value={obj.__value}
             variant="outlined"
-            error={props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]
-            && props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]}
-            helperText={props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]
-            && props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]}
-            onBlur={(event) => props.validate(event, props.index ? `${props.index}.${index}` : `${index}`)}
+            // error={props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]
+            // && props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]}
+            // helperText={props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]
+            // && props.invalidObjs[props.index ? `${props.index}.${index}__value` : `${index}__value`]}
+            // onBlur={(event) => props.validate(event, props.index ? `${props.index}.${index}` : `${index}`)}
             size="small"
             label={'Value'}
             onChange={(event) => props.handleChildInput(event, props.index ? `${props.index}.${index}` : `${index}`)}

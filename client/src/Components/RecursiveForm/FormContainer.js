@@ -39,7 +39,7 @@ const FormContainer = (props) => {
   ];
   const [objs, setObjs] = useImmer([{ __key: '', __value: '', __type: inputTypes[0].value }]);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
-  const [invalidObjs, setInvalidObjs] = useState({});
+  // const [invalidObjs, setInvalidObjs] = useState({});
   const [uploadProgress, setUploadProgress] = useState([]);
 
   useEffect(() => {
@@ -70,22 +70,22 @@ const FormContainer = (props) => {
 
   const handleChildInput = (event, strIndex) => {
     changeItemByIndex(strIndex, (obj) => {
-      setInvalidObjs({ ...invalidObjs, [`${strIndex}${event.target.name}`]: '' });
+      // setInvalidObjs({ ...invalidObjs, [`${strIndex}${event.target.name}`]: '' });
       obj[event.target.name] = event.target.value;
       return obj;
     });
   };
 
-  const validate = (event, strIndex) => {
-    setInvalidObjs({
-      ...invalidObjs,
-      [`${strIndex}${event.target.name}`]: requiredField(event.target.placeholder, event.target.value)
-    });
-  };
+  // const validate = (event, strIndex) => {
+  //   setInvalidObjs({
+  //     ...invalidObjs,
+  //     [`${strIndex}${event.target.name}`]: requiredField(event.target.placeholder, event.target.value)
+  //   });
+  // };
 
   const handleChangeChildType = (event, strIndex) => {
-    setInvalidObjs({ ...invalidObjs, [`${strIndex}__value`]: '' });
-    setInvalidObjs({ ...invalidObjs, [`${strIndex}__key`]: '' });
+    // setInvalidObjs({ ...invalidObjs, [`${strIndex}__value`]: '' });
+    // setInvalidObjs({ ...invalidObjs, [`${strIndex}__key`]: '' });
     changeItemByIndex(strIndex, (obj) => {
       obj.__type = event.target.value;
       obj.__value = '';
@@ -142,12 +142,12 @@ const FormContainer = (props) => {
   };
 
   const handleSubmit = () => {
-    const hasErrors = Object.values(invalidObjs).filter(val => val !== '');
-    if (hasErrors.length > 0) {
-      props.setErrorMsg('No empty fields allowed. Fill the blanks or remove them');
-    } else {
+    // const hasErrors = Object.values(invalidObjs).filter(val => val !== '');
+    // if (hasErrors.length > 0) {
+    //   props.setErrorMsg('No empty fields allowed. Fill the blanks or remove them');
+    // } else {
       props.handleSubmit(objs);
-    }
+    // }
   };
 
   return (
@@ -187,8 +187,8 @@ const FormContainer = (props) => {
                        setConfirmDialog={setConfirmDialog}
                        handleUpload={handleUpload}
                        uploadProgress={uploadProgress}
-                       validate={validate}
-                       invalidObjs={invalidObjs}
+                       // validate={validate}
+                       // invalidObjs={invalidObjs}
         />
         <Grid item xs={12}>
           {props.tagsArr.map((tag) =>
