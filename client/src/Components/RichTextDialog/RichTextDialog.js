@@ -9,6 +9,7 @@ import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
 import ReactQuill from 'react-quill';
+import { makeStyles } from '@material-ui/core';
 
 const styles = (theme) => ({
   root: {
@@ -22,6 +23,18 @@ const styles = (theme) => ({
     color: theme.palette.grey[500],
   },
 });
+
+const useStyles = makeStyles(theme => ({
+  root: {
+    '& .MuiDialog-paperWidthSm': {
+      maxWidth: 'none'
+    }
+  },
+  rtfEditor: {
+    height: 500,
+    width: 800,
+  }
+}));
 
 const DialogTitle = withStyles(styles)((props) => {
   const { children, classes, onClose, ...other } = props;
@@ -51,6 +64,7 @@ const DialogActions = withStyles((theme) => ({
 }))(MuiDialogActions);
 
 const RichTextDialog = (props) => {
+  const classes = useStyles();
   const [open, setOpen] = useState(false);
 
   const handleClickOpen = () => {
@@ -65,12 +79,13 @@ const RichTextDialog = (props) => {
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open Editor
       </Button>
-      <Dialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+      <Dialog className={classes.root} onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           RTF Editor
         </DialogTitle>
         <DialogContent dividers>
           <ReactQuill
+            className={classes.rtfEditor}
             value={props.value}
             readOnly={props.readOnly}
             onChange={(html) => props.handleChildInput({

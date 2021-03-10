@@ -5,7 +5,6 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import parse from 'html-react-parser';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
@@ -40,10 +39,9 @@ const useStyles = makeStyles(theme => ({
     padding: 8,
     marginTop: theme.spacing(3),
     position: 'relative',
-    width: 'fit-content',
-    blockSize: 'fit-content',
-    minWidth: '200px',
-    minHeight: '25px',
+    width: '200px',
+    height: '20px',
+    overflow: 'hidden',
     marginRight: theme.spacing(1)
   },
   label: {

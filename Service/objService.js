@@ -28,11 +28,6 @@ const createObj = async (body, locals) => {
   if (!name) {
     throw new CustomError('Object name is required');
   }
-  const emptyKeys = findObj(objs, '__key', '');
-  if (emptyKeys.length > 0) {
-    throw new CustomError('Object seems to have blank keys. Fill all keys or remove them from the form');
-  }
-
   const nameExists = await Obj.findOne({ createdBy: locals.user._id, name });
   if (nameExists) {
     throw new CustomError(`Object with ${name} name already exists`);
@@ -75,10 +70,6 @@ const updateObj = async (params, body, locals) => {
   const obj = await Obj.findOne({ createdBy: locals.user._id, _id: objId });
   if (!obj) {
     throw new CustomError('object with given id not found');
-  }
-  const emptyKeys = findObj(objs, '__key', '');
-  if (emptyKeys.length > 0) {
-    throw new CustomError('Object seems to have blank keys. Fill all keys or remove them from the form');
   }
   logger.info(`UserId: ${locals.user._id}, ObjectId: ${objId} adding uploaded files to updated object `);
   const files = findObj(objs, 'type', '__file');
