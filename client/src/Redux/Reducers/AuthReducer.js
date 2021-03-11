@@ -28,7 +28,7 @@ const AuthReducer = (state = initialState, action) => {
 
 //action creators
 const setUserData = (userData) => ({ type: AUTH_SET_USER_DATA, userData });
-const setIsAuthed = (isAuthed) => ({ type: AUTH_SET_IS_AUTHED, isAuthed });
+export const setIsAuthed = (isAuthed) => ({ type: AUTH_SET_IS_AUTHED, isAuthed });
 
 //thunks
 export const signIn = (username, password) => async (dispatch) => {

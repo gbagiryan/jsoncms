@@ -1,5 +1,6 @@
 import { ObjApi } from '../../API/api';
 import { setErrorMsg, setSuccessMsg } from './AppReducer';
+import { setIsAuthed } from './AuthReducer';
 
 const OBJ_SET_OBJ_DATA = 'OBJ_SET_OBJ_DATA';
 const OBJ_SET_SINGLE_OBJ_DATA = 'OBJ_SET_SINGLE_OBJ_DATA';
@@ -44,6 +45,9 @@ export const fetchObjs = (isAuthed) => async (dispatch) => {
     dispatch(setObjData(null));
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
+    }
+    if (err.response) {
+      dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
     }
@@ -59,6 +63,9 @@ export const addNewObj = (newObj) => async (dispatch) => {
     console.log(err);
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
+    }
+    if (err.response) {
+      dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
     }
@@ -74,6 +81,9 @@ export const updateObj = (objId, updatedObj) => async (dispatch) => {
     console.log(err);
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
+    }
+    if (err.response) {
+      dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
     }
@@ -88,6 +98,9 @@ export const deleteObj = (objId) => async (dispatch) => {
     console.log(err);
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
+    }
+    if (err.response) {
+      dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
     }
@@ -101,6 +114,9 @@ export const getObjsByTag = (tags) => async (dispatch) => {
     console.log(err);
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
+    }
+    if (err.response) {
+      dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
     }
