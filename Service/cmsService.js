@@ -42,10 +42,7 @@ const formatObj = (objs) => {
 
 const getObj = async (query) => {
   const createdBy = query.accountId;
-  const name = query.objectName.split('.')[0];
-  const objPath = query.objectName.split('.');
-  objPath.splice(0, 1);
-  console.log(name);
+  const name = query.objectName;
 
   logger.info(`Client get object request for ${query}`);
 
@@ -59,6 +56,9 @@ const getObj = async (query) => {
     }
     formattedObj = objs.map(obj => formatObj(obj.objs));
   } else {
+    const name = query.objectName.split('.')[0];
+    const objPath = query.objectName.split('.');
+    objPath.splice(0, 1);
     const obj = await Obj.findOne({ createdBy, name });
     if (!obj) {
       throw new CustomError('object not found check user and object name');

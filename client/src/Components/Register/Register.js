@@ -62,19 +62,6 @@ const Register = (props) => {
                        onBlur={(event) => props.validate(event, 'Password', [requiredField, minLength])}
                        onChange={props.handleInput}/>
           </Grid>
-          <Grid item xs={12}>
-            <TextField fullWidth
-                       variant="outlined"
-                       placeholder={'Confirm Password'}
-                       name={'password2'}
-                       label={'Confirm Password'}
-                       type="password"
-                       value={props.inputs.password2}
-                       error={props.invalidFields > 0 && props.invalidFields[0]}
-                       helperText={props.invalidFields > 0 && props.invalidFields[0]}
-                       onBlur={(event) => props.validate(event, 'Confirm Password', [requiredField])}
-                       onChange={props.handleInput}/>
-          </Grid>
           <Button fullWidth
                   variant="contained"
                   color="primary"
