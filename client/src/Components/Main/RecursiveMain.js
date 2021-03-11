@@ -5,11 +5,11 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import PermMediaIcon from '@material-ui/icons/PermMedia';
 import IconButton from '@material-ui/core/IconButton';
-import RichTextDialog from '../RichTextDialog/RichTextDialog';
+import RtxDialogWithHoverPopover from '../RichTextDialog/RtxDialogWithHoverPopover';
+import ImagePopoverPreview from '../ImagePopoverPreview/ImagePopoverPreview';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -31,6 +31,9 @@ const useStyles = makeStyles(theme => ({
       height: 100,
       overflow: 'hidden'
     }
+  },
+  rtfButton:{
+    marginTop: theme.spacing(3),
   },
   fields: {
     border: '1px solid rgba(0, 0, 0, 0.3)',
@@ -110,9 +113,16 @@ const RecursiveMain = (props) => {
                 to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + objs[index].__value.fileName }}
                 target={'_blank'}
                 color="primary">
-                <ExitToAppIcon/>
+                <ImagePopoverPreview fileUrl={process.env.REACT_APP_SERVER_BASE_URL + objs[index].__value.fileName}/>
               </IconButton>
             </Grid>
+            }
+            {objs[index].__type === 'rich-text' &&
+            <div className={classes.rtfButton}>
+              <RtxDialogWithHoverPopover readOnly={true} value={objs[index].__value}
+                              handleChildInput={props.handleChildInput}
+                              index={props.index ? `${props.index}.${index}` : `${index}`}/>
+            </div>
             }
             <Grid>
               <Typography className={classes.fields}>
@@ -126,14 +136,6 @@ const RecursiveMain = (props) => {
             <RecursiveMain initialObjs={objs[index].__value}/>}
             {objs[index].__type === 'array' &&
             <RecursiveMain initialObjs={objs[index].__value} isArray={true}/>}
-            {objs[index].__type === 'rich-text' &&
-            <div className={classes.innerObj}>
-              <RichTextDialog readOnly={true} value={objs[index].__value}
-                              handleChildInput={props.handleChildInput}
-                              index={props.index ? `${props.index}.${index}` : `${index}`}/>
-              <ReactQuill className={classes.rtfEditor} readOnly={true} value={objs[index].__value}/>
-            </div>
-            }
           </div>
         </>
       )}

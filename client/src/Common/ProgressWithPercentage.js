@@ -3,16 +3,22 @@ import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
-import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import { Link } from 'react-router-dom';
 import { makeStyles } from '@material-ui/core';
+import ImagePopoverPreview from '../Components/ImagePopoverPreview/ImagePopoverPreview';
 
+const useStyles = makeStyles(theme => ({
+  fieldIcons: {
+    marginTop: theme.spacing(2)
+  }
+}));
 
 const ProgressWithPercentage = (props) => {
+  const classes = useStyles();
 
   return (
     <Box position="relative" display="inline-flex">
-      <CircularProgress variant="determinate" {...props} />
+      <CircularProgress className={classes.fieldIcons} variant="determinate" {...props} />
       <Box
         top={0}
         left={0}
@@ -30,7 +36,7 @@ const ProgressWithPercentage = (props) => {
             to={{ pathname: process.env.REACT_APP_SERVER_BASE_URL + props.file.fileName }}
             target={'_blank'}
             color="primary">
-            <ExitToAppIcon/>
+            <ImagePopoverPreview fileUrl={process.env.REACT_APP_SERVER_BASE_URL + props.file.fileName}/>
           </IconButton>}
       </Box>
     </Box>

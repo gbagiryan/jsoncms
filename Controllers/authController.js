@@ -9,7 +9,7 @@ const signIn = async (req, res) => {
     const token = jwtService.signToken(user);
 
     res.cookie('jwt', token, {
-      httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000
+      httpOnly: true, sameSite: true, maxAge: 12 * 60 * 60 * 1000
     });
 
     logger.info(`${req.body.username} login success`);
@@ -33,7 +33,7 @@ const signUp = async (req, res) => {
     const token = jwtService.signToken(user);
 
     res.cookie('jwt', token, {
-      httpOnly: true, sameSite: true, maxAge: 60 * 60 * 1000
+      httpOnly: true, sameSite: true, maxAge: 12 * 60 * 60 * 1000
     });
 
     logger.info(`${req.body.username} signup success`);

@@ -1,17 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { IconButton, makeStyles, MenuItem, TextField } from '@material-ui/core';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
-import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 import ProgressWithPercentage from '../../Common/ProgressWithPercentage';
-import RichTextDialog from '../RichTextDialog/RichTextDialog';
+import RtxDialogWithHoverPopover from '../RichTextDialog/RtxDialogWithHoverPopover';
 
 const useStyles = makeStyles(theme => ({
   root: {
+    padding: theme.spacing(1),
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      marginTop: theme.spacing(3)
+      marginTop: theme.spacing(0)
     }
   },
   rtfEditor: {
@@ -28,15 +28,18 @@ const useStyles = makeStyles(theme => ({
       overflow: 'hidden'
     }
   },
+  rtfButton:{
+    marginTop: theme.spacing(3),
+  },
   fieldIcons: {
-    marginTop: theme.spacing(2)
+    marginTop: theme.spacing(0)
   },
   innerObj: {
     marginLeft: theme.spacing(10)
   },
   uploadButton: {
     margin: theme.spacing(1),
-    marginTop: theme.spacing(3)
+    marginTop: theme.spacing(1)
   }
 }));
 
@@ -88,10 +91,16 @@ const RecursiveForm = (props) => {
                    onChange={(event) => props.handleUpload(event, props.index ? `${props.index}.${index}` : `${index}`)}
             />
             {(obj.uploadProgress && obj.uploadProgress > 0)
-            && <ProgressWithPercentage value={obj.uploadProgress} index={index} file={obj.__value}/>
+            && <ProgressWithPercentage className={classes.fieldIcons} value={obj.uploadProgress} index={index} file={obj.__value}/>
             }
           </>
           }
+          {obj.__type === 'rich-text' &&
+          <>
+            <RtxDialogWithHoverPopover readOnly={false} value={obj.__value}
+                            handleChildInput={props.handleChildInput}
+                            index={props.index ? `${props.index}.${index}` : `${index}`}/>
+          </>}
           <TextField
             id="standard-select"
             select
@@ -159,13 +168,6 @@ const RecursiveForm = (props) => {
                            validate={props.validate}
                            invalidObjs={props.invalidObjs}
             />
-          </div>}
-          {obj.__type === 'rich-text' &&
-          <div className={classes.innerObj}>
-            <RichTextDialog readOnly={false} value={obj.__value}
-                            handleChildInput={props.handleChildInput}
-                            index={props.index ? `${props.index}.${index}` : `${index}`}/>
-            <ReactQuill className={classes.rtfEditor} readOnly={true} value={obj.__value}/>
           </div>}
         </div>
       ))}

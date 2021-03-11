@@ -65,21 +65,21 @@ const DialogActions = withStyles((theme) => ({
 
 const RichTextDialog = (props) => {
   const classes = useStyles();
-  const [open, setOpen] = useState(false);
+  const [openDialog, setOpenDialog] = useState(false);
 
   const handleClickOpen = () => {
-    setOpen(true);
+    setOpenDialog(true);
   };
   const handleClose = () => {
-    setOpen(false);
+    setOpenDialog(false);
   };
 
   return (
-    <div>
+    <>
       <Button variant="outlined" color="primary" onClick={handleClickOpen}>
         Open Editor
       </Button>
-      <Dialog className={classes.root} onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+      <Dialog className={classes.root} onClose={handleClose} aria-labelledby="customized-dialog-title" open={openDialog}>
         <DialogTitle id="customized-dialog-title" onClose={handleClose}>
           RTF Editor
         </DialogTitle>
@@ -102,7 +102,7 @@ const RichTextDialog = (props) => {
           </Button>
         </DialogActions>
       </Dialog>
-    </div>
+    </>
   );
 };
 

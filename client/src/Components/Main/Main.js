@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Button,
   Grid,
-  makeStyles, TextField
+  makeStyles
 } from '@material-ui/core';
 import EditIcon from '@material-ui/icons/Edit';
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
@@ -15,7 +15,7 @@ import Typography from '@material-ui/core/Typography';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(4)
+    padding: theme.spacing(0)
   },
   paper: {
     minHeight: 200,
@@ -26,21 +26,51 @@ const useStyles = makeStyles(theme => ({
     margin: 'auto'
   },
   buttons: {
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(0),
+  },
+  tags: {
+    border: '1px solid rgba(0, 0, 0, 0.3)',
+    display: 'block',
+    borderRadius: 5,
+    padding: 10.5,
+    marginTop: theme.spacing(4),
+    position: 'relative',
+    width: 'fit-content',
+    blockSize: 'fit-content',
+    minWidth: '25%'
   },
   fields: {
     border: '1px solid rgba(0, 0, 0, 0.3)',
     display: 'block',
     borderRadius: 5,
     padding: 10.5,
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(0),
     position: 'relative',
     width: 'fit-content',
     blockSize: 'fit-content',
     minWidth: '25%'
   },
+  nameFields: {
+    border: '1px solid rgba(0, 0, 0, 0.3)',
+    display: 'block',
+    borderRadius: 5,
+    padding: 10.5,
+    marginTop: theme.spacing(0),
+    position: 'relative',
+    width: 'fit-content',
+    blockSize: 'fit-content',
+    minWidth: '25%',
+    fontWeight: 'bold',
+  },
   label: {
-    fontSize: '0.9rem',
+    fontSize: '1rem',
+    color: '#3f51b5',
+    position: 'absolute',
+    top: -20,
+  },
+  nameLabel: {
+    fontSize: '1rem',
+    fontWeight: 'bold',
     color: '#3f51b5',
     position: 'absolute',
     top: -20,
@@ -65,11 +95,10 @@ const Main = (props) => {
             <Success successMsg={props.successMsg}/>
           </Grid>
           }
-
           <Grid container>
             <Grid item xs={8}>
-              <Typography className={classes.fields}>
-                <label className={classes.label}>Name</label>
+              <Typography className={classes.nameFields}>
+                <label className={classes.nameLabel}>Name</label>
                 {props.name}
               </Typography>
             </Grid>
@@ -97,7 +126,7 @@ const Main = (props) => {
 
             {props.tagsArr.length > 0 &&
             <Grid item xs={7}>
-              <Typography className={classes.fields}>
+              <Typography className={classes.tags}>
                 <label className={classes.label}>Tags</label>
                 {props.tagsArr.map((tag) =>
                   <>

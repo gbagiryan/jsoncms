@@ -13,14 +13,22 @@ import { useImmer } from 'use-immer';
 
 const useStyles = makeStyles(theme => ({
   root: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(0),
     '& .MuiTextField-root': {
       margin: theme.spacing(1),
-      marginTop: theme.spacing(3),
+      // marginTop: theme.spacing(3),
     }
   },
+  nameField: {
+    fontWeight: 'bold',
+  },
+  nameLabel: {
+    fontSize: '1.2rem',
+    fontWeight: 'bold',
+    color: '#3f51b5',
+  },
   fieldIcons: {
-    marginTop: theme.spacing(2)
+    // marginTop: theme.spacing(2)
   },
   button: {
     margin: theme.spacing(1)
@@ -146,7 +154,7 @@ const FormContainer = (props) => {
     // if (hasErrors.length > 0) {
     //   props.setErrorMsg('No empty fields allowed. Fill the blanks or remove them');
     // } else {
-      props.handleSubmit(objs);
+    props.handleSubmit(objs);
     // }
   };
 
@@ -170,6 +178,17 @@ const FormContainer = (props) => {
             placeholder={'Name'}
             name={'Name'}
             label={'Name'}
+            InputProps={{
+              classes: {
+                input: classes.nameField,
+              },
+            }}
+            InputLabelProps={{
+              classes: {
+                root: classes.label,
+                focused: classes.nameLabel
+              }
+            }}
             value={props.name}
             onChange={props.handleNameChange}/>
           <IconButton color="primary"
@@ -187,8 +206,8 @@ const FormContainer = (props) => {
                        setConfirmDialog={setConfirmDialog}
                        handleUpload={handleUpload}
                        uploadProgress={uploadProgress}
-                       // validate={validate}
-                       // invalidObjs={invalidObjs}
+          // validate={validate}
+          // invalidObjs={invalidObjs}
         />
         <Grid item xs={12}>
           {props.tagsArr.map((tag) =>
