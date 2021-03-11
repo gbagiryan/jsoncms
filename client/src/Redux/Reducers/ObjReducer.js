@@ -46,7 +46,7 @@ export const fetchObjs = (isAuthed) => async (dispatch) => {
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
     }
-    if (err.response) {
+    if (err.response.data === 'unauthorized') {
       dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
@@ -64,7 +64,7 @@ export const addNewObj = (newObj) => async (dispatch) => {
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
     }
-    if (err.response) {
+    if (err.response.data === 'unauthorized') {
       dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
@@ -82,7 +82,7 @@ export const updateObj = (objId, updatedObj) => async (dispatch) => {
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
     }
-    if (err.response) {
+    if (err.response.data === 'unauthorized') {
       dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
@@ -99,7 +99,7 @@ export const deleteObj = (objId) => async (dispatch) => {
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
     }
-    if (err.response) {
+    if (err.response.data === 'unauthorized') {
       dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
@@ -115,7 +115,7 @@ export const getObjsByTag = (tags) => async (dispatch) => {
     if (!err.response) {
       dispatch(setErrorMsg('Something went wrong...try again'));
     }
-    if (err.response) {
+    if (err.response.data === 'unauthorized') {
       dispatch(setIsAuthed(false));
     } else {
       dispatch(setErrorMsg(err.response.data.errorMessage));
