@@ -73,8 +73,6 @@ const EditObjContainer = (props) => {
     <div>
       {props.obj ?
         <FormContainer
-          errorMsg={props.errorMsg}
-          successMsg={props.successMsg}
           setErrorMsg={props.setErrorMsg}
           clearMessages={props.clearMessages}
           tagsArr={tagsArr}

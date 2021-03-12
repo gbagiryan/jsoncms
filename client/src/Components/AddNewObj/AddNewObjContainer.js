@@ -55,8 +55,6 @@ const AddNewObjContainer = (props) => {
 
   return (
     <FormContainer
-      errorMsg={props.errorMsg}
-      successMsg={props.successMsg}
       setErrorMsg={props.setErrorMsg}
       clearMessages={props.clearMessages}
       tagsArr={tagsArr}

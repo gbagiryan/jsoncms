@@ -45,7 +45,7 @@ const FormContainer = (props) => {
     { value: 'file', label: 'file' },
     { value: 'rich-text', label: 'rich-text' }
   ];
-  const [objs, setObjs] = useImmer([{ __key: '', __value: '', __type: inputTypes[0].value }]);
+  const [objs, setObjs] = useState([{ strIndex: '0', __key: '', __value: '', __type: inputTypes[0].value }]);
   const [confirmDialog, setConfirmDialog] = useState({ isOpen: false, title: '', subTitle: '' });
   // const [invalidObjs, setInvalidObjs] = useState({});
   const [uploadProgress, setUploadProgress] = useState([]);
@@ -57,31 +57,15 @@ const FormContainer = (props) => {
   }, [props.initialObjs]);
 
   const handleAddInitialFields = (initialObjs) => {
-    setObjs(draft => (Object.values(initialObjs)));
-  };
-
-  const changeItemByIndex = (strIndex, cb) => {
-    if (!strIndex) {
-      setObjs(draft => (cb(objs)));
-    } else {
-      const str = strIndex.split('.');
-      setObjs(draft => {
-        for (let i = 0; i < str.length; i++) {
-          if (i === str.length - 1) {
-            draft[str[i]] = cb(draft[str[i]]);
-          }
-          draft = draft[str[i]].__value;
-        }
-      });
-    }
+    setObjs(Object.values(initialObjs));
   };
 
   const handleChildInput = (event, strIndex) => {
-    changeItemByIndex(strIndex, (obj) => {
-      // setInvalidObjs({ ...invalidObjs, [`${strIndex}${event.target.name}`]: '' });
-      obj[event.target.name] = event.target.value;
-      return obj;
-    });
+    const values = [...objs];
+    const objToChange = values.find(obj => obj.strIndex === strIndex);
+    objToChange[event.target.name] = event.target.value;
+    setObjs(values);
+    // setInvalidObjs({ ...invalidObjs, [`${strIndex}${event.target.name}`]: '' });
   };
 
   // const validate = (event, strIndex) => {
@@ -94,59 +78,56 @@ const FormContainer = (props) => {
   const handleChangeChildType = (event, strIndex) => {
     // setInvalidObjs({ ...invalidObjs, [`${strIndex}__value`]: '' });
     // setInvalidObjs({ ...invalidObjs, [`${strIndex}__key`]: '' });
-    changeItemByIndex(strIndex, (obj) => {
-      obj.__type = event.target.value;
-      obj.__value = '';
-      if (event.target.value === 'object' || event.target.value === 'array') {
-        obj.__value = [{ __key: '', __value: '', __type: inputTypes[0].value }];
-      }
-      return obj;
-    });
+    const values = [...objs];
+    const objToChange = values.find(obj => obj.strIndex === strIndex);
+    objToChange.__type = event.target.value;
+    objToChange.__value = '';
+    setObjs(values);
   };
 
   const handleAdd = (strIndex) => {
-    changeItemByIndex(strIndex, (obj) => {
-      if (!strIndex) {
-        return [...obj, { __key: '', __value: '', __type: inputTypes[0].value }];
-      } else {
-        console.log(obj.__value);
-        obj.__value.push({ __key: '', __value: '', __type: inputTypes[0].value });
-        return obj;
-      }
-    });
+    // changeItemByIndex(strIndex, (obj) => {
+    //   if (!strIndex) {
+    //     return [...obj, { __key: '', __value: '', __type: inputTypes[0].value }];
+    //   } else {
+    //     console.log(obj.__value);
+    //     obj.__value.push({ __key: '', __value: '', __type: inputTypes[0].value });
+    //     return obj;
+    //   }
+    // });
   };
   const handleRemove = (strIndex, index) => {
-    changeItemByIndex(strIndex, (obj) => {
-      if (!strIndex) {
-        const temp = [...obj];
-        temp.splice(index, 1);
-        return temp;
-      } else {
-        obj.__value.splice(index, 1);
-        console.log(obj);
-        return obj;
-      }
-    });
+    // changeItemByIndex(strIndex, (obj) => {
+    //   if (!strIndex) {
+    //     const temp = [...obj];
+    //     temp.splice(index, 1);
+    //     return temp;
+    //   } else {
+    //     obj.__value.splice(index, 1);
+    //     console.log(obj);
+    //     return obj;
+    //   }
+    // });
     setConfirmDialog({ ...confirmDialog, isOpen: false });
   };
 
   const handleUpload = async (event, strIndex) => {
-    const formData = new FormData();
-    formData.append('uploadedFile', event.target.files[0]);
-    const uploadedFileName = await Axios.post(`${process.env.REACT_APP_SERVER_BASE_URL}/api/backoffice/uploadFile`, formData, {
-      onUploadProgress: progressEvent => {
-        const { loaded, total } = progressEvent;
-        changeItemByIndex(strIndex, (obj) => {
-          obj.uploadProgress = (Math.floor((loaded * 100) / total));
-          return obj;
-        });
-      }
-    });
-    changeItemByIndex(strIndex, (obj) => {
-      obj[event.target.name] = event.target.value;
-      obj.__value = uploadedFileName.data;
-      return obj;
-    });
+    // const formData = new FormData();
+    // formData.append('uploadedFile', event.target.files[0]);
+    // const uploadedFileName = await Axios.post(`${process.env.REACT_APP_SERVER_BASE_URL}/api/backoffice/uploadFile`, formData, {
+    //   onUploadProgress: progressEvent => {
+    //     const { loaded, total } = progressEvent;
+    //     changeItemByIndex(strIndex, (obj) => {
+    //       obj.uploadProgress = (Math.floor((loaded * 100) / total));
+    //       return obj;
+    //     });
+    //   }
+    // });
+    // changeItemByIndex(strIndex, (obj) => {
+    //   obj[event.target.name] = event.target.value;
+    //   obj.__value = uploadedFileName.data;
+    //   return obj;
+    // });
   };
 
   const handleSubmit = () => {
@@ -154,8 +135,30 @@ const FormContainer = (props) => {
     // if (hasErrors.length > 0) {
     //   props.setErrorMsg('No empty fields allowed. Fill the blanks or remove them');
     // } else {
-    props.handleSubmit(objs);
+    const builtObjs = buildObj(objs);
+    props.handleSubmit(builtObjs);
     // }
+  };
+
+  const buildObj = (arrOfObjs) => {
+    let objs = [];
+    for (let i = 0; i < arrOfObjs.length; i++) {
+      const objIdArr = arrOfObjs[i].id.split('.');
+      if (objIdArr.length === 1) {
+        objs.push(arrOfObjs[i]);
+      } else {
+        let temp = arrOfObjs[i].id.split('.');
+        temp.splice(-1, 1);
+        let temp2 = temp.join('.');
+        const parentObj = arrOfObjs.find((obj) => obj.id === temp2);
+        if (Array.isArray(parentObj.__value)) {
+          parentObj.__value.push(arrOfObjs[i]);
+        } else {
+          parentObj.__value = [parentObj.__value, arrOfObjs[i]];
+        }
+      }
+    }
+    return objs;
   };
 
   return (
