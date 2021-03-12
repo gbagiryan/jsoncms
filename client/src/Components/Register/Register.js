@@ -27,16 +27,6 @@ const Register = (props) => {
       <Typography>Register</Typography>
       <div className={classes.form}>
         <Grid container spacing={2}>
-          {props.errorMsg &&
-          <Grid item xs={12}>
-            <Error errorMsg={props.errorMsg}/>
-          </Grid>
-          }
-          {props.successMsg &&
-          <Grid item xs={12}>
-            <Success successMsg={props.successMsg}/>
-          </Grid>
-          }
           <Grid item xs={12}>
             <TextField fullWidth
                        variant="outlined"

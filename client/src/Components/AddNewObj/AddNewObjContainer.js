@@ -6,6 +6,7 @@ import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
 import FormContainer from '../RecursiveForm/FormContainer';
+import { WithToasts } from '../../Common/WithToasts';
 
 const AddNewObjContainer = (props) => {
   const [name, setName] = useState('');
@@ -70,8 +71,6 @@ const AddNewObjContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  errorMsg: getErrorMsg(state),
-  successMsg: getSuccessMsg(state)
 });
 const actionCreators = {
   addNewObj,
@@ -81,5 +80,6 @@ const actionCreators = {
 
 export default compose(
   connect(mapStateToProps, actionCreators),
+  WithToasts,
   WithAuthRedirect
 )(AddNewObjContainer);

@@ -6,6 +6,8 @@ import { Redirect } from 'react-router-dom';
 import { isAuthed } from '../../Redux/Selectors/AuthSelectors';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
+import { compose } from 'redux';
+import { WithToasts, withToasts } from '../../Common/WithToasts';
 
 const RegisterContainer = (props) => {
   const [inputs, setInputs] = useState({ username: '', password: '', password2: '' });
@@ -42,8 +44,6 @@ const RegisterContainer = (props) => {
   }
   return (
     <Register
-      errorMsg={props.errorMsg}
-      successMsg={props.successMsg}
       handleSubmit={handleSubmit}
       handleInput={handleInput}
       validate={validate}
@@ -54,9 +54,7 @@ const RegisterContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  isAuthed: isAuthed(state),
-  errorMsg: getErrorMsg(state),
-  successMsg: getSuccessMsg(state)
+  isAuthed: isAuthed(state)
 });
 const actionCreators = {
   signUp,
@@ -64,4 +62,7 @@ const actionCreators = {
   setErrorMsg
 };
 
-export default connect(mapStateToProps, actionCreators)(RegisterContainer);
+export default compose(
+  connect(mapStateToProps, actionCreators),
+  WithToasts,
+)(RegisterContainer);

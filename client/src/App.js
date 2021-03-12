@@ -15,6 +15,7 @@ import EditObjContainer from './Components/EditObj/EditObjContainer';
 import { initializeApp } from './Redux/Reducers/AppReducer';
 import { isInitialized } from './Redux/Selectors/AppSelectors';
 import axios from 'axios';
+import { ToastProvider, useToasts } from 'react-toast-notifications';
 
 axios.defaults.withCredentials = true;
 
@@ -37,36 +38,37 @@ const App = (props) => {
 
   return (
     <BrowserRouter>
-
-      {props.isInitialized &&
-      <Grid container direction={'column'} spacing={1}>
-        <Grid item>
-          <HeaderContainer/>
-        </Grid>
-        <Grid item container spacing={2} xs={12}>
-          {props.isAuthed
-            ?
-            <Grid item xs={2}>
-              <SideBarContainer/>
+      <ToastProvider autoDismiss autoDismissTimeout={5000}>
+        {props.isInitialized &&
+        <Grid container direction={'column'} spacing={1}>
+          <Grid item>
+            <HeaderContainer/>
+          </Grid>
+          <Grid item container spacing={2} xs={12}>
+            {props.isAuthed
+              ?
+              <Grid item xs={2}>
+                <SideBarContainer/>
+              </Grid>
+              : null}
+            <Grid item xs={props.isAuthed ? 10 : 12}>
+              <Paper elevation={4} className={classes.paper}>
+                <Switch>
+                  <Route exact path='/' component={MainContainer}/>
+                  <Route exact path='/add_obj' component={AddNewObjContainer}/>
+                  <Route exact path='/login' component={LoginContainer}/>
+                  <Route exact path='/register' component={RegisterContainer}/>
+                  <Route exact path='/edit_obj'>
+                    <Redirect to="/"/>
+                  </Route>
+                  <Route path='/edit_obj/:objId' component={EditObjContainer}/>
+                </Switch>
+              </Paper>
             </Grid>
-            : null}
-          <Grid item xs={props.isAuthed ? 10 : 12}>
-            <Paper elevation={4} className={classes.paper}>
-              <Switch>
-                <Route exact path='/' component={MainContainer}/>
-                <Route exact path='/add_obj' component={AddNewObjContainer}/>
-                <Route exact path='/login' component={LoginContainer}/>
-                <Route exact path='/register' component={RegisterContainer}/>
-                <Route exact path='/edit_obj'>
-                  <Redirect to="/"/>
-                </Route>
-                <Route path='/edit_obj/:objId' component={EditObjContainer}/>
-              </Switch>
-            </Paper>
           </Grid>
         </Grid>
-      </Grid>
-      }
+        }
+      </ToastProvider>
     </BrowserRouter>
   );
 };

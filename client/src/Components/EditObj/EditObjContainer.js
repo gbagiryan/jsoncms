@@ -8,6 +8,7 @@ import { withRouter } from 'react-router-dom';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
 import FormContainer from '../RecursiveForm/FormContainer';
+import { WithToasts } from '../../Common/WithToasts';
 
 const EditObjContainer = (props) => {
 
@@ -97,8 +98,6 @@ const EditObjContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   obj: getSingleObjData(state),
-  errorMsg: getErrorMsg(state),
-  successMsg: getSuccessMsg(state)
 });
 const actionCreators = {
   updateObj,
@@ -110,5 +109,6 @@ const actionCreators = {
 export default compose(
   withRouter,
   connect(mapStateToProps, actionCreators),
+  WithToasts,
   WithAuthRedirect
 )(EditObjContainer);

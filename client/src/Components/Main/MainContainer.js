@@ -7,6 +7,7 @@ import { deleteObj} from '../../Redux/Reducers/ObjReducer';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import Main from './Main';
+import { WithToasts } from '../../Common/WithToasts';
 
 const MainContainer = (props) => {
 
@@ -38,8 +39,6 @@ const MainContainer = (props) => {
     <div>
       {props.obj ?
         <Main
-          errorMsg={props.errorMsg}
-          successMsg={props.successMsg}
           setErrorMsg={props.setErrorMsg}
           clearMessages={props.clearMessages}
           initialObjs={initialObjs}
@@ -61,8 +60,6 @@ const MainContainer = (props) => {
 };
 
 const mapStateToProps = (state) => ({
-  errorMsg: getErrorMsg(state),
-  successMsg: getSuccessMsg(state),
   obj: getSingleObjData(state)
 });
 const actionCreators = {
@@ -73,5 +70,6 @@ const actionCreators = {
 
 export default compose(
   connect(mapStateToProps, actionCreators),
+  WithToasts,
   WithAuthRedirect
 )(MainContainer);

@@ -25,16 +25,6 @@ const Login = (props) => {
     <Paper className={classes.paperStyle} elevation={8}>
       <Typography>Login</Typography>
       <div className={classes.form}>
-        {props.errorMsg &&
-        <Grid item xs={12}>
-          <Error errorMsg={props.errorMsg}/>
-        </Grid>
-        }
-        {props.successMsg &&
-        <Grid item xs={12}>
-          <Success successMsg={props.successMsg}/>
-        </Grid>
-        }
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField fullWidth

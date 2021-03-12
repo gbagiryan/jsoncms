@@ -85,16 +85,6 @@ const Main = (props) => {
     <Container className={classes.root}>
       {props.initialObjs ?
         <Grid container spacing={2}>
-          {props.errorMsg &&
-          <Grid item xs={12}>
-            <Error errorMsg={props.errorMsg}/>
-          </Grid>
-          }
-          {props.successMsg &&
-          <Grid item xs={12}>
-            <Success successMsg={props.successMsg}/>
-          </Grid>
-          }
           <Grid container>
             <Grid item xs={8}>
               <Typography className={classes.nameFields}>

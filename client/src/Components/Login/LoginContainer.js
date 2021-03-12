@@ -7,6 +7,9 @@ import { isAuthed } from '../../Redux/Selectors/AuthSelectors';
 import { getErrorMsg, getSuccessMsg } from '../../Redux/Selectors/AppSelectors';
 import { clearMessages, setErrorMsg } from '../../Redux/Reducers/AppReducer';
 import Register from '../Register/Register';
+import { compose } from 'redux';
+import { WithToasts, withToasts } from '../../Common/WithToasts';
+import { WithAuthRedirect } from '../../Common/WithAuthRedirect';
 
 const LoginContainer = (props) => {
 
@@ -24,7 +27,7 @@ const LoginContainer = (props) => {
 
   const handleSubmit = () => {
     props.clearMessages();
-      props.signIn(inputs.username, inputs.password);
+    props.signIn(inputs.username, inputs.password);
   };
 
   if (props.isAuthed) {
@@ -42,8 +45,6 @@ const LoginContainer = (props) => {
 
 const mapStateToProps = (state) => ({
   isAuthed: isAuthed(state),
-  errorMsg: getErrorMsg(state),
-  successMsg: getSuccessMsg(state)
 });
 const actionCreators = {
   signIn,
@@ -51,4 +52,7 @@ const actionCreators = {
   setErrorMsg
 };
 
-export default connect(mapStateToProps, actionCreators)(LoginContainer);
+export default compose(
+  connect(mapStateToProps, actionCreators),
+  WithToasts,
+)(LoginContainer);
