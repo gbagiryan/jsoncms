@@ -1,13 +1,12 @@
 const { createLogger, transports, format } = require('winston');
 
-const { combine, timestamp, prettyPrint, colorize, errors, } = format;
+const { combine, timestamp, prettyPrint, errors } = format;
 
 const logger = createLogger({
 
   level: 'info',
   format: combine(
     errors({ stack: true }),
-    colorize(),
     timestamp(),
     prettyPrint(),
     format.json()
@@ -15,8 +14,8 @@ const logger = createLogger({
 
   transports: [
     new transports.Console({ level: 'error' }),
-    new transports.File({ filename: 'error.log', level: 'error' }),
-    new transports.File({ filename: 'combined.log' })
+    new transports.File({ filename: './logs/error.log', level: 'error', maxsize: 1000000 }),
+    new transports.File({ filename: './logs/combined.log', maxsize: 1000000 })
   ]
 });
 
