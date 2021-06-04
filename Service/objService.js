@@ -1,5 +1,5 @@
 const Obj = require('../Models/Obj');
-const logger = require('../logger');
+const logger = require('../logger/logger');
 const fs = require('fs');
 const CustomError = require('../ErrorHandling/customErrors');
 

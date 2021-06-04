@@ -5,7 +5,7 @@ const authRoutes = require('./Routes/authRoutes');
 const objsRoutes = require('./Routes/objsRoutes');
 const cmsRoutes = require('./Routes/cmsRoutes');
 const cookieParser = require('cookie-parser');
-const logger = require('./logger');
+const logger = require('./logger/logger');
 const cors = require('cors');
 
 const app = express();

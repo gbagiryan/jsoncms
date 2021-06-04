@@ -1,5 +1,5 @@
 const jwtService = require('../Service/jwtService');
-const logger = require('../logger');
+const logger = require('../logger/logger');
 const authService = require('../Service/authService');
 const CustomError = require('../ErrorHandling/customErrors');
 

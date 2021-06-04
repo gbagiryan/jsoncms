@@ -1,5 +1,5 @@
 const cmsService = require('../Service/cmsService');
-const logger = require('../logger');
+const logger = require('../logger/logger');
 const CustomError = require('../ErrorHandling/customErrors');
 
 const getObj = async (req, res) => {

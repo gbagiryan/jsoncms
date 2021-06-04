@@ -2,7 +2,7 @@ const User = require('../Models/User');
 const bcrypt = require('bcrypt');
 const jwtService = require('./jwtService');
 const CustomError = require('../ErrorHandling/customErrors');
-const logger = require('../logger');
+const logger = require('../logger/logger');
 
 const signIn = async (body) => {
   const { username, password } = body;

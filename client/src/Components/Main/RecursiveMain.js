@@ -10,6 +10,11 @@ import PermMediaIcon from '@material-ui/icons/PermMedia';
 import IconButton from '@material-ui/core/IconButton';
 import RtxDialogWithHoverPopover from '../RichTextDialog/RtxDialogWithHoverPopover';
 import ImagePopoverPreview from '../ImagePopoverPreview/ImagePopoverPreview';
+import DescriptionIcon from "@material-ui/icons/Description";
+import EmojiObjectsIcon from "@material-ui/icons/EmojiObjects";
+import TextFieldsIcon from "@material-ui/icons/TextFields";
+import SettingsEthernetIcon from "@material-ui/icons/SettingsEthernet";
+import SubjectIcon from "@material-ui/icons/Subject";
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -40,7 +45,7 @@ const useStyles = makeStyles(theme => ({
     display: 'block',
     borderRadius: 5,
     padding: 8,
-    marginTop: theme.spacing(3),
+    marginTop: theme.spacing(1),
     position: 'relative',
     width: '200px',
     height: '20px',
@@ -58,6 +63,16 @@ const useStyles = makeStyles(theme => ({
   },
   innerObj: {
     marginLeft: theme.spacing(10)
+  },
+  icons:{
+    marginTop: theme.spacing(1.5)
+  },
+  colon:{
+    marginTop: theme.spacing(-1),
+    marginRight: theme.spacing(1)
+  },
+  keyInput:{
+    fontStyle: 'italic'
   }
 }));
 
@@ -92,12 +107,13 @@ const RecursiveMain = (props) => {
           <Grid container xs={12}>
             {!props.isArray &&
             <Grid>
-              <Typography className={classes.fields}>
+              <Typography className={`${classes.fields} ${classes.keyInput}`}>
                 <label className={classes.label}>Key</label>
                 {objs[index].__key}
               </Typography>
             </Grid>
             }
+            <Grid className={classes.colon}><h2>:</h2></Grid>
             {objs[index].__type === 'string' &&
             <Grid>
               <Typography className={classes.fields}>
@@ -125,10 +141,18 @@ const RecursiveMain = (props) => {
             </div>
             }
             <Grid>
-              <Typography className={classes.fields}>
-                <label className={classes.label}>Type</label>
-                {objs[index].__type}
-              </Typography>
+                <>
+                  {objs[index].__type === 'file' &&
+                  <DescriptionIcon className={classes.icons}></DescriptionIcon>}
+                  {objs[index].__type === 'object' &&
+                  <EmojiObjectsIcon className={classes.icons}></EmojiObjectsIcon>}
+                  {objs[index].__type === 'rich-text' &&
+                  <TextFieldsIcon className={classes.icons}></TextFieldsIcon>}
+                  {objs[index].__type === 'array' &&
+                  <SettingsEthernetIcon className={classes.icons}></SettingsEthernetIcon>}
+                  {objs[index].__type === 'string' &&
+                  <SubjectIcon  className={classes.icons}></SubjectIcon>}
+                </>
             </Grid>
           </Grid>
           <div className={classes.innerObj}>

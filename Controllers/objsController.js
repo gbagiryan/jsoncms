@@ -1,4 +1,4 @@
-const logger = require('../logger');
+const logger = require('../logger/logger');
 const objService = require('../Service/objService');
 const CustomError = require('../ErrorHandling/customErrors');
 
