@@ -336,3 +336,262 @@
 {"message":"Successful object creation","level":"info","timestamp":"2021-06-04T08:34:22.831Z"}
 {"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-04T08:34:22.889Z"}
 {"message":"Successful get all objects response","level":"info","timestamp":"2021-06-04T08:34:22.897Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-04T08:40:08.782Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-04T13:44:14.727Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-04T13:44:47.045Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-04T14:40:43.283Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T07:39:15.465Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T07:43:08.149Z"}
+{"message":"user login attempt","level":"info","timestamp":"2021-06-07T07:43:59.800Z"}
+{"name":"CustomError","level":"error","message":"wrong username or password","stack":"CustomError: wrong username or password\n    at Function.userSchema.statics.comparePasswords (/home/gb/WebstormProjects/jsoncms/Models/User.js:26:9)\n    at async Object.signIn (/home/gb/WebstormProjects/jsoncms/Service/authService.js:10:10)\n    at async signIn (/home/gb/WebstormProjects/jsoncms/Controllers/authController.js:8:18)","timestamp":"2021-06-07T07:44:00.166Z"}
+{"message":"user login attempt","level":"info","timestamp":"2021-06-07T07:44:10.295Z"}
+{"message":"user login success","level":"info","timestamp":"2021-06-07T07:44:10.604Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:44:10.725Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:44:10.738Z"}
+{"message":"Attempting to delete ObjectId: 60b9dfb27db33a274c1ff88e ","level":"info","timestamp":"2021-06-07T07:44:16.210Z"}
+{"message":"Successful object delete","level":"info","timestamp":"2021-06-07T07:44:16.239Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:44:16.260Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:44:16.263Z"}
+{"message":"Attempting to delete ObjectId: 60b9e0a5f2203e28146cb5b2 ","level":"info","timestamp":"2021-06-07T07:44:18.855Z"}
+{"message":"Successful object delete","level":"info","timestamp":"2021-06-07T07:44:18.865Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:44:18.881Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:44:18.884Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60b9e58ee46b802a5ec18fb9 object update attempt","level":"info","timestamp":"2021-06-07T07:44:27.804Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60b9e58ee46b802a5ec18fb9 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T07:44:28.122Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T07:44:28.150Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:44:28.225Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:44:28.232Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60b9e58ee46b802a5ec18fb9 object update attempt","level":"info","timestamp":"2021-06-07T07:45:05.313Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60b9e58ee46b802a5ec18fb9 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T07:45:05.328Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T07:45:05.336Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:45:05.390Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:45:05.398Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T07:46:40.759Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:47:06.360Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:47:06.368Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T07:47:16.263Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T07:47:16.267Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T07:47:16.503Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:47:16.544Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:47:16.549Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 object update attempt","level":"info","timestamp":"2021-06-07T07:47:38.191Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T07:47:38.378Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T07:47:38.395Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:47:38.434Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:47:38.438Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 object update attempt","level":"info","timestamp":"2021-06-07T07:48:04.465Z"}
+{"errors":{"backupVersion":{"stringValue":"\"{\\n' +\n  '  tags: [],\\n' +\n  '  _id: 60bdcf1a63c1fe353ea97185,\\n' +\n  \"  name: 'AAAAAA',\\n\" +\n  '  objs: [\\n' +\n  \"    { __key: 'AAAAAAAAAAAAAAAA', __value: 'AAAAAA', __type: 'string' }\\n\" +\n  '  ],\\n' +\n  '  mainObj: 60bdcf0463c1fe353ea97184,\\n' +\n  '  backupVersion: 1,\\n' +\n  '  createdAt: 2021-06-07T07:47:38.203Z,\\n' +\n  '  updatedAt: 2021-06-07T07:47:38.203Z,\\n' +\n  '  __v: 0\\n' +\n  '}1\"","kind":"Number","value":"{\n  tags: [],\n  _id: 60bdcf1a63c1fe353ea97185,\n  name: 'AAAAAA',\n  objs: [\n    { __key: 'AAAAAAAAAAAAAAAA', __value: 'AAAAAA', __type: 'string' }\n  ],\n  mainObj: 60bdcf0463c1fe353ea97184,\n  backupVersion: 1,\n  createdAt: 2021-06-07T07:47:38.203Z,\n  updatedAt: 2021-06-07T07:47:38.203Z,\n  __v: 0\n}1","path":"backupVersion","reason":{"generatedMessage":true,"code":"ERR_ASSERTION","actual":false,"expected":true,"operator":"=="}}},"_message":"ObjBackup validation failed","level":"error","message":"ObjBackup validation failed: backupVersion: Cast to Number failed for value \"{\\n' +\n  '  tags: [],\\n' +\n  '  _id: 60bdcf1a63c1fe353ea97185,\\n' +\n  \"  name: 'AAAAAA',\\n\" +\n  '  objs: [\\n' +\n  \"    { __key: 'AAAAAAAAAAAAAAAA', __value: 'AAAAAA', __type: 'string' }\\n\" +\n  '  ],\\n' +\n  '  mainObj: 60bdcf0463c1fe353ea97184,\\n' +\n  '  backupVersion: 1,\\n' +\n  '  createdAt: 2021-06-07T07:47:38.203Z,\\n' +\n  '  updatedAt: 2021-06-07T07:47:38.203Z,\\n' +\n  '  __v: 0\\n' +\n  '}1\" at path \"backupVersion\"","stack":"ValidationError: ObjBackup validation failed: backupVersion: Cast to Number failed for value \"{\\n' +\n  '  tags: [],\\n' +\n  '  _id: 60bdcf1a63c1fe353ea97185,\\n' +\n  \"  name: 'AAAAAA',\\n\" +\n  '  objs: [\\n' +\n  \"    { __key: 'AAAAAAAAAAAAAAAA', __value: 'AAAAAA', __type: 'string' }\\n\" +\n  '  ],\\n' +\n  '  mainObj: 60bdcf0463c1fe353ea97184,\\n' +\n  '  backupVersion: 1,\\n' +\n  '  createdAt: 2021-06-07T07:47:38.203Z,\\n' +\n  '  updatedAt: 2021-06-07T07:47:38.203Z,\\n' +\n  '  __v: 0\\n' +\n  '}1\" at path \"backupVersion\"\n    at model.Document.invalidate (/home/gb/WebstormProjects/jsoncms/node_modules/mongoose/lib/document.js:2692:32)\n    at model.$set (/home/gb/WebstormProjects/jsoncms/node_modules/mongoose/lib/document.js:1305:12)\n    at model.$set (/home/gb/WebstormProjects/jsoncms/node_modules/mongoose/lib/document.js:1009:16)\n    at model.Document (/home/gb/WebstormProjects/jsoncms/node_modules/mongoose/lib/document.js:149:12)\n    at model.Model (/home/gb/WebstormProjects/jsoncms/node_modules/mongoose/lib/model.js:105:12)\n    at new model (/home/gb/WebstormProjects/jsoncms/node_modules/mongoose/lib/model.js:4700:15)\n    at Object.updateObj (/home/gb/WebstormProjects/jsoncms/Service/objService.js:88:23)\n    at processTicksAndRejections (internal/process/task_queues.js:93:5)\n    at async updateObj (/home/gb/WebstormProjects/jsoncms/Controllers/objsController.js:22:5)","timestamp":"2021-06-07T07:48:04.540Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T07:48:47.723Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 object update attempt","level":"info","timestamp":"2021-06-07T07:49:01.789Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T07:49:01.835Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T07:49:01.848Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:49:01.890Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:49:01.897Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 object update attempt","level":"info","timestamp":"2021-06-07T07:49:15.890Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T07:49:15.908Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T07:49:15.914Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:49:15.953Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:49:15.958Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 object update attempt","level":"info","timestamp":"2021-06-07T07:49:30.888Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T07:49:30.903Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T07:49:30.909Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:49:30.944Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:49:30.948Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T07:49:58.453Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 object update attempt","level":"info","timestamp":"2021-06-07T07:50:20.000Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T07:50:20.050Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T07:50:20.067Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T07:50:20.129Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T07:50:20.139Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 object update attempt","level":"info","timestamp":"2021-06-07T07:50:35.231Z"}
+{"errors":{"backupVersion":{"name":"ValidatorError","message":"Path `backupVersion` (6) is more than maximum allowed value (5).","properties":{"message":"Path `backupVersion` (6) is more than maximum allowed value (5).","type":"max","max":5,"path":"backupVersion","value":6},"kind":"max","path":"backupVersion","value":6}},"_message":"ObjBackup validation failed","level":"error","message":"ObjBackup validation failed: backupVersion: Path `backupVersion` (6) is more than maximum allowed value (5).","stack":"ValidationError: ObjBackup validation failed: backupVersion: Path `backupVersion` (6) is more than maximum allowed value (5).\n    at model.Document.invalidate (/home/gb/WebstormProjects/jsoncms/node_modules/mongoose/lib/document.js:2692:32)\n    at /home/gb/WebstormProjects/jsoncms/node_modules/mongoose/lib/document.js:2512:17\n    at /home/gb/WebstormProjects/jsoncms/node_modules/mongoose/lib/schematype.js:1238:9\n    at processTicksAndRejections (internal/process/task_queues.js:75:11)","timestamp":"2021-06-07T07:50:35.245Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T08:12:11.355Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 object update attempt","level":"info","timestamp":"2021-06-07T08:12:16.018Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:12:16.059Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:12:16.067Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:12:16.107Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:12:16.113Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 object update attempt","level":"info","timestamp":"2021-06-07T08:12:41.151Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdcf0463c1fe353ea97184 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:12:41.177Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:12:41.183Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:12:41.230Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:12:41.235Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T08:15:56.465Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:16:26.359Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:16:26.368Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:16:35.426Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:16:35.432Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:16:36.126Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:16:36.177Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:16:36.182Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd5e39fce363711eb160a object update attempt","level":"info","timestamp":"2021-06-07T08:17:03.935Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd5e39fce363711eb160a adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:17:03.940Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:17:03.967Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:17:04.011Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:17:04.015Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T08:18:44.502Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:19:06.347Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:19:06.353Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:19:20.486Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:19:20.491Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:19:20.903Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:19:20.937Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:19:20.942Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:19:33.965Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:19:33.973Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:19:33.987Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:19:34.034Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:19:34.038Z"}
+{"message":"Attempting to delete ObjectId: 60bdd695291ec83763bf24e1 ","level":"info","timestamp":"2021-06-07T08:19:44.557Z"}
+{"message":"Successful object delete","level":"info","timestamp":"2021-06-07T08:19:44.564Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:19:44.598Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:19:44.602Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd688291ec83763bf24df object update attempt","level":"info","timestamp":"2021-06-07T08:19:53.888Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd688291ec83763bf24df adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:19:53.894Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:19:53.920Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:19:53.957Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:19:53.961Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T08:20:38.235Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:21:09.652Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:21:09.657Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:21:16.333Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:21:16.339Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:21:16.766Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:21:16.812Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:21:16.818Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd6fc7bc8ba37ab5173b5 object update attempt","level":"info","timestamp":"2021-06-07T08:21:37.638Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd6fc7bc8ba37ab5173b5 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:21:37.647Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:21:37.675Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:21:37.729Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:21:37.733Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T08:23:06.110Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:23:13.093Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:23:13.103Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:23:37.476Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:23:37.486Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:23:50.203Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:23:50.207Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:23:50.640Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:23:50.681Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:23:50.685Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c object update attempt","level":"info","timestamp":"2021-06-07T08:24:08.506Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:24:08.512Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:24:08.537Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:24:08.571Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:24:08.578Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c object update attempt","level":"info","timestamp":"2021-06-07T08:24:21.521Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:24:21.528Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:24:21.540Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:24:21.583Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:24:21.588Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c object update attempt","level":"info","timestamp":"2021-06-07T08:24:35.820Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:24:35.826Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:24:35.840Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:24:35.889Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:24:35.894Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c object update attempt","level":"info","timestamp":"2021-06-07T08:24:48.674Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:24:48.680Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:24:48.705Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:24:48.749Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:24:48.753Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c object update attempt","level":"info","timestamp":"2021-06-07T08:25:06.255Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd79617492938401e081c adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:25:06.260Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:25:06.274Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:25:06.307Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:25:06.311Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T08:25:46.971Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:26:42.760Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:26:42.771Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:26:50.238Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:26:50.241Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:26:50.655Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:26:50.695Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:26:50.704Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:27:07.060Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:27:07.063Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:27:07.072Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:27:07.121Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:27:07.128Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:27:17.091Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:27:17.095Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:27:17.105Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:27:17.144Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:27:17.149Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:27:28.629Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:27:28.634Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:27:28.645Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:27:28.681Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:27:28.686Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:27:38.010Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:27:38.013Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:27:38.024Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:27:38.059Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:27:38.064Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T08:29:59.631Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:30:05.812Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:30:05.816Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:30:05.852Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:30:05.887Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:30:05.899Z"}
+{"message":"app started at port 5000","level":"info","timestamp":"2021-06-07T08:30:54.107Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:31:18.490Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:31:18.497Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, object creation attempt","level":"info","timestamp":"2021-06-07T08:31:36.064Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, adding uploaded files to new object ","level":"info","timestamp":"2021-06-07T08:31:36.070Z"}
+{"message":"Successful object creation","level":"info","timestamp":"2021-06-07T08:31:36.972Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:31:37.014Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:31:37.019Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:31:45.743Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:31:45.750Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:31:45.782Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:31:45.834Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:31:45.838Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:32:15.786Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:32:15.794Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:32:15.812Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:32:15.860Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:32:15.864Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:32:28.339Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:32:28.349Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:32:28.368Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:32:28.423Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:32:28.429Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:32:37.598Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:32:37.607Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:32:37.622Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:32:37.656Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:32:37.669Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:32:58.592Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:32:58.599Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:32:58.614Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:32:58.655Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:32:58.660Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:33:26.685Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:33:26.690Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:33:26.703Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:33:26.732Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:33:26.735Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:33:41.087Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:33:41.094Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:33:41.108Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:33:41.158Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:33:41.162Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:33:49.096Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:33:49.102Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:33:49.112Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:33:49.145Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:33:49.149Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:34:01.153Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:34:01.159Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:34:01.173Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:34:01.216Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:34:01.219Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 object update attempt","level":"info","timestamp":"2021-06-07T08:34:12.876Z"}
+{"message":"UserId: 60b8dbeec3aafc54512f572e, ObjectId: 60bdd968ba01da39146671e1 adding uploaded files to updated object ","level":"info","timestamp":"2021-06-07T08:34:12.883Z"}
+{"message":"Successful object update","level":"info","timestamp":"2021-06-07T08:34:12.893Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:34:12.940Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:34:12.944Z"}
+{"message":"Attempting to delete ObjectId: 60bdd968ba01da39146671e1 ","level":"info","timestamp":"2021-06-07T08:34:37.386Z"}
+{"message":"Successful object delete","level":"info","timestamp":"2021-06-07T08:34:37.397Z"}
+{"message":"Requesting all objects by 60b8dbeec3aafc54512f572e","level":"info","timestamp":"2021-06-07T08:34:37.431Z"}
+{"message":"Successful get all objects response","level":"info","timestamp":"2021-06-07T08:34:37.434Z"}

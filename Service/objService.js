@@ -1,4 +1,5 @@
 const Obj = require('../Models/Obj');
+const ObjBackup = require('../Models/ObjBackup');
 const logger = require('../logger/logger');
 const fs = require('fs');
 const CustomError = require('../ErrorHandling/customErrors');
@@ -54,6 +55,15 @@ const createObj = async (body, locals) => {
     createdBy: locals.user._id
   });
   await obj.save();
+
+  const objBackup = new ObjBackup({
+    name: obj.name,
+    objs: obj.objs,
+    tags: obj.tags,
+    mainObj: obj._id,
+    backupVersion: 1
+  });
+  await objBackup.save();
 };
 
 const updateObj = async (params, body, locals) => {
@@ -71,6 +81,7 @@ const updateObj = async (params, body, locals) => {
   if (!obj) {
     throw new CustomError('object with given id not found');
   }
+
   logger.info(`UserId: ${locals.user._id}, ObjectId: ${objId} adding uploaded files to updated object `);
   const files = findObj(objs, 'type', '__file');
 
@@ -85,12 +96,32 @@ const updateObj = async (params, body, locals) => {
     }
   });
 
-  await Obj.findOneAndUpdate({ _id: objId }, {
+  const updatedObj = await Obj.findOneAndUpdate({ _id: objId }, {
     name,
     objs,
     tags,
     createdBy: locals.user._id
-  });
+  }, { new: true });
+
+  const latestBackupObj = await ObjBackup.findOne({ mainObj: objId }).sort('-backupVersion');
+
+  if (latestBackupObj.backupVersion < 5) {
+    console.log(latestBackupObj.backupVersion);
+    const objBackup = new ObjBackup({
+      name: updatedObj.name,
+      objs: updatedObj.objs,
+      tags: updatedObj.tags,
+      mainObj: updatedObj._id,
+      backupVersion: latestBackupObj.backupVersion + 1
+    });
+    await objBackup.save();
+  } else {
+    await ObjBackup.findOneAndUpdate({ mainObj: objId }, {
+      name: updatedObj.name,
+      objs: updatedObj.objs,
+      tags: updatedObj.tags
+    }).sort('updatedAt');
+  }
 };
 
 const deleteObj = async (params, locals) => {
